@@ -15,11 +15,3 @@ class DaemonLogger(Daemon.Daemon):
 
 
 
-# pid = os.getpid()
-# fdd = open("pidfile","w+")
-# fdd.write(str(pid))
-# fdd.close()
-myDaemon = DaemonLogger("pidfile")
-myDaemon.start()
-
-myDaemon.stop()
