@@ -4,7 +4,7 @@ import re
 
 class SystemDataCollector:
 
-    def __get_temp(self):
+    def get_temp(self):
         try:
             temp_file = open("/sys/class/thermal/thermal_zone0/temp","r")
             temp = temp_file.read()
@@ -22,6 +22,7 @@ class SystemDataCollector:
             total_mem, used_mem = self.__get_total_and_used_ram(str(ram_data))
             return int(total_mem), int(used_mem)
         except:
+
             return "read error occurred", "read error occurred"
 
     def __get_total_and_used_ram(self, raw_data):
@@ -31,7 +32,6 @@ class SystemDataCollector:
         return match_data[1], match_data[2]
 
 
-collector  = SystemDataCollector()
-print(collector.get_temp())
+
 
 

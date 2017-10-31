@@ -6,6 +6,8 @@ class DaemonLogger(Daemon.Daemon):
 
     def run(self):
         try:
+            #just to check if it works
+            #! TODO redo it when SystemDataCollecotr implemented
             file = open("/home/matshec/daemonfile.txt", "w+")
             file.write("some textfrom deamon123")
             file.close()
