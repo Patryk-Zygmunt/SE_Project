@@ -1,5 +1,7 @@
 package com.softwareEngineering.server.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.Date;
 import java.util.Set;
 
@@ -14,13 +16,14 @@ import javax.persistence.OneToMany;
 @Entity
 public class Agent {
 
-	private String mac;
 	private Long agentId;
+	private String mac;
 	private String name;
 	// private Date add_date;
 	// private String agentIp;
 	// private Set<String> excludedLogs;
-
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "agent")
+	@JsonManagedReference
 	private Set<ServerInfo> serverInfos;
 
 	public String getMac() {
@@ -51,7 +54,8 @@ public class Agent {
 
 
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "agent")	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "agent")
+	@JsonManagedReference
 	public Set<ServerInfo> getServerInfos() {
 		return serverInfos;
 	}
