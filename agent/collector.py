@@ -6,7 +6,7 @@ class SystemDataCollector:
 
     def get_temp(self):
         try:
-            temp_file = open("/sys/class/thermal/thermal_zone0/temp","r")
+            temp_file = open("/sys/class/thermal/thermal_zone0/temp", "r")
             temp = temp_file.read()
             temp_file.close()
             return float(int(temp)/1000)

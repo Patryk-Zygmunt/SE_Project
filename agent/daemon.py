@@ -76,7 +76,7 @@ class Daemon:
                       "Daemon already running?\n"
             sys.stderr.write(message.format(self.pidfile))
             sys.exit(1)
-
+        print("Daemon starting...")
         # Start the daemon
         self.daemonize()
         self.run()
@@ -117,6 +117,7 @@ class Daemon:
         self.start()
 
     def run(self):
+        print("pierdolenie")
         """You should override this method when you subclass Daemon.
 
         It will be called after the process has been daemonized by
