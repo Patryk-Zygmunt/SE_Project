@@ -90,6 +90,7 @@ class SystemDataCollector:
         return ret_list
 
     def interface_load(self):
+        """:returns list of tuples with name,rec/sec,trans/sec"""
         def diff(el1, el2):
             n,r1,t1 = el1
             n,r2,t2 = el2
