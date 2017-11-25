@@ -1,5 +1,6 @@
 package com.softwareEngineering.server.service;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -32,6 +33,9 @@ public class Init {
 	@Transactional
 	@PostConstruct
 	public void init() {
+		serverInfoRepository.deleteAll();
+		agentRepository.deleteAll();
+
 		Agent agent = createAgent();
 		createServerInfo(agent);
 		createServerInfo(agent);
@@ -43,6 +47,8 @@ public class Init {
 	private ServerInfo createServerInfo(Agent agent) {
 		ServerInfo si = new ServerInfo();
 		si.setAgent(agent);
+		si.setInfoTime(LocalDateTime.now());
+		si.setInfoTime(LocalDateTime.now());
 		si.setRamTaken(3.5);
 		serverInfoRepository.save(si);
 		return si;
