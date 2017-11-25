@@ -22,7 +22,7 @@ class SystemDataCollector:
         except:
             return "read error occurred", "read error occurred"
 
-    def __format_total_and_used_ram(self, raw_data:str):
+    def __format_total_and_used_ram(self, raw_data):
         mem_data = raw_data.split("\\n")[1]
         mem_data = mem_data[4:]
         match_data = re.split(" +", mem_data)
@@ -59,7 +59,7 @@ class SystemDataCollector:
         except:
             return "error reading"
 
-    def __format_proc_usage(self,raw_data: str):
+    def __format_proc_usage(self,raw_data):
             """:returns tuple user usage, system usage and unused power"""
             cpu_data = raw_data.split("\\n")[2]
             cpu_data = cpu_data[9:]
@@ -77,12 +77,12 @@ class SystemDataCollector:
                 print("err")
                 return "error reading"
 
-    def __format_disk_operations_in_progess(self,raw_data: str):
+    def __format_disk_operations_in_progess(self,raw_data):
             split_data = raw_data.split(" ")
             filtered_data = list(filter(lambda x: x != '', split_data))
             return filtered_data[8]
 
-    def __exec_sys_command(self, command:str, args:str):
+    def __exec_sys_command(self, command, args):
             raw_data = sub.run([command, args],stdout=sub.PIPE)
             raw_data.check_returncode()
             return raw_data
