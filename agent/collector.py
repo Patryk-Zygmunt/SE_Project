@@ -1,6 +1,6 @@
 import subprocess as sub
 import re
-
+import time
 
 class SystemDataCollector:
 
@@ -89,10 +89,50 @@ class SystemDataCollector:
             ret_list.append((name.decode("utf-8"),r_sec.decode("utf-8"),w_sec.decode("utf-8")))
         return ret_list
 
+    def interface_load(self):
+        def diff(el1, el2):
+            n,r1,t1 = el1
+            n,r2,t2 = el2
+            return (n, r2-r1, t2-t1)
+        try:
+            first_list = self.__get_curr_intf_load()
+            time.sleep(1)
+            second_list = self.__get_curr_intf_load()
+            return list(map(diff, first_list,second_list))
+        except:
+            return "error"
+
+
+    def __get_curr_intf_load(self):
+        try:
+            raw_data = self.__exec_sys_command("netstat", "-i")
+            raw_data = raw_data.stdout
+            return self.__format_intf_load(raw_data)
+        except:
+            raise Exception
+
+    def __format_intf_load(self,raw_str):
+        split_data = raw_str.split(b"\n")[2:]
+        split_data = list(filter(lambda x: x != b'',split_data))
+        ret_list = []
+        for x in split_data:
+            filt_str = list(filter(lambda y: y != b'', re.split(b' ', x)))
+            name = filt_str[0]
+            received = filt_str[1]
+            transmitted = filt_str[7]
+            transmitted_int = int(transmitted.decode("utf-8"))
+            received_int = int(received.decode("utf-8"))
+            ret_list.append((name.decode("utf-8"),received_int,transmitted_int))
+        return ret_list
 
     def __exec_sys_command(self, command, args):
             raw_data = sub.run([command, args],stdout=sub.PIPE)
             raw_data.check_returncode()
             return raw_data
+
+
+
+
+
 
 
