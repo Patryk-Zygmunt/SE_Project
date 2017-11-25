@@ -36,7 +36,6 @@ class SystemDataCollector:
             raw_drive_data = raw_drive_data.stdout
             drive_data = self.__format_drive_space_data(raw_drive_data)
             return drive_data
-            #return raw_drive_data
         except:
             return "error reading data"
 
