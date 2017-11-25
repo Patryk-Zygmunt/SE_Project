@@ -30,7 +30,7 @@ class SystemDataCollector:
 
 
     def drive_space(self):
-        """:returns list of tuples with name,size,used_size [GB] eg [(a1,200,120),(b2,30,12)]"""
+        """:returns list of tuples with name,size,used_size [GB] eg. [(a1,200G,120G),(b2,30M,12M)]"""
         try:
             raw_drive_data = self.__exec_sys_command("df", "-h")
             raw_drive_data = raw_drive_data.stdout
@@ -49,7 +49,7 @@ class SystemDataCollector:
             name = filtered_spaces[0][7:]
             size = filtered_spaces[1]
             used = filtered_spaces[2]
-            ret_list.append((str(name),str(size),str(used)))
+            ret_list.append((name.decode("utf-8"),size.decode("utf-8"),used.decode("utf-8")))
         return ret_list
 
     def processor_usage(self):
@@ -68,7 +68,6 @@ class SystemDataCollector:
             return cpu_split[0].replace(",","."), cpu_split[3].replace(",","."), cpu_split[8].replace(",", ".")
 
     def disk_operations_in_progess(self):
-            """"zwraca io operacji dyskowych w tej chwili (zwykle 0) nie wiem do końca czy oto chodziło"""
             try:
                 file = open("/sys/block/sda/stat","r")
                 raw_data = file.read()
