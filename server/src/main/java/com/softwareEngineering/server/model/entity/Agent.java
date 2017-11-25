@@ -19,8 +19,8 @@ public class Agent {
 	private Long agentId;
 	private String mac;
 	private String name;
+//	private String agentIp;
 	// private Date add_date;
-	// private String agentIp;
 	// private Set<String> excludedLogs;
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "agent")
 	@JsonManagedReference
@@ -52,8 +52,6 @@ public class Agent {
 		this.name = name;
 	}
 
-
-
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "agent")
 	@JsonManagedReference
 	public Set<ServerInfo> getServerInfos() {
@@ -64,6 +62,13 @@ public class Agent {
 		this.serverInfos = serverInfos;
 	}
 
+//	public String getAgentIp() {
+//		return agentIp;
+//	}
+//
+//	public void setAgentIp(String agentIp) {
+//		this.agentIp = agentIp;
+//	}
 	// public Date getAdd_date() {
 	// return add_date;
 	// }
@@ -72,13 +77,7 @@ public class Agent {
 	// this.add_date = add_date;
 	// }
 	//
-	// public String getAgentIp() {
-	// return agentIp;
-	// }
-	//
-	// public void setAgentIp(String agentIp) {
-	// this.agentIp = agentIp;
-	// }
+	
 	//
 	// public Set<String> getExcludedLogs() {
 	// return excludedLogs;
