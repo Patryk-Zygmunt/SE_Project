@@ -1,4 +1,4 @@
-from agent.daemon import Daemon
+from daemon import Daemon
 import os
 import sys
 import time

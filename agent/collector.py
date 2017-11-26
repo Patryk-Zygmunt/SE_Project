@@ -99,7 +99,7 @@ class SystemDataCollector:
             first_list = self.__get_curr_intf_load()
             time.sleep(1)
             second_list = self.__get_curr_intf_load()
-            return list(map(diff, first_list,second_list))
+            return list(map(diff, first_list, second_list))
         except:
             return "error"
 
