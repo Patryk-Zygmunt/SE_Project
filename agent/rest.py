@@ -3,8 +3,10 @@ import json
 import sys
 
 
-class InfoJsonBuilder(object):
-    data = {}
+class InfoJsonBuilder:
+
+    def __init__(self):
+        self.data = {}
 
     def add_name(self, value):
         self.data['name'] = value
@@ -79,7 +81,7 @@ def Path(path):
     return get_function
 
 
-class Client(object):
+class Client:
     def __init__(self, address: str, port=80):
         self.address = address
         self.port = port
