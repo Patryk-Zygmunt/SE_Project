@@ -1,10 +1,141 @@
 import subprocess as sub
 import re
 import time
+import enum
+import datetime
+
+
+class JournalLogCollector:
+    header = ('date', 'hostname', 'process', 'error_desc')
+
+    class Priority(enum.Enum):
+        EMERGENCY = 0
+        ALERT = 1
+        CRITICAL = 2
+        ERROR = 3
+        WARNING = 4
+        NOTICE = 5
+        INFO = 6
+        DEBUG = 7
+
+    def __init__(self):
+        self.command = 'journalctl'
+        self.args = {}
+        self.__init_args()
+
+    def __init_args(self):
+        self.args['--no-pager'] = None
+
+    def clean(self):
+        self.args.clear()
+        self.__init_args()
+
+    def __parse_lines(self, lines):
+        out = []
+        for line in lines:
+            try:
+                a = re.search('(\w+ \d\d \d\d:\d\d:\d\d) (\S+) (\S+): (.*)', line)
+                out.append((a.group(1), a.group(2), a.group(3), a.group(4)))
+            except AttributeError:
+                pass
+        return out
+
+    def __args_to_string(self):
+        str_ = self.command
+        for key, value in self.args.items():
+            str_ += ' '
+            if value is not None:
+                str_ += '{} {}'.format(str(key), str(value))
+            else:
+                str_ += str(key)
+        return str_
+
+    def collect(self):
+        raw_data, error = sub.Popen(self.__args_to_string(), stderr=sub.PIPE, stdout=sub.PIPE, shell=True).communicate()
+        lines = str(raw_data, 'utf-8').split('\n')
+        return self.__parse_lines(lines)
+
+    def set_priority(self, priority: Priority):
+        self.args['-p'] = priority.value
+
+    def set_limit(self, n=10):
+        self.args['-n'] = n
+
+    def set_reverse(self):
+        self.args['-r'] = None
+
+    def set_utc(self):
+        self.args['--utc'] = None
+
+    def set_output(self, output='json'):
+        self.args['--output'] = output
+
+    def set_since_date(self, date):
+        self.args['--since'] = "\'" + str(date) + "\'"
+
+
+class LogCollector:
+    """UNFORTUNATELY TO REMOVE :C"""
+    header = ('date', 'hostname', 'process', 'error_desc')
+
+    def __init__(self, path='/var/log'):
+        self.path = path
+
+    def __parse_line(self, line):
+        a = re.search('(\w+ \d\d \d\d:\d\d:\d\d) (\S+) (\S+): (.*)', line)
+        return a.group(1), a.group(2), a.group(3), a.group(4)
+
+    def __read_log(self, file_path):
+        with open(file_path, 'r') as file:
+            read_lines = file.readlines()
+            return [self.__parse_line(line) for line in read_lines]
+
+    def __filter(self, filter_, list_):
+        if filter is not None:
+            return filter(filter_, list_)
+        return list_
+
+    def __filter_whitelist(self, result, whitelist):
+        if len(whitelist) > 0:
+            return filter(lambda tuple_: tuple_[2] in whitelist, result)
+        return result
+
+    def __filter_blacklist(self, result, blacklist):
+        if len(blacklist) > 0:
+            return filter(lambda tuple_: tuple_[2] not in blacklist, result)
+        return result
+
+    def __filter_errors(self, result):
+        return filter(lambda tuple_: 'ERROR' in tuple_[3] or 'error' in tuple_[3] or 'Error' in tuple_[3], result)
+
+    def __cut_description(self, logs, max_length=100):
+        return map(lambda tuple_: (tuple_[0], tuple_[1], tuple_[2], tuple_[3][0:max_length]), logs)
+
+    def collect(self, path, filter_=None, whitelist=[], blacklist=[], only_errors=False, short_desc=False):
+        result = self.__read_log(path)
+        filtered = self.__filter(filter_, result)
+        filtered = self.__filter_blacklist(filtered, blacklist)
+        filtered = self.__filter_whitelist(filtered, whitelist)
+        if only_errors:
+            filtered = self.__filter_errors(filtered)
+        if short_desc:
+            filtered = self.__cut_description(filtered)
+        return list(filtered)
+
+    def collect_syslog(self, only_errors=False, short_desc=False, whitelist=[], blacklist=[], filter_=None):
+        path = self.path + '/syslog'
+        return self.collect(path, filter_, whitelist, blacklist, only_errors, short_desc)
+
+    def collect_auth_log(self, only_errors=False, short_desc=False, whitelist=[], blacklist=[], filter_=None):
+        path = self.path + '/auth.log'
+        return self.collect(path, filter_, whitelist, blacklist, only_errors, short_desc)
+
+    def collect_kern_log(self, only_errors=False, short_desc=False, whitelist=[], blacklist=[], filter_=None):
+        path = self.path + '/kern.log'
+        return self.collect(path, filter_, whitelist, blacklist, only_errors, short_desc)
 
 
 class SystemDataCollector:
-
     def get_hostname(self):
         try:
             return str(self.__exec_sys_command('hostname', '-s').stdout, 'utf-8')[:-1]
@@ -145,3 +276,14 @@ class SystemDataCollector:
         raw_data.check_returncode()
         return raw_data
 
+
+if __name__ == '__main__':
+
+    d = datetime.datetime(2009, 10, 5, 18, 00)
+    collector = JournalLogCollector()
+    collector.set_reverse()
+    collector.set_limit(n=5)
+    # collector.set_since_date(d)
+    collector.set_priority(JournalLogCollector.Priority.WARNING)
+    for log in collector.collect():
+        print(log)
