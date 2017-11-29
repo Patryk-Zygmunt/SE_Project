@@ -3,32 +3,7 @@ import rest
 import json
 
 
-class HTTPConnectionMock:
-    def __init__(self, address, port):
-        pass
-
-    def close(self):
-        pass
-
-    def getresponse(self):
-        return 1
-
-    def request(self, *args):
-        pass
-
-
-@mock.patch('rest.HTTPConnection', HTTPConnectionMock)
-class ClientTest(TestCase):
-    def test_send_info(self):
-        client = rest.Client("localhost")
-        data = {}
-        response = client.send_info(data)
-
-        self.assertEqual(response, 1)
-
-
 class InfoJsonBuilderTest(TestCase):
-
     def test_all(self):
         b = rest.InfoJsonBuilder()
         b.add_name('name1')
@@ -61,7 +36,6 @@ class InfoJsonBuilderTest(TestCase):
             ]
         }, sort_keys=True)
 
-        print(expected)
         self.assertEqual(actual, expected)
 
     def test_add_processorLoad(self):
