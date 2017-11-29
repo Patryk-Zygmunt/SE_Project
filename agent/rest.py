@@ -12,9 +12,8 @@ class InfoJsonBuilder:
         self.data['name'] = value
         return self
 
-    def add_mac(self, values):
-        data = [{'interfaceName': tup[0], 'mac': tup[1]} for tup in values]
-        self.__add('macAddresses', data)
+    def add_mac(self, value):
+        self.__add('mac', value)
         return self
 
     def add_processorLoad(self, value):
@@ -46,8 +45,9 @@ class InfoJsonBuilder:
         self.__add('interfaceIO', data)
         return self
 
-    def add_errLogs(self, value):
-        self.__add('errLogs', value)
+    def add_errLogs(self, values):
+        data = [{'date': tup[0], 'process': tup[2], 'errorDesc': tup[3]} for tup in values]
+        self.__add('errLogs', data)
         return self
 
     def to_json(self):
