@@ -29,12 +29,12 @@ class DaemonLogger(Daemon):
 
         json_b = InfoJsonBuilder()
         json_b.add_name(sys_info.get_hostname())
-        json_b.add_errLogs(logs.collect())
-        json_b.add_iOperSec(sys_info.drive_operations())
-        json_b.add_interfaceIO(sys_info.interface_load())
-        json_b.add_ramTaken(sys_info.ram_usage())
-        json_b.add_processorLoad(sys_info.processor_usage())
-        json_b.add_freeDiskSpace(sys_info.drive_space())
+        json_b.add_logs(logs.collect())
+        json_b.add_disc_operations(sys_info.drive_operations())
+        json_b.add_io_interface(sys_info.interface_load())
+        json_b.add_ram(sys_info.ram_usage())
+        json_b.add_processor(sys_info.processor_usage())
+        json_b.add_discs_space(sys_info.drive_space())
         json_b.add_temperature(sys_info.get_temp())
         json_b.add_mac(sys_info.get_macs()[0][1])
         return json_b
