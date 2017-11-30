@@ -5,6 +5,21 @@ import enum
 import datetime
 
 
+def unit_conversion(number: str) -> float:
+    try:
+        unit = number[-1]
+        num = float(number[:-1])
+        case = {
+            'k': 0.0009765625,
+            'M': 1.0,
+            'G': 1024.0,
+            'T': 1048576.0,
+        }
+        return num * case[unit]
+    except KeyError | IndexError | ValueError:
+        return -1.0
+
+
 class JournalLogCollector:
     header = ('date', 'hostname', 'process', 'error_desc')
 
@@ -134,7 +149,8 @@ class SystemDataCollector:
             name = filtered_spaces[0][5:]
             size = filtered_spaces[1]
             used = filtered_spaces[2]
-            ret_list.append((name.decode("utf-8"), size.decode("utf-8"), used.decode("utf-8")))
+            ret_list.append(
+                (name.decode("utf-8"), unit_conversion(size.decode("utf-8")), unit_conversion(used.decode("utf-8"))))
         return ret_list
 
     def processor_usage(self):
@@ -165,7 +181,8 @@ class SystemDataCollector:
             name = filt_str[0]
             r_sec = filt_str[3]
             w_sec = filt_str[4]
-            ret_list.append((name.decode("utf-8"), r_sec.decode("utf-8"), w_sec.decode("utf-8")))
+            ret_list.append((name.decode("utf-8"), float(r_sec.decode("utf-8").replace(',', '.')),
+                             float(w_sec.decode("utf-8").replace(',', '.'))))
         return ret_list
 
     def interface_load(self):
