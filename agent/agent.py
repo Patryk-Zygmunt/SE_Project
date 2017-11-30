@@ -4,7 +4,7 @@ import time
 from rest import InfoJsonBuilder, Client
 import collector
 import datetime
-
+import traceback
 
 class DaemonLogger(Daemon):
     delay = 5
@@ -48,6 +48,7 @@ class DaemonLogger(Daemon):
                 self.last_update = datetime.datetime.now()
             except Exception as ex:
                 print(ex.args)
+                traceback.print_stack()
             finally:
                 time.sleep(self.delay)
 
