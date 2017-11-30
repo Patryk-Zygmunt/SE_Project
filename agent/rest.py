@@ -41,7 +41,7 @@ class InfoJsonBuilder:
 
     def add_io_interface(self, values):
         data = [{'name': tup[0], 'rec': tup[1], 'trans': tup[2]} for tup in values]
-        self.__add('ioInterface', data)
+        self.__add('ioInterfaces', data)
         return self
 
     def add_logs(self, values):
