@@ -16,38 +16,38 @@ class InfoJsonBuilder:
         self.__add('mac', value)
         return self
 
-    def add_processorLoad(self, value):
+    def add_processor(self, value):
         data = {'user': value[0], 'system': value[1], 'unused': value[2]}
-        self.__add('processorLoad', data)
+        self.__add('processor', data)
         return self
 
-    def add_ramTaken(self, value):
+    def add_ram(self, value):
         ram = {'used': value[0], 'total': value[1]}
-        self.__add('ramTaken', ram)
+        self.__add('ram', ram)
         return self
 
-    def add_freeDiskSpace(self, values):
+    def add_discs_space(self, values):
         data = [{'name': tup[0], 'used': tup[1], 'total': tup[2]} for tup in values]
-        self.__add('freeDiskSpace', data)
+        self.__add('discs', data)
         return self
 
-    def add_iOperSec(self, values):
+    def add_disc_operations(self, values):
         data = [{'name': tup[0], 'read': tup[1], 'write': tup[2]} for tup in values]
-        self.__add('iOperSec', data)
+        self.__add('operations', data)
         return self
 
     def add_temperature(self, value):
         self.__add('temperature', value)
         return self
 
-    def add_interfaceIO(self, values):
+    def add_io_interface(self, values):
         data = [{'name': tup[0], 'rec': tup[1], 'trans': tup[2]} for tup in values]
-        self.__add('interfaceIO', data)
+        self.__add('ioInterface', data)
         return self
 
-    def add_errLogs(self, values):
+    def add_logs(self, values):
         data = [{'date': tup[0], 'process': tup[2], 'errorDesc': tup[3]} for tup in values]
-        self.__add('errLogs', data)
+        self.__add('logs', data)
         return self
 
     def to_json(self):

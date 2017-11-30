@@ -25,6 +25,7 @@ class JournalLogCollector:
 
     def __init_args(self):
         self.args['--no-pager'] = None
+        self.set_output('short-iso')
 
     def clean(self):
         self.args.clear()
@@ -34,7 +35,7 @@ class JournalLogCollector:
         out = []
         for line in lines:
             try:
-                a = re.search('(\w+ \d\d \d\d:\d\d:\d\d) (\S+) (\S+): (.*)', line)
+                a = re.search('(\S+) (\S+) (\S+): (.*)', line)
                 out.append((a.group(1), a.group(2), a.group(3), a.group(4)))
             except AttributeError:
                 pass
@@ -72,6 +73,7 @@ class JournalLogCollector:
 
     def set_since_date(self, date):
         self.args['--since'] = "\'" + str(date) + "\'"
+
 
 
 class SystemDataCollector:
