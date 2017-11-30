@@ -16,8 +16,9 @@ def unit_conversion(number: str) -> float:
             'T': 1048576.0,
         }
         return num * case[unit]
-    except KeyError | IndexError | ValueError:
+    except Exception: #KeyError | IndexError | ValueError:
         return -1.0
+
 
 
 class JournalLogCollector:
