@@ -5,6 +5,7 @@ import enum
 import datetime
 import traceback
 
+
 def unit_conversion(number: str) -> float:
     try:
         unit = number[-1]
@@ -18,7 +19,6 @@ def unit_conversion(number: str) -> float:
         return num * case[unit]
     except KeyError | IndexError | ValueError:
         return -1.0
-
 
 
 class JournalLogCollector:
