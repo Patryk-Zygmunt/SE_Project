@@ -1,10 +1,80 @@
 import subprocess as sub
 import re
 import time
+import enum
+import datetime
+
+
+class JournalLogCollector:
+    header = ('date', 'hostname', 'process', 'error_desc')
+
+    class Priority(enum.Enum):
+        EMERGENCY = 0
+        ALERT = 1
+        CRITICAL = 2
+        ERROR = 3
+        WARNING = 4
+        NOTICE = 5
+        INFO = 6
+        DEBUG = 7
+
+    def __init__(self):
+        self.command = 'journalctl'
+        self.args = {}
+        self.__init_args()
+
+    def __init_args(self):
+        self.args['--no-pager'] = None
+
+    def clean(self):
+        self.args.clear()
+        self.__init_args()
+
+    def __parse_lines(self, lines):
+        out = []
+        for line in lines:
+            try:
+                a = re.search('(\w+ \d\d \d\d:\d\d:\d\d) (\S+) (\S+): (.*)', line)
+                out.append((a.group(1), a.group(2), a.group(3), a.group(4)))
+            except AttributeError:
+                pass
+        return out
+
+    def __args_to_string(self):
+        str_ = self.command
+        for key, value in self.args.items():
+            str_ += ' '
+            if value is not None:
+                str_ += '{} {}'.format(str(key), str(value))
+            else:
+                str_ += str(key)
+        return str_
+
+    def collect(self):
+        raw_data, error = sub.Popen(self.__args_to_string(), stderr=sub.PIPE, stdout=sub.PIPE, shell=True).communicate()
+        lines = str(raw_data, 'utf-8').split('\n')
+        return self.__parse_lines(lines)
+
+    def set_priority(self, priority: Priority):
+        self.args['-p'] = priority.value
+
+    def set_limit(self, n=10):
+        self.args['-n'] = n
+
+    def set_reverse(self):
+        self.args['-r'] = None
+
+    def set_utc(self):
+        self.args['--utc'] = None
+
+    def set_output(self, output='json'):
+        self.args['--output'] = output
+
+    def set_since_date(self, date):
+        self.args['--since'] = "\'" + str(date) + "\'"
 
 
 class SystemDataCollector:
-
     def get_hostname(self):
         try:
             return str(self.__exec_sys_command('hostname', '-s').stdout, 'utf-8')[:-1]
@@ -145,3 +215,14 @@ class SystemDataCollector:
         raw_data.check_returncode()
         return raw_data
 
+
+if __name__ == '__main__':
+
+    d = datetime.datetime(2009, 10, 5, 18, 00)
+    collector = JournalLogCollector()
+    collector.set_reverse()
+    collector.set_limit(n=5)
+    # collector.set_since_date(d)
+    collector.set_priority(JournalLogCollector.Priority.WARNING)
+    for log in collector.collect():
+        print(log)
