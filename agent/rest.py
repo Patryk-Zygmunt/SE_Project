@@ -4,7 +4,6 @@ import sys
 
 
 class InfoJsonBuilder:
-
     def __init__(self):
         self.data = {}
 
@@ -102,6 +101,7 @@ class Client:
             return response
         except ConnectionRefusedError as ex:
             sys.stderr.write('connection refuse. Server not available - {}:{} '.format(self.address, str(self.port)))
+            raise Exception('connection refuse. Server not available - {}:{} '.format(self.address, str(self.port)))
 
 
 if __name__ == '__main__':
