@@ -2,17 +2,25 @@ package com.softwareEngineering.server.model;
 
 import java.util.List;
 
+import com.softwareEngineering.server.model.entity.Disc;
+import com.softwareEngineering.server.model.entity.IOInterface;
+import com.softwareEngineering.server.model.entity.Log;
+import com.softwareEngineering.server.model.entity.Operation;
+import com.softwareEngineering.server.model.entity.Processor;
+import com.softwareEngineering.server.model.entity.Ram;
+
+
+
 public class AgentRequestInfo {
 	private String mac;
 	private String name;
-//	private double processorLoad;
-	private double ramTaken;
-//	private double ramAvaliable;
-//	private double freeDiscSpace;
-//	private double IOperSec;
-//	private double temperature;
-//	private double interfaceIO;
-//	private List<String> errorLogs;
+	private double temperature;
+	private Ram ram;
+	private Processor processor;
+	private List<Disc> discs;
+	private List<Operation> operations;
+	private List<IOInterface> ioInterfaces;
+	private List<Log> logs;
 
 	public String getMac() {
 		return mac;
@@ -29,61 +37,60 @@ public class AgentRequestInfo {
 	public void setName(String name) {
 		this.name = name;
 	}
-//
-//	public double getProcessorLoad() {
-//		return processorLoad;
-//	}
-//
-//	public void setProcessorLoad(double processorLoad) {
-//		this.processorLoad = processorLoad;
-//	}
 
-	public double getRamTaken() {
-		return ramTaken;
+	public double getTemperature() {
+		return temperature;
 	}
 
-	public void setRamTaken(double ramTaken) {
-		this.ramTaken = ramTaken;
+	public void setTemperature(double temperature) {
+		this.temperature = temperature;
 	}
 
-//	public double getFreeDiscSpace() {
-//		return freeDiscSpace;
-//	}
-//
-//	public void setFreeDiscSpace(double freeDiscSpace) {
-//		this.freeDiscSpace = freeDiscSpace;
-//	}
-//
-//	public double getIOperSec() {
-//		return IOperSec;
-//	}
-//
-//	public void setIOperSec(double iOperSec) {
-//		IOperSec = iOperSec;
-//	}
-//
-//	public double getTemperature() {
-//		return temperature;
-//	}
-//
-//	public void setTemperature(double temperature) {
-//		this.temperature = temperature;
-//	}
-//
-//	public double getInterfaceIO() {
-//		return interfaceIO;
-//	}
-//
-//	public void setInterfaceIO(double interfaceIO) {
-//		this.interfaceIO = interfaceIO;
-//	}
-//
-//	public List<String> getErrorLogs() {
-//		return errorLogs;
-//	}
-//
-//	public void setErrorLogs(List<String> errorLogs) {
-//		this.errorLogs = errorLogs;
-//	}
+	public Ram getRam() {
+		return ram;
+	}
 
+	public void setRam(Ram ram) {
+		this.ram = ram;
+	}
+
+	public Processor getProcessor() {
+		return processor;
+	}
+
+	public void setProcessor(Processor processor) {
+		this.processor = processor;
+	}
+
+	public List<Disc> getDiscs() {
+		return discs;
+	}
+
+	public void setDiscs(List<Disc> discs) {
+		this.discs = discs;
+	}
+
+	public List<Operation> getOperations() {
+		return operations;
+	}
+
+	public void setOperations(List<Operation> operations) {
+		this.operations = operations;
+	}
+
+	public List<IOInterface> getIoInterfaces() {
+		return ioInterfaces;
+	}
+
+	public void setIoInterfaces(List<IOInterface> ioInterfaces) {
+		this.ioInterfaces = ioInterfaces;
+	}
+
+	public List<Log> getLogs() {
+		return logs;
+	}
+
+	public void setLogs(List<Log> logs) {
+		this.logs = logs;
+	}
 }
