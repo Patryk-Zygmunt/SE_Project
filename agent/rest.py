@@ -21,12 +21,12 @@ class InfoJsonBuilder:
         return self
 
     def add_ram(self, value):
-        ram = {'used': value[0], 'total': value[1]}
+        ram = {'used': value[1], 'total': value[0]}
         self.__add('ram', ram)
         return self
 
     def add_discs_space(self, values):
-        data = [{'name': tup[0], 'used': tup[1], 'total': tup[2]} for tup in values]
+        data = [{'name': tup[0], 'used': tup[2], 'total': tup[1]} for tup in values]
         self.__add('discs', data)
         return self
 
