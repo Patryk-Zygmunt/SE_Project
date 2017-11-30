@@ -157,7 +157,7 @@ class SystemDataCollector:
         try:
             raw_data = self.__exec_sys_command("top", "-bn1")
             line = str(raw_data.stdout, 'utf-8').split('\n', 3)[2]
-            cpu = re.search('%Cpu\(s\): {2}(\S+).us, {2}(\S+).sy, {2}(\S+).ni', line)
+            cpu = re.search('%Cpu\(s\): {1,}(\S+).us, {1,}(\S+).sy, {1,}(\S+).ni', line)
             return tuple([float(cpu.group(i).replace(',', '.')) for i in range(1, 4)])
         except Exception as ex:
             print(ex.args)
