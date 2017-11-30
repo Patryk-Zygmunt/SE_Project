@@ -75,7 +75,6 @@ class JournalLogCollector:
         self.args['--since'] = "\'" + str(date) + "\'"
 
 
-
 class SystemDataCollector:
     def get_hostname(self):
         try:
@@ -141,17 +140,12 @@ class SystemDataCollector:
     def processor_usage(self):
         try:
             raw_data = self.__exec_sys_command("top", "-bn1")
-            user_us, sys_us, unused = self.__format_proc_usage(str(raw_data.stdout))
-            return float(user_us), float(sys_us), float(unused)
-        except:
-            return "error reading"
-
-    def __format_proc_usage(self, raw_data):
-        """:returns tuple user usage, system usage and unused power"""
-        cpu_data = raw_data.split("\\n")[2]
-        cpu_data = cpu_data[9:]
-        cpu_split = cpu_data.split(" ")
-        return cpu_split[0].replace(",", "."), cpu_split[3].replace(",", "."), cpu_split[8].replace(",", ".")
+            line = str(raw_data.stdout, 'utf-8').split('\n', 3)[2]
+            cpu = re.search('%Cpu\(s\): {2}(\S+).us, {2}(\S+).sy, {2}(\S+).ni', line)
+            return tuple([float(cpu.group(i).replace(',', '.')) for i in range(1, 4)])
+        except Exception as ex:
+            print(ex.args)
+            return None
 
     def drive_operations(self):
         """:returns list of tuples with name,read/sec,write/sec"""
