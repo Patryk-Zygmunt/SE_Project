@@ -24,9 +24,6 @@ public class AgentController {
 	private final COD cod = CODFactory.setLevelOfDepression(2);
 
 	@Autowired
-	AgentService agentService;
-
-	@Autowired
 	ServerInfoService serverInfoService;
 
 	@Autowired

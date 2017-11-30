@@ -36,9 +36,8 @@ public class AgentService {
 		Agent agent = new Agent();
 		agent.setMac(agentRequestInfo.getMac());
 		agent.setName(agentRequestInfo.getName());
-		// TODO set other info
-		cod.i("CREATE NEW AGENT: ", agent);
 		agentRepository.save(agent);
+		cod.i("CREATED NEW AGENT: ", agent);
 		return agent;
 	}
 
