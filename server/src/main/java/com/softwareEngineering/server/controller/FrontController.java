@@ -1,17 +1,5 @@
 package com.softwareEngineering.server.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.app.COD;
 import com.app.CODFactory;
 import com.softwareEngineering.server.controller.response.AgentResponse;
@@ -21,6 +9,14 @@ import com.softwareEngineering.server.model.entity.Agent;
 import com.softwareEngineering.server.repositories.AgentRepository;
 import com.softwareEngineering.server.repositories.ServerInfoRepository;
 import com.softwareEngineering.server.service.AgentService;
+import com.softwareEngineering.server.service.ServerInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -31,14 +27,17 @@ public class FrontController {
 	private AgentService agentService;
 	private final AgentRepository agentRepository;
 	private final ServerInfoRepository serverInfoRepository;
+	private ServerInfoService serverInfoService;
 
 	@Autowired
-	public FrontController(AgentService agentService, AgentRepository agentRepository,
-			ServerInfoRepository serverInfoRepository) {
+	public FrontController(AgentService agentService, AgentRepository agentRepository, ServerInfoRepository serverInfoRepository, ServerInfoService serverInfoService) {
 		this.agentService = agentService;
 		this.agentRepository = agentRepository;
 		this.serverInfoRepository = serverInfoRepository;
+		this.serverInfoService = serverInfoService;
 	}
+
+
 
 	@RequestMapping(value = "/api/front/agents", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
@@ -56,9 +55,21 @@ public class FrontController {
 
 	@RequestMapping(value = "/api/front/history/{id}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public List<ServerInfoResponse> getAgentHistory(@PathVariable(value = "id") int id) {
-		Agent agent = agentRepository.findByAgentId(id);
-		return agent.getServerInfos().stream().map(ServerInfoResponse::new).collect(Collectors.toList());
+	public List<ServerInfoResponse> getAgentHistory(@PathVariable(value = "id") long id) {
+
+		return serverInfoService.getAgentHistory(id).stream().map(ServerInfoResponse::new).collect(Collectors.toList());
 	}
 
+	@RequestMapping(value = "/api/front/history/{id}/{page}", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public List<ServerInfoResponse> getAgentHistoryPage(
+			@PathVariable(value = "id") int id,@PathVariable(value = "page") int page) {
+		return serverInfoService.getAgentHistoryPage(id,new PageRequest(page, 3)).stream().map(ServerInfoResponse::new).collect(Collectors.toList());
+	}
+	@RequestMapping(value = "/api/front/history/date/{timestart}/{timestop}", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public List<ServerInfoResponse> getAgentHistoryByDate(
+			@PathVariable(value = "timestart") long timeStart,@PathVariable(value = "timestop") long timeStop) {
+		return serverInfoService.getAgentHistoryBetweenDate(timeStart,timeStop).stream().map(ServerInfoResponse::new).collect(Collectors.toList());
+	}
 }
