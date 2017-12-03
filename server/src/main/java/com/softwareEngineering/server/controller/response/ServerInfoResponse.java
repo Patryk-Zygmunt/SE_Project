@@ -11,6 +11,7 @@ import com.softwareEngineering.server.model.entity.ServerInfo;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Linus on 24.11.2017.
@@ -22,23 +23,23 @@ public class ServerInfoResponse {
 	private String mac;
 	private String name;
 	private double temperature;
-	private Ram ram;
-	private Processor processor;
-	private List<Disc> discs;
-	private List<Operation> operations;
-	private List<IOInterface> ioInterfaces;
-	private List<Log> logs;
+	private RamResponse ram;
+	private ProcessorResponse processor;
+	private List<DiscResponse> discs;
+	private List<OperationResponse> operations;
+	private List<IOInterfaceResponse> ioInterfaces;
+	private List<LogResponse> logs;
 
 	public ServerInfoResponse(ServerInfo serverInfo) {
 		this.InfoId = serverInfo.getInfoId();
 		this.infoTime = serverInfo.getInfoTime();
 		this.temperature = serverInfo.getTemperature();
-		this.ram = serverInfo.getRam();
-		this.processor = serverInfo.getProcessor();
-		this.discs = serverInfo.getDiscs();
-		this.operations = serverInfo.getOperations();
-		this.ioInterfaces = serverInfo.getIoInterfaces();
-		this.logs = serverInfo.getLogs();
+		this.ram =  new RamResponse(serverInfo.getRam());
+		this.processor = new ProcessorResponse(serverInfo.getProcessor());
+		this.discs = serverInfo.getDiscs().parallelStream().map(DiscResponse::new).collect(Collectors.toList());
+		this.operations = serverInfo.getOperations().parallelStream().map(OperationResponse::new).collect(Collectors.toList());
+		this.ioInterfaces = serverInfo.getIoInterfaces().parallelStream().map(IOInterfaceResponse::new).collect(Collectors.toList());
+		this.logs = serverInfo.getLogs().parallelStream().map(LogResponse::new).collect(Collectors.toList());
 	}
 
 	public Long getInfoId() {
@@ -81,52 +82,51 @@ public class ServerInfoResponse {
 		this.temperature = temperature;
 	}
 
-	public Ram getRam() {
+	public RamResponse getRam() {
 		return ram;
 	}
 
-	public void setRam(Ram ram) {
+	public void setRam(RamResponse ram) {
 		this.ram = ram;
 	}
 
-	public Processor getProcessor() {
+	public ProcessorResponse getProcessor() {
 		return processor;
 	}
 
-	public void setProcessor(Processor processor) {
+	public void setProcessor(ProcessorResponse processor) {
 		this.processor = processor;
 	}
 
-	public List<Disc> getDiscs() {
+	public List<DiscResponse> getDiscs() {
 		return discs;
 	}
 
-	public void setDiscs(List<Disc> discs) {
+	public void setDiscs(List<DiscResponse> discs) {
 		this.discs = discs;
 	}
 
-	public List<Operation> getOperations() {
+	public List<OperationResponse> getOperations() {
 		return operations;
 	}
 
-	public void setOperations(List<Operation> operations) {
+	public void setOperations(List<OperationResponse> operations) {
 		this.operations = operations;
 	}
 
-	public List<IOInterface> getIoInterfaces() {
+	public List<IOInterfaceResponse> getIoInterfaces() {
 		return ioInterfaces;
 	}
 
-	public void setIoInterfaces(List<IOInterface> ioInterfaces) {
+	public void setIoInterfaces(List<IOInterfaceResponse> ioInterfaces) {
 		this.ioInterfaces = ioInterfaces;
 	}
 
-	public List<Log> getLogs() {
+	public List<LogResponse> getLogs() {
 		return logs;
 	}
 
-	public void setLogs(List<Log> logs) {
+	public void setLogs(List<LogResponse> logs) {
 		this.logs = logs;
 	}
-
 }
