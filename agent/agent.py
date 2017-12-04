@@ -4,6 +4,7 @@ import time
 from rest import InfoJsonBuilder, Client
 import collector
 import datetime
+import logging
 
 
 class DaemonLogger(Daemon):
@@ -36,7 +37,7 @@ class DaemonLogger(Daemon):
         json_b.add_ram(sys_info.ram_usage())
         json_b.add_processor(sys_info.processor_usage())
         json_b.add_discs_space(sys_info.drive_space())
-        json_b.add_temperature(sys_info.get_temp())
+        # json_b.add_temperature(sys_info.get_temp())
         json_b.add_mac(sys_info.get_macs()[0][1])
         return json_b
 
@@ -47,7 +48,7 @@ class DaemonLogger(Daemon):
                 self.loop()
                 self.last_update = datetime.datetime.now()
             except Exception as ex:
-                print(ex.args)
+                logging.exception(ex)
             finally:
                 time.sleep(self.delay)
 
