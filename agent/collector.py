@@ -7,16 +7,16 @@ import datetime
 
 def unit_conversion(number: str) -> float:
     try:
-        unit = number[-1]
+        unit = number.replace(',', '.')[-1]
         num = float(number[:-1])
         case = {
-            'k': 0.0009765625,
+            'K': 0.0009765625,
             'M': 1.0,
             'G': 1024.0,
             'T': 1048576.0,
         }
         return num * case[unit]
-    except KeyError | IndexError | ValueError:
+    except (KeyError, IndexError, ValueError):
         return -1.0
 
 
@@ -92,37 +92,25 @@ class JournalLogCollector:
 
 class SystemDataCollector:
     def get_hostname(self):
-        try:
-            return str(self.__exec_sys_command('hostname', '-s').stdout, 'utf-8')[:-1]
-        except sub.CalledProcessError:
-            return 'error'
+        return str(self.__exec_sys_command('hostname', '-s').stdout, 'utf-8')[:-1]
 
     def get_macs(self):
-        try:
-            data = str(self.__exec_sys_command('ip', 'link').stdout, 'utf-8')
-            i_name = re.findall('\d: (\w+): ', data)[1:]
-            i_mac = re.findall('((?:[0-9A-Fa-f]{2}[:-]){5}(?:[0-9A-Fa-f]{2})) brd', data)[1:]
-            return list(zip(i_name, i_mac))
-        except Exception:  # TODO
-            raise Exception()
+        data = str(self.__exec_sys_command('ip', 'link').stdout, 'utf-8')
+        i_name = re.findall('\d: (\w+): ', data)[1:]
+        i_mac = re.findall('((?:[0-9A-Fa-f]{2}[:-]){5}(?:[0-9A-Fa-f]{2})) brd', data)[1:]
+        return list(zip(i_name, i_mac))
 
     def get_temp(self):
-        try:
-            temp_file = open("/sys/class/thermal/thermal_zone0/temp", "r")
-            temp = temp_file.read()
-            temp_file.close()
-            return float(int(temp) / 1000)
-        except:
-            return "error reading temp"
+        temp_file = open("/sys/class/thermal/thermal_zone0/temp", "r")
+        temp = temp_file.read()
+        temp_file.close()
+        return float(int(temp) / 1000)
 
     # unints - mb
     def ram_usage(self):
-        try:
-            ram_data = self.__exec_sys_command("free", "-m")
-            total_mem, used_mem = self.__format_total_and_used_ram(str(ram_data))
-            return int(total_mem), int(used_mem)
-        except:
-            return "read error occurred", "read error occurred"
+        ram_data = self.__exec_sys_command("free", "-m")
+        total_mem, used_mem = self.__format_total_and_used_ram(str(ram_data))
+        return int(total_mem), int(used_mem)
 
     def __format_total_and_used_ram(self, raw_data):
         mem_data = raw_data.split("\\n")[1]
@@ -132,13 +120,10 @@ class SystemDataCollector:
 
     def drive_space(self):
         """:returns list of tuples with name,size,used_size [GB] eg. [(a1,200G,120G),(b2,30M,12M)]"""
-        try:
-            raw_drive_data = self.__exec_sys_command("df", "-h")
-            raw_drive_data = raw_drive_data.stdout
-            drive_data = self.__format_drive_space_data(raw_drive_data)
-            return drive_data
-        except:
-            return "error reading data"
+        raw_drive_data = self.__exec_sys_command("df", "-h")
+        raw_drive_data = raw_drive_data.stdout
+        drive_data = self.__format_drive_space_data(raw_drive_data)
+        return drive_data
 
     def __format_drive_space_data(self, raw_data_str):
         raw_data_list = raw_data_str.split(b"\n")
@@ -154,14 +139,10 @@ class SystemDataCollector:
         return ret_list
 
     def processor_usage(self):
-        try:
-            raw_data = self.__exec_sys_command("top", "-bn1")
-            line = str(raw_data.stdout, 'utf-8').split('\n', 3)[2]
-            cpu = re.search('%Cpu\(s\): {2}(\S+).us, {2}(\S+).sy, {2}(\S+).ni', line)
-            return tuple([float(cpu.group(i).replace(',', '.')) for i in range(1, 4)])
-        except Exception as ex:
-            print(ex.args)
-            return None
+        raw_data = self.__exec_sys_command("top", "-bn1")
+        line = str(raw_data.stdout, 'utf-8').split('\n', 3)[2]
+        cpu = re.search('%Cpu\(s\): {2}(\S+).us, {2}(\S+).sy, {2}(\S+).ni', line)
+        return tuple([float(cpu.group(i).replace(',', '.')) for i in range(1, 4)])
 
     def drive_operations(self):
         """:returns list of tuples with name,read/sec,write/sec"""
@@ -193,13 +174,10 @@ class SystemDataCollector:
             n, r2, t2 = el2
             return (n, r2 - r1, t2 - t1)
 
-        try:
-            first_list = self.__get_curr_intf_load()
-            time.sleep(1)
-            second_list = self.__get_curr_intf_load()
-            return list(map(diff, first_list, second_list))
-        except:
-            return "error"
+        first_list = self.__get_curr_intf_load()
+        time.sleep(1)
+        second_list = self.__get_curr_intf_load()
+        return list(map(diff, first_list, second_list))
 
     def __get_curr_intf_load(self):
         try:
