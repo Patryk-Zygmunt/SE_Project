@@ -18,6 +18,14 @@ const routes: Routes = [{
   component: ServerInfoComponent,
 
 },
+{path: 'logs',
+component: ServerLogsComponent,
+
+},
+{path: 'history',
+component: ServerHistoryComponent,
+
+},
     {
     path: '',
     redirectTo: 'dashboard',

@@ -17,7 +17,6 @@ export  class DashboardMainComponent {
 
   constructor(private agentService:AgentService,
               private router: Router) {
-    console.log("123")
   }
 
 
@@ -30,7 +29,7 @@ export  class DashboardMainComponent {
   }
 
   goToServer(id:number) {
-    console.log(this.router)
+localStorage.setItem("serverId",JSON.stringify(id))
     this.router.navigateByUrl('pages/server/'+id);
   }
 

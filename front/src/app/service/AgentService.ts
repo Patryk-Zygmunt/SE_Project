@@ -31,6 +31,19 @@ export  class AgentService{
     return  this.http.get(this.url+'agent/'+id)
       .map(res => res as ServerInfo[]);
   }
+  getAgentHistoryByPage(id:number,page:number) : Observable<ServerInfo[]>{
+    return  this.http.get(this.url+'agent/'+id)
+      .map(res => res as ServerInfo[]);
+  }
+  getAgentHistoryByDate(id:number,startDate:number,endDate:number) : Observable<ServerInfo[]>{
+    return  this.http.get(this.url+'agent/'+id)
+      .map(res => res as ServerInfo[]);
+  }
+
+  getAgentLogs(id:number) : Observable<Logs[]>{
+    return  this.http.get(this.url+'logs/'+id)
+      .map(res => res as Logs[]);
+  }
 
 
 }
