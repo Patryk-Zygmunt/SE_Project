@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ChartsComponent } from './charts.component';
-import { EchartsComponent } from './echarts/echarts.component';
+import { EchartsComponent } from '../main_dashboard/echarts/echarts.component';
 import { D3Component } from './d3/d3.component';
 import { ChartjsComponent } from './chartjs/chartjs.component';
 

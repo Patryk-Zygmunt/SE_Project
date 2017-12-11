@@ -3,7 +3,7 @@ import { AngularEchartsModule } from 'ngx-echarts';
 
 import { ThemeModule } from '../../@theme/theme.module';
 import { DashboardComponent } from './dashboard.component';
-import { StatusCardComponent } from './status-card/status-card.component';
+import { StatusCardComponent } from '../main_dashboard/status-card/status-card.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { RoomsComponent } from './rooms/rooms.component';
 import { RoomSelectorComponent } from './rooms/room-selector/room-selector.component';
@@ -22,7 +22,7 @@ import { TrafficChartComponent } from './traffic/traffic-chart.component';
 import {DashboardMainComponent} from "../main_dashboard/DashboardMainComponent";
 import {AgentService} from "../../service/AgentService";
 import {ServerInfo} from "../../model/server_info";
-import {ServerInfoComponent} from "./server_info_card/ServerInfoComponent";
+import {ServerInfoComponent} from "../main_dashboard/server_info_card/ServerInfoComponent";
 
 
 @NgModule({

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import {ServerInfoComponent} from "./dashboard/server_info_card/ServerInfoComponent";
+import {ServerInfoComponent} from "./main_dashboard/server_info_card/ServerInfoComponent";
 import {DashboardMainComponent} from "./main_dashboard/DashboardMainComponent";
 
 

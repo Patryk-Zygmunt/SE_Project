@@ -1,0 +1,28 @@
+<div *ngIf="agent" class="col-6 col-sm-7" >
+<nb-card  >
+  <nb-card-header>{{agent.name}}</nb-card-header>
+  <nb-card-body style="line-height: 1.5">
+    <strong class="text-heading">MAC: </strong>{{agent.mac}}<br/>
+    <strong class="text-heading">RAM:</strong> <br/>
+    &emsp;&emsp;&emsp; <span class="text-heading">total: </span> {{agent.serverInfoResponse.ram.total}}<br/>
+  <!--  &emsp;&emsp;&emsp; <span class="text-heading">used: </span> {{agent.serverInfoResponse.ram.used}}<br/>-->
+
+
+    <div class="progress">
+      <div class="progress-bar bg-danger  " role="progressbar" style="width: 25%;height:20px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+        &emsp;&emsp;&emsp; <span class="text-heading">used: </span> {{agent.serverInfoResponse.ram.used}}
+      </div>
+        <div class="progress-bar bg-info" role="progressbar" style="width: 75%;height:20px" aria-valuenow="100" aria-valuemin="25" aria-valuemax="100">
+          &emsp;&emsp;&emsp; <span class="text-heading">free: </span> {{agent.serverInfoResponse.ram.total - agent.serverInfoResponse.ram.used}}<br/>
+
+      </div>
+      </div>
+
+    <br/>
+    <strong class="text-heading">Server Last Info: </strong>{{time}}
+  </nb-card-body>
+</nb-card>
+</div>
+
+<!-- <ngx-status-card title="test" type="primary" ></ngx-status-card>
+    <ngx-status-card title="test" type="primary" ></ngx-status-card>-->

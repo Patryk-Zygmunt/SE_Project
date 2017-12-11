@@ -46,6 +46,7 @@ public class FrontController {
 		return agentService.getAgents().stream().map(AgentShortResponse::new).collect(Collectors.toList());
 	}
 
+
 	@RequestMapping(value = "/api/front/agent/{id}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public AgentResponse getAgentInfo(@PathVariable(value = "id") int id) {
@@ -56,7 +57,6 @@ public class FrontController {
 	@RequestMapping(value = "/api/front/history/{id}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public List<ServerInfoResponse> getAgentHistory(@PathVariable(value = "id") long id) {
-
 		return serverInfoService.getAgentHistory(id).stream().map(ServerInfoResponse::new).collect(Collectors.toList());
 	}
 
@@ -66,7 +66,7 @@ public class FrontController {
 			@PathVariable(value = "id") int id,@PathVariable(value = "page") int page) {
 		return serverInfoService.getAgentHistoryPage(id,new PageRequest(page, 3)).stream().map(ServerInfoResponse::new).collect(Collectors.toList());
 	}
-	@RequestMapping(value = "/api/front/history/date/{timestart}/{timestop}", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/front/history/date/{id}/{timestart}/{timestop}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public List<ServerInfoResponse> getAgentHistoryByDate(
 			@PathVariable(value = "timestart") long timeStart,@PathVariable(value = "timestop") long timeStop) {

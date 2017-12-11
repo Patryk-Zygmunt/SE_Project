@@ -1,11 +1,11 @@
 @import '../../../@theme/styles/themes';
-@import '~@nebular/theme/styles/global/bootstrap/hero-buttons';
+@import '../../../../../node_modules/@nebular/theme/styles/global/bootstrap/_hero-buttons';
 
 @include nb-install-component() {
   nb-card {
     flex-direction: row;
     align-items: center;
-    height: 6rem;
+    height: 2rem;
     overflow: visible;
 
     $bevel: btn-hero-bevel(nb-theme(card-bg));
@@ -21,9 +21,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 5.75rem;
-      height: 4.75rem;
-      font-size: 3.75rem;
+      width: 1.75rem;
+      height: 1.75rem;
+      font-size: 1.75rem;
       border-radius: nb-theme(card-border-radius);
       transition: width 0.4s ease;
       transform: translate3d(0, 0, 0);
@@ -124,7 +124,7 @@
       }
 
       .icon {
-        width: 7rem;
+        width: 5rem;
         height: 100%;
         font-size: 4.5rem;
         border-radius: nb-theme(card-border-radius) 0 0 nb-theme(card-border-radius);

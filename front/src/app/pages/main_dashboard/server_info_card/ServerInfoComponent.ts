@@ -36,7 +36,7 @@ time:string="";
 
   parseDate(infoTime):string{
    // return  infoTime.getDate().toString() + " "+ infoTime.getTime().toString();
-    return infoTime.dayOfMonth+"-"+infoTime.monthValue+"-"+infoTime.year+" "+infoTime.hour+":"+infoTime.minute+":"+infoTime.second;
+    return infoTime.hour+":"+infoTime.minute+":"+infoTime.second+"   0" + infoTime.dayOfMonth+"-"+infoTime.monthValue+"-"+infoTime.year;
 
   }
 

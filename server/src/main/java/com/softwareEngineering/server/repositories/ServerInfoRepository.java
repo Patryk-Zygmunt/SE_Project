@@ -18,7 +18,7 @@ public interface ServerInfoRepository extends JpaRepository<ServerInfo, Long> {
 
     List<ServerInfo> getServerInfosByAgent_AgentIdOrderByInfoTime(@Param("id") long id);
     List<ServerInfo> getServerInfosByAgent_AgentIdOrderByInfoTime(@Param("id") long id,Pageable pageable );
-    List<ServerInfo>    getServerInfosByInfoTimeBetween(LocalDateTime start,LocalDateTime stop);
+    List<ServerInfo>    getServerInfosByInfoTimeBetweenAAndAgent_AgentId(LocalDateTime start,LocalDateTime stop,long id);
 
 
 
