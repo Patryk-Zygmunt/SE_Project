@@ -24,10 +24,19 @@ public class ServerInfoService {
 	@Autowired
 	ServerInfoRepository serverInfoRepository;
 
-	@Autowired
+
 	AgentService agentService;
 
-	public List<ServerInfo> getServerInfos() {
+    public ServerInfoService() {
+    }
+
+    @Autowired
+   ServerInfoService serverInfoService;
+    public ServerInfoService(AgentService agentService) {
+        this.agentService = agentService;
+    }
+
+    public List<ServerInfo> getServerInfos() {
 		return serverInfoRepository.findAll();
 	}
 
