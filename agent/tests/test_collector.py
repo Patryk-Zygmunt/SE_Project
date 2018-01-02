@@ -48,6 +48,13 @@ class JournalLogCollectorTest(TestCase):
 
 
 class SystemDataCollectorTest(TestCase):
+
+    def build_run_ret_val(self, data):
+        check_valuemock = Mock()
+        attrs = {'check_returncode': lambda: None, 'stdout': data}
+        check_valuemock.configure_mock(**attrs)
+        return check_valuemock
+
     @patch('subprocess.run')
     def test_collecting_processor_usage_data1(self, run_mock):
         data = b'top - 14:12:47 up 17:31,  1 user,  load average: 0,87, 0,78, 0,74\n\
@@ -59,10 +66,7 @@ class SystemDataCollectorTest(TestCase):
           PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+\n\
         10242 rwx       20   0 6817428 1,068g  39452 S  12,5  6,9  47:18.70'
 
-        check_valuemock = Mock()
-        attrs = {'check_returncode': lambda: None, 'stdout': data}
-        check_valuemock.configure_mock(**attrs)
-        run_mock.return_value = check_valuemock
+        run_mock.return_value = self.build_run_ret_val(data)
 
         actual = SystemDataCollector().processor_usage()
         expected = (3.0, 0.6, 0.0)
@@ -82,12 +86,30 @@ class SystemDataCollectorTest(TestCase):
             1 root      20   0   37736   5068   3272 S   0.0  0.5   0:29.67\n\
             2 root      20   0       0      0      0 S   0.0  0.0   0:00.02'
 
-        check_valuemock = Mock()
-        attrs = {'check_returncode': lambda: None, 'stdout': data}
-        check_valuemock.configure_mock(**attrs)
-        run_mock.return_value = check_valuemock
+        run_mock.return_value = self.build_run_ret_val(data)
 
         actual = SystemDataCollector().processor_usage()
         expected = (0.2, 0.3, 0.0)
 
         self.assertEqual(actual, expected)
+
+    @patch('subprocess.run')
+    def test_collecting_macs(self, run_mock):
+
+        data = \
+            b'1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1\n\
+                link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00\n\
+            2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT group default qlen 1000\n\
+                link/ether 08:00:27:26:cb:d6 brd ff:ff:ff:ff:ff:ff'
+
+        run_mock.return_value = self.build_run_ret_val(data)
+
+        expected = [('enp0s3', '08:00:27:26:cb:d6')]
+        actual = SystemDataCollector().get_macs()
+
+        self.assertEqual(expected, actual)
+
+
+
+
+
