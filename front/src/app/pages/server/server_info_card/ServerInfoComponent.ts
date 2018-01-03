@@ -2,7 +2,7 @@
  * Created by Linus on 23.11.2017.
  */
 import {Component} from "@angular/core";
-import {ActivatedRoute, ParamMap, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {AgentLong} from "../../../model/agentLong";
 import {AgentService} from "../../../service/AgentService";
 

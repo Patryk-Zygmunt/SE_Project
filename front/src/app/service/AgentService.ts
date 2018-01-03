@@ -9,6 +9,7 @@ import {Agent} from "../model/agent";
 import {Observable} from "rxjs";
 import {AgentLong} from "../model/agentLong";
 import {ServerInfo} from "../model/server_info";
+import {Logs} from "selenium-webdriver";
 
 @Injectable()
 export  class AgentService{
@@ -32,11 +33,11 @@ export  class AgentService{
       .map(res => res as ServerInfo[]);
   }
   getAgentHistoryByPage(id:number,page:number) : Observable<ServerInfo[]>{
-    return  this.http.get(this.url+'agent/'+id)
+    return this.http.get(this.url + 'history/' + id + '/' + page)
       .map(res => res as ServerInfo[]);
   }
   getAgentHistoryByDate(id:number,startDate:number,endDate:number) : Observable<ServerInfo[]>{
-    return  this.http.get(this.url+'agent/'+id)
+    return this.http.get(this.url + 'history/date/' + id + '/' + startDate + '/' + endDate)
       .map(res => res as ServerInfo[]);
   }
 

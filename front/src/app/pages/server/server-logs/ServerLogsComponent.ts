@@ -1,22 +1,24 @@
 import {AgentService} from "../../../service/AgentService";
+import {Component} from "@angular/core";
+import {AgentLong} from "../../../model/agentLong";
 @Component({
-    selector: 'dashboard-main',
-    templateUrl: './main_dashboard.html',
+  selector: 'server-logs',
+  templateUrl: './server-logs.html',
   })
-  
-  export  class DashboardMainComponent {
+
+export class ServerLogsComponent {
     agent:AgentLong;
     id:number;
     logs:any[];
-  
-  
-    constructor(private agentService:AgentService) {
+
+
+  constructor(private agentService: AgentService) {
     }
-  
-  
-    ngOnInit(){
-        this.id = localStorage.getItem("serverId")
-        this.agentService.getAgentLongInfo()
+
+
+  ngOnInit() {
+    this.id = Number(localStorage.getItem("serverId"));
+    this.agentService.getAgentLongInfo(this.id)
         .subscribe(res=> this.agent=res)
       this.agentService.getAgentLogs(0)
         .subscribe( res=>{
@@ -25,14 +27,14 @@ import {AgentService} from "../../../service/AgentService";
         );
     }
 
-nextPage(page:number){
+  /*nextPage(page:number){
     this.agentService.getAgentLogs(this.id,page)
     .subscribe( res=>{
         this.logs = res;
       }
 
 
-}
+   }*/
 
 
 }

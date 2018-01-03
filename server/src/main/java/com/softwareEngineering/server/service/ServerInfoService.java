@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -60,9 +59,9 @@ public class ServerInfoService {
 		return serverInfoRepository.getServerInfosByAgent_AgentIdOrderByInfoTime(id,pageable);
 	}
 
-	public List<ServerInfo> getAgentHistoryBetweenDate(long timeStart,long timeStop){
-		return serverInfoRepository.getServerInfosByInfoTimeBetween(
-				LocalDateTime.ofInstant(Instant.ofEpochMilli(timeStart), ZoneId.systemDefault()),
-				LocalDateTime.ofInstant(Instant.ofEpochMilli(timeStop), ZoneId.systemDefault()));
-	}
+    public List<ServerInfo> getAgentHistoryBetweenDate(long timeStart, long timeStop, long id) {
+        return serverInfoRepository.getServerInfosByInfoTimeBetweenAndAgent_AgentId(
+                LocalDateTime.ofInstant(Instant.ofEpochMilli(timeStart), ZoneId.systemDefault()),
+                LocalDateTime.ofInstant(Instant.ofEpochMilli(timeStop), ZoneId.systemDefault()), id);
+    }
 }

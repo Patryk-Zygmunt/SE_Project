@@ -26,14 +26,12 @@ public class FrontController {
 
 	private AgentService agentService;
 	private final AgentRepository agentRepository;
-	private final ServerInfoRepository serverInfoRepository;
 	private ServerInfoService serverInfoService;
 
 	@Autowired
 	public FrontController(AgentService agentService, AgentRepository agentRepository, ServerInfoRepository serverInfoRepository, ServerInfoService serverInfoService) {
 		this.agentService = agentService;
 		this.agentRepository = agentRepository;
-		this.serverInfoRepository = serverInfoRepository;
 		this.serverInfoService = serverInfoService;
 	}
 
@@ -68,8 +66,8 @@ public class FrontController {
 	}
 	@RequestMapping(value = "/api/front/history/date/{id}/{timestart}/{timestop}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public List<ServerInfoResponse> getAgentHistoryByDate(
-			@PathVariable(value = "timestart") long timeStart,@PathVariable(value = "timestop") long timeStop) {
-		return serverInfoService.getAgentHistoryBetweenDate(timeStart,timeStop).stream().map(ServerInfoResponse::new).collect(Collectors.toList());
+	public List<ServerInfoResponse> getAgentHistoryByDate(@PathVariable(value = "id") long id,
+														  @PathVariable(value = "timestart") long timeStart, @PathVariable(value = "timestop") long timeStop) {
+		return serverInfoService.getAgentHistoryBetweenDate(timeStart, timeStop, id).stream().map(ServerInfoResponse::new).collect(Collectors.toList());
 	}
 }

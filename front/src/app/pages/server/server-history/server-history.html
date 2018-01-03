@@ -1,0 +1,41 @@
+<div *ngIf="agent" class="col-6 col-sm-7">
+
+
+  <nb-card>
+    <nb-card-header>{{agent.name}}</nb-card-header>
+    <nb-card-body style="line-height: 1.5">
+      <strong class="text-heading">MAC: </strong>{{agent.mac}}<br/>
+      <div *ngFor="let info of serverInfo">
+        <strong class="text-heading">RAM:</strong> <br/>
+        &emsp;&emsp;&emsp; <span class="text-heading">total: </span> {{info.ram.total}}<br/>
+        <!--  &emsp;&emsp;&emsp; <span class="text-heading">used: </span> {{agent.serverInfoResponse.ram.used}}<br/>-->
+
+
+        <div class="progress">
+          <div class="progress-bar bg-danger  " role="progressbar" style="width: 25%;height:20px" aria-valuenow="25"
+               aria-valuemin="0" aria-valuemax="100">
+            &emsp;&emsp;&emsp; <span class="text-heading">used: </span> {{info.ram.used}}
+          </div>
+          <div class="progress-bar bg-info" role="progressbar" style="width: 75%;height:20px" aria-valuenow="100"
+               aria-valuemin="25" aria-valuemax="100">
+            &emsp;&emsp;&emsp; <span class="text-heading">free: </span> {{info.ram.total - info.ram.used}}<br/>
+
+          </div>
+        </div>
+        <br/>
+        <strong class="text-heading">Server Last Info: </strong>{{time}}
+      </div>
+    </nb-card-body>
+  </nb-card>
+</div>
+<div class="col-6 col-sm-5">
+  <angular2-date-picker [(ngModel)]="dateStart" [settings]="settings"
+                        (onDateSelect)="onDateSelect($event)"></angular2-date-picker>
+  <angular2-date-picker [(ngModel)]="dateEnd" [settings]="settings"
+                        (onDateSelect)="onDateSelect($event)"></angular2-date-picker>
+</div>
+<button class="btn btn-primary" type="button" (click)="nextPage()">
+  next
+</button>
+<!-- <ngx-status-card title="test" type="primary" ></ngx-status-card>
+    <ngx-status-card title="test" type="primary" ></ngx-status-card>-->
