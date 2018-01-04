@@ -47,5 +47,5 @@ import static org.junit.Assert.*;
         List<ServerInfo> serverInfos = serverInfoService.getAgentHistory(1);
         assertEquals(serverInfosTest.get(0).getRam(), serverInfos.get(0).getRam());
     }
-
+     
 }

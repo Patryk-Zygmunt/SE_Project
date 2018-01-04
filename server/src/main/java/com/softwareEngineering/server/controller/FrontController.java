@@ -25,13 +25,11 @@ public class FrontController {
 	private final COD cod = CODFactory.setLevelOfDepression(2);
 
 	private AgentService agentService;
-	private final AgentRepository agentRepository;
 	private ServerInfoService serverInfoService;
 
 	@Autowired
 	public FrontController(AgentService agentService, AgentRepository agentRepository, ServerInfoRepository serverInfoRepository, ServerInfoService serverInfoService) {
 		this.agentService = agentService;
-		this.agentRepository = agentRepository;
 		this.serverInfoService = serverInfoService;
 	}
 
@@ -48,14 +46,15 @@ public class FrontController {
 	@RequestMapping(value = "/api/front/agent/{id}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public AgentResponse getAgentInfo(@PathVariable(value = "id") int id) {
-		Agent agent = agentRepository.findByAgentId(id);
-		return new AgentResponse(agent, agent.getServerInfos().parallelStream().findFirst().get());
+        Agent agent = agentService.findByAgentId(id);
+        return new AgentResponse(agent, agent.getServerInfos().parallelStream().findFirst().get());
 	}
 
 	@RequestMapping(value = "/api/front/history/{id}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public List<ServerInfoResponse> getAgentHistory(@PathVariable(value = "id") long id) {
-		return serverInfoService.getAgentHistory(id).stream().map(ServerInfoResponse::new).collect(Collectors.toList());
+
+        return serverInfoService.getAgentHistory(id).stream().map(ServerInfoResponse::new).collect(Collectors.toList());
 	}
 
 	@RequestMapping(value = "/api/front/history/{id}/{page}", method = RequestMethod.GET)
