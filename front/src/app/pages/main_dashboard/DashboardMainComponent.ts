@@ -32,7 +32,8 @@ export  class DashboardMainComponent {
 
   goToServer(id: number, name: string) {
     localStorage.setItem("serverId", JSON.stringify(id));
-    localStorage.setItem("serverName", JSON.stringify(name));
+    this.agentService.setServerName(name);
+    //  localStorage.setItem("serverName", JSON.stringify(name));
     this.router.navigateByUrl('pages/server/'+id);
   }
 

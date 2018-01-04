@@ -6,7 +6,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Agent} from "../model/agent";
-import {Observable} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {AgentLong} from "../model/agentLong";
 import {ServerInfo} from "../model/server_info";
 import {Log} from "../model/server_info_interfaces";
@@ -18,6 +18,13 @@ export  class AgentService{
   }
 
  private url: string ='http://localhost:8081/api/front/';
+  // private serverName:string="not chosen";
+  private serverNameSource = new Subject<string>();
+  serverName$ = this.serverNameSource.asObservable();
+
+  setServerName(name: string) {
+    this.serverNameSource.next(name);
+  }
 
   getAllAgentsShortInfo() : Observable<Agent[]>{
    return  this.http.get(this.url+'agents')
