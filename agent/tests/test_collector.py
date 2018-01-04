@@ -47,6 +47,7 @@ class JournalLogCollectorTest(TestCase):
         self.assertEqual(actual, expected)
 
 
+# TODO testy kolektora :) :#get_hostname,get_temp, interface_load, exec sysc_com
 class SystemDataCollectorTest(TestCase):
 
     def build_run_ret_val(self, data):
@@ -95,7 +96,6 @@ class SystemDataCollectorTest(TestCase):
 
     @patch('subprocess.run')
     def test_collecting_macs(self, run_mock):
-
         data = \
             b'1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1\n\
                 link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00\n\
@@ -109,7 +109,41 @@ class SystemDataCollectorTest(TestCase):
 
         self.assertEqual(expected, actual)
 
+    @patch('subprocess.run')
+    def test_collecting_ram_usage(self, run_mock):
+        data = b'              total        used        free      shared  buff/cache   available\n\
+            Mem:           7864        4004        1422         273        2436        3207\n\
+            Swap:          8072          75        7997'
+        run_mock.return_value = self.build_run_ret_val(data)
+        expected = (7864, 4004)
+        actual = SystemDataCollector().ram_usage()
+        self.assertEqual(expected, actual)
 
+    @patch('subprocess.run')
+    def test_collecting_drive_space(self, run_mock):
+        data = b'Filesystem      Size  Used Avail Use% Mounted on\n\
+            udev            3,9G     0  3,9G   0% /dev\n\
+            tmpfs           787M  9,7M  777M   2% /run\n\
+            /dev/sda2       212G  157G   44G  79% /\n\
+            tmpfs           3,9G   31M  3,9G   1% /dev/shm\n\
+            tmpfs           5,0M  4,0K  5,0M   1% /run/lock\n\
+            tmpfs           3,9G     0  3,9G   0% /sys/fs/cgroup\n\
+            /dev/sda1       511M  3,4M  508M   1% /boot/efi\n\
+            tmpfs           787M   76K  787M   1% /run/user/1000'
+        run_mock.return_value = self.build_run_ret_val(data)
+        expected = [('sda2',217088.0,160768.0),('sda1',511.0,3.4)]
+        actual = SystemDataCollector().drive_space()
+        self.assertEqual(expected, actual)
 
+    @patch('subprocess.run')
+    def test_collector_drive_operations(self,run_mock):
+        data = b'Linux 4.9.0-040900-generic (matshec-Inspiron-5547) 	05.01.2018 	_x86_64_	(4 CPU)\n\
+        \n\
+        Device:         rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util\n\
+        sda               0,15     2,53    5,39    1,98   105,95   198,79    82,70     0,01    1,99    0,39    6,32   0,26   0,19\n'
+        run_mock.return_value = self.build_run_ret_val(data)
+        expected = [('sda', 5.39, 1.98)]
+        actual = SystemDataCollector().drive_operations()
+        self.assertEqual(expected, actual)
 
-
+   
