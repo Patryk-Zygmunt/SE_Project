@@ -37,7 +37,7 @@ class DaemonLogger(Daemon):
         json_b.add_ram(sys_info.ram_usage())
         json_b.add_processor(sys_info.processor_usage())
         json_b.add_discs_space(sys_info.drive_space())
-        json_b.add_temperature(sys_info.get_temp())
+        # json_b.add_temperature(sys_info.get_temp())
         json_b.add_mac(sys_info.get_macs()[0][1])
         return json_b
 

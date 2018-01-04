@@ -100,12 +100,12 @@ class SystemDataCollector:
 
     def get_macs(self):
         try:
-            ps = sub.Popen(('ifconfig', '-a'), stdout=sub.PIPE)
-            output = sub.check_output(('awk', "/HWaddr/ {print $1, $5}"), stdin=ps.stdout)
-            ps.wait()
-            return [tuple(io.split(' ')) for io in str(output, 'utf-8')[:-1].split('\n')]
-        except Exception:
-            return [('macs cant be read', '')]
+            data = str(self.__exec_sys_command('ip', 'link').stdout, 'utf-8')
+            i_name = re.findall('\d: (\w+): ', data)[1:]
+            i_mac = re.findall('((?:[0-9A-Fa-f]{2}[:-]){5}(?:[0-9A-Fa-f]{2})) brd', data)[1:]
+            return list(zip(i_name, i_mac))
+        except Exception:  # TODO
+            raise Exception()
 
     def get_temp(self):
         try:

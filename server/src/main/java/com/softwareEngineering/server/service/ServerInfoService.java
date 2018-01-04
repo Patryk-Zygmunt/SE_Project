@@ -1,23 +1,19 @@
 package com.softwareEngineering.server.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.app.COD;
 import com.app.CODFactory;
 import com.softwareEngineering.server.model.AgentRequestInfo;
 import com.softwareEngineering.server.model.entity.Agent;
-import com.softwareEngineering.server.model.entity.Disc;
-import com.softwareEngineering.server.model.entity.IOInterface;
-import com.softwareEngineering.server.model.entity.Log;
-import com.softwareEngineering.server.model.entity.Operation;
-import com.softwareEngineering.server.model.entity.Processor;
-import com.softwareEngineering.server.model.entity.Ram;
 import com.softwareEngineering.server.model.entity.ServerInfo;
-import com.softwareEngineering.server.repositories.AgentRepository;
 import com.softwareEngineering.server.repositories.ServerInfoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -57,4 +53,16 @@ public class ServerInfoService {
 		return serverInfo;
 	}
 
+	public List<ServerInfo> getAgentHistory(long id){
+		return serverInfoRepository.getServerInfosByAgent_AgentIdOrderByInfoTime(id);
+	}
+	public List<ServerInfo> getAgentHistoryPage(long id, Pageable pageable){
+		return serverInfoRepository.getServerInfosByAgent_AgentIdOrderByInfoTime(id,pageable);
+	}
+
+	public List<ServerInfo> getAgentHistoryBetweenDate(long timeStart,long timeStop){
+		return serverInfoRepository.getServerInfosByInfoTimeBetween(
+				LocalDateTime.ofInstant(Instant.ofEpochMilli(timeStart), ZoneId.systemDefault()),
+				LocalDateTime.ofInstant(Instant.ofEpochMilli(timeStop), ZoneId.systemDefault()));
+	}
 }
