@@ -4,7 +4,7 @@ import time
 from rest import InfoJsonBuilder, Client
 import collector
 import datetime
-import logging
+import traceback
 
 
 class DaemonLogger(Daemon):
@@ -18,7 +18,7 @@ class DaemonLogger(Daemon):
     def loop(self):
         data = self.__collect_data()
         response = self.client.send_info(data.to_json())
-        print(response.status)
+        print("response: ",response.status)
         # TODO do something with response?
 
     def __collect_data(self) -> InfoJsonBuilder:
@@ -48,7 +48,8 @@ class DaemonLogger(Daemon):
                 self.loop()
                 self.last_update = datetime.datetime.now()
             except Exception as ex:
-                logging.exception(ex)
+                print(ex.args)
+                traceback.print_stack()
             finally:
                 time.sleep(self.delay)
 
