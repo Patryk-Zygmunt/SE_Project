@@ -4,6 +4,7 @@ import com.app.COD;
 import com.app.CODFactory;
 import com.softwareEngineering.server.controller.response.AgentResponse;
 import com.softwareEngineering.server.controller.response.AgentShortResponse;
+import com.softwareEngineering.server.controller.response.LogResponse;
 import com.softwareEngineering.server.controller.response.ServerInfoResponse;
 import com.softwareEngineering.server.model.entity.Agent;
 import com.softwareEngineering.server.repositories.AgentRepository;
@@ -63,6 +64,14 @@ public class FrontController {
 			@PathVariable(value = "id") int id,@PathVariable(value = "page") int page) {
 		return serverInfoService.getAgentHistoryPage(id,new PageRequest(page, 3)).stream().map(ServerInfoResponse::new).collect(Collectors.toList());
 	}
+
+	@RequestMapping(value = "/api/front/logs/{id}/{page}", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public List<LogResponse> getAgentLogsPage(
+			@PathVariable(value = "id") int id, @PathVariable(value = "page") int page) {
+		return serverInfoService.getAgentLogsPage(id, new PageRequest(page, 3)).stream().map(LogResponse::new).collect(Collectors.toList());
+	}
+
 	@RequestMapping(value = "/api/front/history/date/{id}/{timestart}/{timestop}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public List<ServerInfoResponse> getAgentHistoryByDate(@PathVariable(value = "id") long id,

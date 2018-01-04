@@ -9,7 +9,7 @@ import {Agent} from "../model/agent";
 import {Observable} from "rxjs";
 import {AgentLong} from "../model/agentLong";
 import {ServerInfo} from "../model/server_info";
-import {Logs} from "selenium-webdriver";
+import {Log} from "../model/server_info_interfaces";
 
 @Injectable()
 export  class AgentService{
@@ -41,9 +41,9 @@ export  class AgentService{
       .map(res => res as ServerInfo[]);
   }
 
-  getAgentLogs(id:number) : Observable<Logs[]>{
-    return  this.http.get(this.url+'logs/'+id)
-      .map(res => res as Logs[]);
+  getAgentLogs(id: number, page: number): Observable<Log[]> {
+    return this.http.get(this.url + 'logs/' + id + '/' + page)
+      .map(res => res as Log[]);
   }
 
 

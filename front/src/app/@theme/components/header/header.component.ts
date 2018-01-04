@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from "@angular/core";
 
-import { NbMenuService, NbSidebarService } from '@nebular/theme';
-import { UserService } from '../../../@core/data/users.service';
-import { AnalyticsService } from '../../../@core/utils/analytics.service';
+import {NbMenuService, NbSidebarService} from "@nebular/theme";
+import {UserService} from "../../../@core/data/users.service";
+import {AnalyticsService} from "../../../@core/utils/analytics.service";
 
 @Component({
   selector: 'ngx-header',
@@ -10,6 +10,7 @@ import { AnalyticsService } from '../../../@core/utils/analytics.service';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit {
+  serverName: string;
 
 
   @Input() position = 'normal';
@@ -27,6 +28,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.userService.getUsers()
       .subscribe((users: any) => this.user = users.nick);
+    this.serverName = (localStorage.getItem("serverName"));
   }
 
   toggleSidebar(): boolean {

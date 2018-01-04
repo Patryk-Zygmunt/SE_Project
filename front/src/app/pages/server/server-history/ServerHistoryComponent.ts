@@ -54,6 +54,15 @@ export class ServerHistoryComponent {
       })
 }
 
+  prevPage() {
+    if (this.page > 0) {
+      this.agentService.getAgentHistoryByPage(this.id, --this.page)
+        .subscribe(res => {
+          this.serverInfo = res;
+        })
+    }
+  }
+
   parseDate(infoTime): string {
     // return  infoTime.getDate().toString() + " "+ infoTime.getTime().toString();
     return infoTime.hour + ":" + infoTime.minute + ":" + infoTime.second + "   0" + infoTime.dayOfMonth + "-" + infoTime.monthValue + "-" + infoTime.year;
