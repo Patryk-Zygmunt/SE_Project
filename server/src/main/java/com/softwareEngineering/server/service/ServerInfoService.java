@@ -23,12 +23,21 @@ public class ServerInfoService {
 	@Autowired
 	ServerInfoRepository serverInfoRepository;
 
-	@Autowired
+
 	AgentService agentService;
 
-	public List<ServerInfo> getServerInfos() {
-		return serverInfoRepository.findAll();
-	}
+    public ServerInfoService() {
+    }
+
+    @Autowired ServerInfoService serverInfoService;
+
+    public ServerInfoService(AgentService agentService) {
+        this.agentService = agentService;
+    }
+
+    public List<ServerInfo> getServerInfos() {
+        return serverInfoRepository.findAll();
+    }
 
 	public ServerInfo saveServerInfo(AgentRequestInfo agentRequestInfo) {
 		Agent agent = agentService.saveAgentIfExists(agentRequestInfo);

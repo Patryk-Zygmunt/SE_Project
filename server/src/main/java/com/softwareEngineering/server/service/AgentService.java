@@ -38,4 +38,7 @@ public class AgentService {
 		return agent;
 	}
 
+    public Agent findByAgentId(int id) {
+        return agentRepository.findByAgentId(id);
+    }
 }
