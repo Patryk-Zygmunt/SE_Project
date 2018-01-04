@@ -17,7 +17,7 @@ def unit_conversion(number: str) -> float:
             'T': 1048576.0,
         }
         return num * case[unit]
-    except KeyError | IndexError | ValueError:
+    except (KeyError, IndexError, ValueError):
         return -1.0
 
 
@@ -154,6 +154,7 @@ class SystemDataCollector:
             used = filtered_spaces[2]
             ret_list.append(
                 (name.decode("utf-8"), unit_conversion(size.decode("utf-8")), unit_conversion(used.decode("utf-8"))))
+            print(ret_list)
         return ret_list
 
     def processor_usage(self):
@@ -163,7 +164,7 @@ class SystemDataCollector:
             cpu = re.search('%Cpu\(s\): {1,}(\S+).us, {1,}(\S+).sy, {1,}(\S+).ni', line)
             return tuple([float(cpu.group(i).replace(',', '.')) for i in range(1, 4)])
         except Exception as ex:
-            print(ex.args)
+            print('dbg ',ex.args)
             return None
 
     def drive_operations(self):

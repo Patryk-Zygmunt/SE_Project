@@ -1,5 +1,5 @@
 """Generic linux daemon base class for python 3.x."""
-## TODO skopiowany kod-  przerobić na własny ???
+## TODO skopiowany kod-  przerobić na własny
 ##http://web.archive.org/web/20131017130434/http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
 import sys, os, time, atexit, signal
 

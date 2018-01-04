@@ -17,7 +17,7 @@ class DaemonLogger(Daemon):
     def loop(self):
         data = self.__collect_data()
         response = self.client.send_info(data.to_json())
-        print(response.status)
+        print("response: ",response.status)
         # TODO do something with response?
 
     def __collect_data(self) -> InfoJsonBuilder:
