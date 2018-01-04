@@ -6,6 +6,7 @@ import collector
 import datetime
 import traceback
 
+
 class DaemonLogger(Daemon):
     delay = 5
     last_update = None

@@ -154,7 +154,6 @@ class SystemDataCollector:
             used = filtered_spaces[2]
             ret_list.append(
                 (name.decode("utf-8"), unit_conversion(size.decode("utf-8")), unit_conversion(used.decode("utf-8"))))
-            print(ret_list)
         return ret_list
 
     def processor_usage(self):
