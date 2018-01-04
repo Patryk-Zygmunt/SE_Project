@@ -6,65 +6,50 @@
     <nb-card-body style="line-height: 1.5">
       <strong class="text-heading">MAC: </strong>{{agent.mac}}<br/>
       <div *ngFor="let info of serverInfo">
-        <div *ngIf="agent" class="col-6 col-sm-7">
-          <nb-card>
-            <nb-card-body style="line-height: 1.5">
-              <strong class="text-heading">Server Last Info: </strong>{{time}}<br/>
-              <strong class="text-heading">Temperature: </strong>{{agent.temperature}}<br/>
+
+
+        <strong class="text-heading">Server Last Info: </strong>{{parseDate(info.infoTime)}}<br/>
+        <strong class="text-heading">Temperature: </strong>{{info.temperature}}<br/>
               <strong class="text-heading">RAM:</strong> <br/>
-              &emsp;&emsp;&emsp; <span class="text-heading">total: </span> {{agent.serverInfoResponse.ram.total}}<br/>
+        &emsp;&emsp;&emsp; <span class="text-heading">total: </span> {{info.ram.total}}<br/>
               <!--  &emsp;&emsp;&emsp; <span class="text-heading">used: </span> {{agent.serverInfoResponse.ram.used}}<br/>-->
               <div class="progress">
                 <div class="progress-bar bg-danger" role="progressbar" style="width: 25%;height:20px" aria-valuenow="25"
                      aria-valuemin="0" aria-valuemax="100">
-                  &emsp;&emsp;&emsp; <span class="text-heading">used: </span> {{agent.serverInfoResponse.ram.used}}
+                  &emsp;&emsp;&emsp; <span class="text-heading">used: </span> {{info.ram.used}}
                 </div>
                 <div class="progress-bar bg-info" role="progressbar" style="width: 75%;height:20px" aria-valuenow="100"
                      aria-valuemin="25" aria-valuemax="100">
-                  &emsp;&emsp;&emsp; <span class="text-heading">free: </span> {{agent.serverInfoResponse.ram.total -
-                  agent.serverInfoResponse.ram.used}}<br/>
+                  &emsp;&emsp;&emsp; <span class="text-heading">free: </span> {{info.ram.total -
+                  info.ram.used}}<br/>
                 </div>
               </div>
               <br/>
               <!-- Processor -->
               <strong class="text-heading">Processor: </strong> <br/>
-              &emsp;&emsp;&emsp; <span class="text-heading">used: </span> {{agent.serverInfoResponse.processor.used}}
-              <br/>
-              &emsp;&emsp;&emsp; <span class="text-heading">user: </span> {{agent.serverInfoResponse.processor.user}}
-              <br/>
-              &emsp;&emsp;&emsp; <span class="text-heading">system: </span>
-              {{agent.serverInfoResponse.processor.system}} <br/>
+        &emsp;&emsp;&emsp; <span class="text-heading">used: </span> {{info.processor.unused}} <br/>
+        &emsp;&emsp;&emsp; <span class="text-heading">user: </span> {{info.processor.user}} <br/>
+        &emsp;&emsp;&emsp; <span class="text-heading">system: </span> {{info.processor.system}} <br/>
               <!-- Discs -->
-              <div *ngFor="let disc of agent.serverInfoResponse.discs">
-                <strong class="text-heading">Dysk: disc.name </strong> <br/>
-                &emsp;&emsp;&emsp; <span class="text-heading">total: </span>
-                {{agent.serverInfoResponse.processor.total}} <br/>
-                &emsp;&emsp;&emsp; <span class="text-heading">used: </span> {{agent.serverInfoResponse.processor.used}}
-                <br/>
+        <div *ngFor="let disc of info.discs">
+          <strong class="text-heading">Dysk: {{disc.name}} </strong> <br/>
+          &emsp;&emsp;&emsp; <span class="text-heading">total: </span> {{disc.total}} <br/>
+          &emsp;&emsp;&emsp; <span class="text-heading">used: </span> {{disc.used}} <br/>
               </div>
               <!--operation -->
-              <div *ngFor="let operation of agent.serverInfoResponse.operations">
-                <strong class="text-heading">Operation: operation.name </strong> <br/>
-                &emsp;&emsp;&emsp; <span class="text-heading">read: </span> {{agent.serverInfoResponse.operation.read}}
-                <br/>
-                &emsp;&emsp;&emsp; <span class="text-heading">write: </span>
-                {{agent.serverInfoResponse.operation.write}} <br/>
+        <div *ngFor="let operation of info.operations">
+          <strong class="text-heading">Operation: {{operation.name}} </strong> <br/>
+          &emsp;&emsp;&emsp; <span class="text-heading">read: </span> {{operation.read}} <br/>
+          &emsp;&emsp;&emsp; <span class="text-heading">write: </span> {{operation.write}} <br/>
               </div>
               <!-- IO -->
-              <div *ngFor="let io of agent.serverInfoResponse.ioInterfaces">
-                <strong class="text-heading">IO Interfaces: io.name </strong> <br/>
-                &emsp;&emsp;&emsp; <span class="text-heading">rec: </span> {{agent.serverInfoResponse.io.rec}} <br/>
-                &emsp;&emsp;&emsp; <span class="text-heading">transmission: </span>
-                {{agent.serverInfoResponse.io.trans}} <br/>
-              </div>
-            </nb-card-body>
-          </nb-card>
+        <div *ngFor="let io of info.ioInterfaces">
+          <strong class="text-heading">IO Interfaces: {{io.name}} </strong> <br/>
+          &emsp;&emsp;&emsp; <span class="text-heading">rec: </span> {{io.rec}} <br/>
+          &emsp;&emsp;&emsp; <span class="text-heading">transmission: </span> {{io.trans}} <br/>
         </div>
 
       </div>
-    </nb-card-body>
-  </nb-card>
-</div>
 <div class="col-6 col-sm-5">
   <angular2-date-picker [(ngModel)]="dateStart" [settings]="settings"
                         (onDateSelect)="onDateSelect($event)"></angular2-date-picker>
