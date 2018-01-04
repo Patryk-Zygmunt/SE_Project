@@ -17,7 +17,6 @@ export  class DashboardMainComponent {
 
   constructor(private agentService:AgentService,
               private router: Router) {
-    console.log("123")
   }
 
 
@@ -25,12 +24,16 @@ export  class DashboardMainComponent {
     this.agentService.getAllAgentsShortInfo()
       .subscribe( res=>{
           this.agents = res;
+        //if (this.agents.length>0)  localStorage.setItem("serverId",JSON.stringify(this.agents[0].agentId));
         }
       );
+
   }
 
-  goToServer(id:number) {
-    console.log(this.router)
+  goToServer(id: number, name: string) {
+    localStorage.setItem("serverId", JSON.stringify(id));
+    this.agentService.setServerName(name);
+    //  localStorage.setItem("serverName", JSON.stringify(name));
     this.router.navigateByUrl('pages/server/'+id);
   }
 

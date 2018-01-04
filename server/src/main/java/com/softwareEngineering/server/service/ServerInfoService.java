@@ -4,6 +4,7 @@ import com.app.COD;
 import com.app.CODFactory;
 import com.softwareEngineering.server.model.AgentRequestInfo;
 import com.softwareEngineering.server.model.entity.Agent;
+import com.softwareEngineering.server.model.entity.Log;
 import com.softwareEngineering.server.model.entity.ServerInfo;
 import com.softwareEngineering.server.repositories.ServerInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,8 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ServerInfoService {
@@ -24,12 +25,21 @@ public class ServerInfoService {
 	@Autowired
 	ServerInfoRepository serverInfoRepository;
 
-	@Autowired
+
 	AgentService agentService;
 
-	public List<ServerInfo> getServerInfos() {
-		return serverInfoRepository.findAll();
-	}
+    public ServerInfoService() {
+    }
+
+    @Autowired ServerInfoService serverInfoService;
+
+    public ServerInfoService(AgentService agentService) {
+        this.agentService = agentService;
+    }
+
+    public List<ServerInfo> getServerInfos() {
+        return serverInfoRepository.findAll();
+    }
 
 	public ServerInfo saveServerInfo(AgentRequestInfo agentRequestInfo) {
 		Agent agent = agentService.saveAgentIfExists(agentRequestInfo);
@@ -60,9 +70,15 @@ public class ServerInfoService {
 		return serverInfoRepository.getServerInfosByAgent_AgentIdOrderByInfoTime(id,pageable);
 	}
 
-	public List<ServerInfo> getAgentHistoryBetweenDate(long timeStart,long timeStop){
-		return serverInfoRepository.getServerInfosByInfoTimeBetween(
-				LocalDateTime.ofInstant(Instant.ofEpochMilli(timeStart), ZoneId.systemDefault()),
-				LocalDateTime.ofInstant(Instant.ofEpochMilli(timeStop), ZoneId.systemDefault()));
+	public List<Log> getAgentLogsPage(long id, Pageable pageable) {
+		return serverInfoRepository.getServerInfosByAgent_AgentIdOrderByInfoTime(id, pageable)
+				.parallelStream().map(i ->
+						i.getLogs()).flatMap(List::stream).collect(Collectors.toList());
 	}
+
+    public List<ServerInfo> getAgentHistoryBetweenDate(long timeStart, long timeStop, long id) {
+        return serverInfoRepository.getServerInfosByInfoTimeBetweenAndAgent_AgentId(
+                LocalDateTime.ofInstant(Instant.ofEpochMilli(timeStart), ZoneId.systemDefault()),
+                LocalDateTime.ofInstant(Instant.ofEpochMilli(timeStop), ZoneId.systemDefault()), id);
+    }
 }

@@ -1,15 +1,12 @@
 package com.softwareEngineering.server.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.app.COD;
 import com.app.CODFactory;
 import com.softwareEngineering.server.model.AgentRequestInfo;
 import com.softwareEngineering.server.model.entity.Agent;
-import com.softwareEngineering.server.model.entity.ServerInfo;
 import com.softwareEngineering.server.repositories.AgentRepository;
-import com.softwareEngineering.server.repositories.ServerInfoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -41,4 +38,7 @@ public class AgentService {
 		return agent;
 	}
 
+    public Agent findByAgentId(int id) {
+        return agentRepository.findByAgentId(id);
+    }
 }

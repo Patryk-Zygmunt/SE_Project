@@ -1,0 +1,13 @@
+<div *ngFor="let log of logs">
+  <p>{{log.process}}
+    {{log.errorDesc}}</p>
+</div>
+
+<button class="btn btn-primary" type="button" (click)="prevPage()">
+  prev
+</button>
+{{page}}
+<button class="btn btn-primary" type="button" (click)="nextPage()">
+  next
+</button>
+

@@ -3,7 +3,7 @@
 
 <div *ngFor = "let agent of agents">
 
-    <nb-card (click)="goToServer(agent.agentId)">
+  <nb-card (click)="goToServer(agent.agentId,agent.name)">
     <nb-card-header>{{agent.name}}</nb-card-header>
     <nb-card-body>
         Server: {{agent.name}}<br/>

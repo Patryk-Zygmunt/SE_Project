@@ -39,4 +39,26 @@ public class Ram {
 		this.used = used;
 	}
 
+    @Override public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Ram ram = (Ram) o;
+
+        if (Double.compare(ram.total, total) != 0)
+            return false;
+        return Double.compare(ram.used, used) == 0;
+    }
+
+    @Override public int hashCode() {
+        int result;
+        long temp;
+        temp = Double.doubleToLongBits(total);
+        result = (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(used);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
 }

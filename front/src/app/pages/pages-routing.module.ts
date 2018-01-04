@@ -1,9 +1,10 @@
-import { RouterModule, Routes } from '@angular/router';
-import { NgModule } from '@angular/core';
+import {RouterModule, Routes} from "@angular/router";
+import {NgModule} from "@angular/core";
 
-import { PagesComponent } from './pages.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import {ServerInfoComponent} from "./dashboard/server_info_card/ServerInfoComponent";
+import {PagesComponent} from "./pages.component";
+import {ServerInfoComponent} from "./server/server_info_card/ServerInfoComponent";
+import {ServerHistoryComponent} from "./server/server-history/ServerHistoryComponent";
+import {ServerLogsComponent} from "./server/server-logs/ServerLogsComponent";
 import {DashboardMainComponent} from "./main_dashboard/DashboardMainComponent";
 
 
@@ -16,6 +17,14 @@ const routes: Routes = [{
   },
     {path: 'server/:id',
   component: ServerInfoComponent,
+
+},
+{path: 'logs',
+component: ServerLogsComponent,
+
+},
+{path: 'history',
+component: ServerHistoryComponent,
 
 },
     {

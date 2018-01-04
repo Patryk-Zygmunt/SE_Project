@@ -141,4 +141,27 @@ public class ServerInfo {
 		this.logs = logs;
 	}
 
+    public ServerInfo() {
+    }
+
+    public ServerInfo(Long infoId, Agent agent, LocalDateTime infoTime, double temperature, Ram ram,
+            Processor processor, List<Disc> discs, List<Operation> operations, List<IOInterface> ioInterfaces,
+            List<Log> logs) {
+        InfoId = infoId;
+        this.agent = agent;
+        this.infoTime = infoTime;
+        this.temperature = temperature;
+        this.ram = ram;
+        this.processor = processor;
+        this.discs = discs;
+        this.operations = operations;
+        this.ioInterfaces = ioInterfaces;
+        this.logs = logs;
+    }
+
+    @Override public String toString() {
+        return "ServerInfo{" + "InfoId=" + InfoId + ", agent=" + agent + ", infoTime=" + infoTime + ", temperature="
+                + temperature + ", ram=" + ram + ", processor=" + processor + ", discs=" + discs + ", operations="
+                + operations + ", ioInterfaces=" + ioInterfaces + ", logs=" + logs + '}';
+    }
 }
