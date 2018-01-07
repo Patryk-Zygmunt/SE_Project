@@ -3,6 +3,7 @@ import re
 import time
 import enum
 import datetime
+import traceback
 
 
 def unit_conversion(number: str) -> float:
@@ -10,7 +11,7 @@ def unit_conversion(number: str) -> float:
         unit = number[-1]
         num = float(number[:-1])
         case = {
-            'k': 0.0009765625,
+            'K': 0.0009765625,
             'M': 1.0,
             'G': 1024.0,
             'T': 1048576.0,
@@ -122,6 +123,7 @@ class SystemDataCollector:
             total_mem, used_mem = self.__format_total_and_used_ram(str(ram_data))
             return int(total_mem), int(used_mem)
         except:
+            traceback.print_stack()
             return "read error occurred", "read error occurred"
 
     def __format_total_and_used_ram(self, raw_data):
@@ -138,7 +140,8 @@ class SystemDataCollector:
             drive_data = self.__format_drive_space_data(raw_drive_data)
             return drive_data
         except:
-            return "error reading data"
+            traceback.print_stack()
+            return []
 
     def __format_drive_space_data(self, raw_data_str):
         raw_data_list = raw_data_str.split(b"\n")
@@ -157,7 +160,7 @@ class SystemDataCollector:
         try:
             raw_data = self.__exec_sys_command("top", "-bn1")
             line = str(raw_data.stdout, 'utf-8').split('\n', 3)[2]
-            cpu = re.search('%Cpu\(s\): {2}(\S+).us, {2}(\S+).sy, {2}(\S+).ni', line)
+            cpu = re.search('%Cpu\(s\): {1,}(\S+).us, {1,}(\S+).sy, {1,}(\S+).ni', line)
             return tuple([float(cpu.group(i).replace(',', '.')) for i in range(1, 4)])
         except Exception as ex:
             print('dbg ',ex.args)
