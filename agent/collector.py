@@ -3,7 +3,10 @@ import re
 import time
 import enum
 import datetime
-import traceback
+
+
+class CollectorException(Exception):
+    pass
 
 
 def unit_conversion(number: str) -> float:
@@ -90,13 +93,19 @@ class JournalLogCollector:
     def set_since_date(self, date):
         self.args['--since'] = "\'" + str(date) + "\'"
 
+    def set_from_config(self, config):
+        self.set_priority(self.Priority[config.priority])
+        self.set_limit(config.limit)
+        if config.reverse:
+            self.set_reverse()
+
 
 class SystemDataCollector:
     def get_hostname(self):
         try:
             return str(self.__exec_sys_command('hostname', '-s').stdout, 'utf-8')[:-1]
-        except sub.CalledProcessError:
-            return 'error'
+        except sub.CalledProcessError as ex:
+            raise CollectorException('get_hostname', ex)
 
     def get_macs(self):
         try:
@@ -104,8 +113,11 @@ class SystemDataCollector:
             i_name = re.findall('\d: (\w+): ', data)[1:]
             i_mac = re.findall('((?:[0-9A-Fa-f]{2}[:-]){5}(?:[0-9A-Fa-f]{2})) brd', data)[1:]
             return list(zip(i_name, i_mac))
-        except Exception:  # TODO
-            raise Exception()
+        except Exception as ex:
+            raise CollectorException('get_macs', ex)
+
+    def get_mac(self):
+        return self.get_macs()[0][1]
 
     def get_temp(self):
         try:
@@ -113,8 +125,8 @@ class SystemDataCollector:
             temp = temp_file.read()
             temp_file.close()
             return float(int(temp) / 1000)
-        except:
-            return "error reading temp"
+        except Exception as ex:
+            raise CollectorException("error reading temp", ex)
 
     # unints - mb
     def ram_usage(self):
@@ -122,9 +134,8 @@ class SystemDataCollector:
             ram_data = self.__exec_sys_command("free", "-m")
             total_mem, used_mem = self.__format_total_and_used_ram(str(ram_data))
             return int(total_mem), int(used_mem)
-        except:
-            traceback.print_stack()
-            return "read error occurred", "read error occurred"
+        except Exception as ex:
+            raise CollectorException("ram_usage error", ex)
 
     def __format_total_and_used_ram(self, raw_data):
         mem_data = raw_data.split("\\n")[1]
@@ -139,9 +150,8 @@ class SystemDataCollector:
             raw_drive_data = raw_drive_data.stdout
             drive_data = self.__format_drive_space_data(raw_drive_data)
             return drive_data
-        except:
-            traceback.print_stack()
-            return []
+        except Exception as ex:
+            raise CollectorException("drive_space", ex)
 
     def __format_drive_space_data(self, raw_data_str):
         raw_data_list = raw_data_str.split(b"\n")
@@ -163,8 +173,7 @@ class SystemDataCollector:
             cpu = re.search('%Cpu\(s\): {1,}(\S+).us, {1,}(\S+).sy, {1,}(\S+).ni', line)
             return tuple([float(cpu.group(i).replace(',', '.')) for i in range(1, 4)])
         except Exception as ex:
-            print('dbg ',ex.args)
-            return None
+            raise CollectorException("processor_usage", ex)
 
     def drive_operations(self):
         """:returns list of tuples with name,read/sec,write/sec"""
@@ -172,8 +181,8 @@ class SystemDataCollector:
             raw_data = self.__exec_sys_command("iostat", "-dx")
             raw_data = raw_data.stdout
             return self.__format_drive_operations(raw_data)
-        except:
-            return "error occured"
+        except Exception as ex:
+            raise CollectorException("drive_operations", ex)
 
     def __format_drive_operations(self, raw_str):
         split_data = raw_str.split(b"\n")[3:]
@@ -201,8 +210,8 @@ class SystemDataCollector:
             time.sleep(1)
             second_list = self.__get_curr_intf_load()
             return list(map(diff, first_list, second_list))
-        except:
-            return "error"
+        except Exception as ex:
+            raise CollectorException("interface_load", ex)
 
     def __get_curr_intf_load(self):
         try:

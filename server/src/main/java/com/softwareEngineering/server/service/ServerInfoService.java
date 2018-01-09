@@ -29,8 +29,7 @@ public class ServerInfoService {
     public ServerInfoService() {
     }
 
-    @Autowired public ServerInfoService(ServerInfoRepository serverInfoRepository, AgentService agentService,
-            ServerInfoService serverInfoService) {
+    @Autowired public ServerInfoService(ServerInfoRepository serverInfoRepository, AgentService agentService) {
         this.serverInfoRepository = serverInfoRepository;
         this.agentService = agentService;
     }

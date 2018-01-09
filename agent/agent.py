@@ -2,43 +2,58 @@ from daemon import Daemon
 import sys
 import time
 from rest import InfoJsonBuilder, Client
+from configuration import Config
 import collector
 import datetime
-import traceback
+import logging
+
+
+def assistant(fun1, fun2):
+    try:
+        result = fun2()
+        fun1(result)
+    except collector.CollectorException as ex:
+        logging.exception(ex)
 
 
 class DaemonLogger(Daemon):
     delay = 5
     last_update = None
     client = None
+    config = None
 
     def setup(self):
-        self.client = Client('localhost', 8081)
+        logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        self.config = Config()
+        self.config.start()
+        self.delay = self.config.get_send_frequency()
+        self.client = Client(self.config)
+        logging.info("Agent initialized successfully!")
 
     def loop(self):
         data = self.__collect_data()
         response = self.client.send_info(data.to_json())
-        print("response: ",response.status)
-        # TODO do something with response?
+        logging.debug("response: {}".format(response.status))
 
     def __collect_data(self) -> InfoJsonBuilder:
         sys_info = collector.SystemDataCollector()
         logs = collector.JournalLogCollector()
-        logs.set_reverse()
-        logs.set_priority(collector.JournalLogCollector.Priority.ERROR)
+        logs.set_from_config(self.config.logs_config)
         if self.last_update is not None:
             logs.set_since_date(self.last_update)
 
         json_b = InfoJsonBuilder()
-        json_b.add_name(sys_info.get_hostname())
-        json_b.add_logs(logs.collect())
-        json_b.add_disc_operations(sys_info.drive_operations())
-        json_b.add_io_interface(sys_info.interface_load())
-        json_b.add_ram(sys_info.ram_usage())
-        json_b.add_processor(sys_info.processor_usage())
-        json_b.add_discs_space(sys_info.drive_space())
-        # json_b.add_temperature(sys_info.get_temp())
-        json_b.add_mac(sys_info.get_macs()[0][1])
+        assistant(json_b.add_name, sys_info.get_hostname)
+        assistant(json_b.add_disc_operations, sys_info.drive_operations)
+        assistant(json_b.add_io_interface, sys_info.interface_load)
+        assistant(json_b.add_ram, sys_info.ram_usage)
+        assistant(json_b.add_processor, sys_info.processor_usage)
+        assistant(json_b.add_discs_space, sys_info.drive_space)
+        assistant(json_b.add_temperature, sys_info.get_temp)
+        assistant(json_b.add_mac, sys_info.get_mac)
+        if self.config.logs_config.send:
+            assistant(json_b.add_logs, logs.collect)
+
         return json_b
 
     def run(self):
@@ -48,8 +63,7 @@ class DaemonLogger(Daemon):
                 self.loop()
                 self.last_update = datetime.datetime.now()
             except Exception as ex:
-                print(ex.args)
-                traceback.print_stack()
+                logging.exception(ex)
             finally:
                 time.sleep(self.delay)
 

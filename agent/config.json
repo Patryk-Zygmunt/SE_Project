@@ -1,0 +1,15 @@
+{
+  "config_update_delay": 10,
+  "server": {
+    "ip": "localhost",
+    "port": 8081
+  },
+  "send_frequency": 10,
+  "notify_about_errors": false,
+  "sys_logs": {
+    "send": true,
+    "limit": 20,
+    "reverse": true,
+    "priority": "ERROR"
+  }
+}
