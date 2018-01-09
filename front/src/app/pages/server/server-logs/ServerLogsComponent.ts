@@ -25,7 +25,6 @@ export class ServerLogsComponent {
     this.agentService.getAgentLogs(this.id, this.page)
         .subscribe( res=>{
             this.logs = res;
-
           }
         );
     }
@@ -36,6 +35,14 @@ export class ServerLogsComponent {
         this.logs = res;
     })
   }
+
+  reloadData() {
+    this.agentService.getAgentLogs(this.id, this.page)
+      .subscribe(res => {
+        this.logs = res;
+      })
+  }
+
 
   prevPage() {
     if (this.page > 0) {

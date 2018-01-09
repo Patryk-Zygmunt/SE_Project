@@ -15,6 +15,7 @@ export  class ServerInfoComponent {
 
 agent:AgentLong;
 time:string="";
+  interval;
 
   constructor(private agentService:AgentService,
               private router: ActivatedRoute) {
@@ -22,16 +23,27 @@ time:string="";
 
   ngOnInit(){
     this.router.params.forEach(params => {
-      this.agentService.getAgentLongInfo( params['id'])
-        .subscribe(res=>{
-          console.log(">>>"+ params['id']);
-          console.log(res);
-          this.agent = res;
-          this.time = this.parseDate(this.agent.serverInfoResponse.infoTime);
-          console.log(this.agent);
-          //console.log(this.agent.serverInfoResponse.parseDate());
-        })
+      this.getData(params['id']);
+      this.interval = setInterval(() => {
+        console.log("onoin");
+        this.getData(params['id']);
+      }, 5000)
     });
+  }
+
+  ngOnDestroy() {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
+  }
+
+
+  getData(id: number) {
+    this.agentService.getAgentLongInfo(id)
+      .subscribe(res => {
+        this.agent = res;
+        this.time = this.parseDate(this.agent.serverInfoResponse.infoTime);
+      })
   }
 
   parseDate(infoTime):string{

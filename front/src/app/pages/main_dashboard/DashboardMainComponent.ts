@@ -13,6 +13,7 @@ import {Router} from "@angular/router";
 
 export  class DashboardMainComponent {
   agents : Agent[] = [];
+  interval;
 
 
   constructor(private agentService:AgentService,
@@ -21,18 +22,39 @@ export  class DashboardMainComponent {
 
 
   ngOnInit(){
-    this.agentService.getAllAgentsShortInfo()
-      .subscribe( res=>{
+    this.initData();
+    this.interval = setInterval(() => {
+      this.agentService.getAllAgentsShortInfo()
+        .subscribe(res => {
+          console.log("Main");
           this.agents = res;
-        //if (this.agents.length>0)  localStorage.setItem("serverId",JSON.stringify(this.agents[0].agentId));
+        })
+    }, 5000);
+  }
+
+  initData() {
+    this.agentService.getAllAgentsShortInfo()
+      .subscribe(res => {
+        this.agents = res;
+        if (this.agents.length > 0 && this.agents.length > 0)
+          this.setActualServer(this.agents[0].agentId, this.agents[0].name)
         }
       );
+  }
 
+  ngOnDestroy() {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
+  }
+
+  setActualServer(id: number, name: string) {
+    localStorage.setItem("serverId", JSON.stringify(id));
+    this.agentService.setServerName(name);
   }
 
   goToServer(id: number, name: string) {
-    localStorage.setItem("serverId", JSON.stringify(id));
-    this.agentService.setServerName(name);
+    this.setActualServer(id, name);
     //  localStorage.setItem("serverName", JSON.stringify(name));
     this.router.navigateByUrl('pages/server/'+id);
   }

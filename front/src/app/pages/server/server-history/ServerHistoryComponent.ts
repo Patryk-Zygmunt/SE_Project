@@ -47,6 +47,13 @@ export class ServerHistoryComponent {
       })
   }
 
+  reloadData() {
+    this.agentService.getAgentHistoryByPage(this.id, this.page)
+      .subscribe(res => {
+        this.serverInfo = res;
+      })
+  }
+
   nextPage() {
     this.agentService.getAgentHistoryByPage(this.id, ++this.page)
       .subscribe(res => {
