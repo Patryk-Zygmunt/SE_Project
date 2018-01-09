@@ -25,7 +25,6 @@ public class ServerInfoService {
 
 	ServerInfoRepository serverInfoRepository;
 	AgentService agentService;
-    ServerInfoService serverInfoService;
 
     public ServerInfoService() {
     }
@@ -34,7 +33,6 @@ public class ServerInfoService {
             ServerInfoService serverInfoService) {
         this.serverInfoRepository = serverInfoRepository;
         this.agentService = agentService;
-        this.serverInfoService = serverInfoService;
     }
 
     public List<ServerInfo> getServerInfos() {
