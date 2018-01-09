@@ -22,19 +22,19 @@ public class ServerInfoService {
 
 	private COD cod = CODFactory.setLevelOfDepression(2);
 
-	@Autowired
+
 	ServerInfoRepository serverInfoRepository;
-
-
 	AgentService agentService;
+    ServerInfoService serverInfoService;
 
     public ServerInfoService() {
     }
 
-    @Autowired ServerInfoService serverInfoService;
-
-    public ServerInfoService(AgentService agentService) {
+    @Autowired public ServerInfoService(ServerInfoRepository serverInfoRepository, AgentService agentService,
+            ServerInfoService serverInfoService) {
+        this.serverInfoRepository = serverInfoRepository;
         this.agentService = agentService;
+        this.serverInfoService = serverInfoService;
     }
 
     public List<ServerInfo> getServerInfos() {
