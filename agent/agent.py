@@ -17,7 +17,6 @@ def assistant(fun1, fun2):
 
 
 class DaemonLogger(Daemon):
-    delay = 5
     last_update = None
     client = None
     config = None
@@ -26,7 +25,6 @@ class DaemonLogger(Daemon):
         logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         self.config = Config()
         self.config.start()
-        self.delay = self.config.get_send_frequency()
         self.client = Client(self.config)
         logging.info("Agent initialized successfully!")
 
@@ -65,7 +63,7 @@ class DaemonLogger(Daemon):
             except Exception as ex:
                 logging.exception(ex)
             finally:
-                time.sleep(self.delay)
+                time.sleep(self.config.get_send_frequency())
 
 
 if __name__ == "__main__":

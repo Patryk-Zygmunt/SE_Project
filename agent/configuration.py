@@ -65,3 +65,8 @@ class Config(Thread):
     @exception_assistant
     def get_send_frequency(self):
         return self.data['send_frequency']
+
+
+if __name__ == "__main__":
+    config = Config()
+    print(config.data)
