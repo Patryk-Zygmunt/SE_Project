@@ -12,10 +12,15 @@ class CollectorException(Exception):
 
 
 
-def unit_conversion(number: str) -> float:
+def unit_conversion(number_data: str) -> float:
+    """
+    converts units to megabytes
+    :param number_data: string with unit at the end
+    :return: converted number to Mb or -1 if failure
+    """
     try:
-        unit = number[-1]
-        str_num = number[:-1]
+        unit = number_data[-1]
+        str_num = number_data[:-1]
         if ',' in str_num:
             str_num = str_num.replace(',', '.')
         num = float(str_num)
@@ -107,13 +112,24 @@ class JournalLogCollector:
 
 
 class SystemDataCollector:
+    """
+    Contains useful functions that help excetract data from system
+
+    """
     def get_hostname(self):
+        """
+        :return: string hostname of the system
+        """
         try:
             return str(self.__exec_sys_command('hostname', '-s').stdout, 'utf-8')[:-1]
         except sub.CalledProcessError as ex:
             raise CollectorException('get_hostname', ex)
 
     def get_macs(self):
+        """
+        exctracts mac  adresses of existing interfaces   uses ip command
+        :return: list of tuples interface name, mac address
+        """
         try:
             data = str(self.__exec_sys_command('ip', 'link').stdout, 'utf-8')
             i_name = re.findall('\d: (\w+): ', data)[1:]
@@ -126,6 +142,10 @@ class SystemDataCollector:
         return self.get_macs()[0][1]
 
     def get_temp(self):
+        """"
+        check hardware temperature, function attempts to read temp file
+        :return processor temperature in Celcius degress as float
+        :raise CollectorException"""
         try:
             temp_file = open("/sys/class/thermal/thermal_zone0/temp", "r")
             temp = temp_file.read()
@@ -134,8 +154,12 @@ class SystemDataCollector:
         except Exception as ex:
             raise CollectorException("error reading temp", ex)
 
-    # unints - mb
+
     def ram_usage(self):
+        """"
+        check system ram usage, uses free system command
+        :return: tuple  of ints with total ram and used ram as (total_ram,used_ram)
+        :raise: CollectorException"""
         try:
             ram_data = self.__exec_sys_command("free", "-m")
             ram_data = ram_data.stdout
@@ -155,7 +179,10 @@ class SystemDataCollector:
         return filter_data[1], filter_data[2]
 
     def drive_space(self):
-        """:returns list of tuples with name,size,used_size [GB] eg. [(a1,200G,120G),(b2,30M,12M)]"""
+        """
+        checks drive space on all hard drives mounted as sd* uses df command
+        :return: list of tuples with name,size,used_size [Mb] eg. [(a1,200,120G),(b2,30,12)]
+        :raise: CollectorException"""
         try:
             raw_drive_data = self.__exec_sys_command("df", "-h")
             raw_drive_data = raw_drive_data.stdout
@@ -178,6 +205,10 @@ class SystemDataCollector:
         return ret_list
 
     def processor_usage(self):
+        """"check processor usage on system, uses 'top' command
+        :raise: CollectorException
+        :return:
+        """
         try:
             raw_data = self.__exec_sys_command("top", "-bn1")
             line = str(raw_data.stdout, 'utf-8').split('\n', 3)[2]
@@ -187,7 +218,9 @@ class SystemDataCollector:
             raise CollectorException("processor_usage", ex)
 
     def drive_operations(self):
-        """:returns list of tuples with name,read/sec,write/sec"""
+        """
+        check drive load uses iostat command
+        :return: list of tuples with name,read/sec,write/sec"""
         try:
             raw_data = self.__exec_sys_command("iostat", "-dx")
             raw_data = raw_data.stdout
@@ -209,7 +242,10 @@ class SystemDataCollector:
         return ret_list
 
     def interface_load(self):
-        """:returns list of tuples with name,rec/sec,trans/sec"""
+        """
+        check system interface load
+
+        :return: list of tuples with name,rec/sec,trans/sec"""
 
         def diff(el1, el2):
             n, r1, t1 = el1
@@ -247,6 +283,14 @@ class SystemDataCollector:
         return ret_list
 
     def __exec_sys_command(self, command, args):
+        """"
+        executes system command while checking return code,
+        if command execution is not successful exception is raised
+
+        :param command string-  system command to execute
+        :param args  string of argumnets to commads
+        :return raw output of system command
+        """
         raw_data = sub.run([command, args], stdout=sub.PIPE)
         raw_data.check_returncode()
         return raw_data
