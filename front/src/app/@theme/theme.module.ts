@@ -1,11 +1,12 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {ModuleWithProviders, NgModule} from "@angular/core";
+import {CommonModule} from "@angular/common";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 import {
   NbActionsModule,
   NbCardModule,
+  NbCheckboxModule,
   NbLayoutModule,
   NbMenuModule,
   NbRouteTabsetModule,
@@ -13,9 +14,8 @@ import {
   NbSidebarModule,
   NbTabsetModule,
   NbThemeModule,
-  NbUserModule,
-  NbCheckboxModule,
-} from '@nebular/theme';
+  NbUserModule
+} from "@nebular/theme";
 
 import {
   FooterComponent,
@@ -23,17 +23,18 @@ import {
   SearchInputComponent,
   ThemeSettingsComponent,
   ThemeSwitcherComponent,
-  TinyMCEComponent,
-} from './components';
-import { CapitalizePipe, PluralPipe, RoundPipe, TimingPipe } from './pipes';
+  TinyMCEComponent
+} from "./components";
+import {CapitalizePipe, PluralPipe, RoundPipe, TimingPipe} from "./pipes";
 import {
   OneColumnLayoutComponent,
   SampleLayoutComponent,
   ThreeColumnsLayoutComponent,
-  TwoColumnsLayoutComponent,
-} from './layouts';
-import { DEFAULT_THEME } from './styles/theme.default';
-import { COSMIC_THEME } from './styles/theme.cosmic';
+  TwoColumnsLayoutComponent
+} from "./layouts";
+import {DEFAULT_THEME} from "./styles/theme.default";
+import {COSMIC_THEME} from "./styles/theme.cosmic";
+import {AgentService} from "../service/AgentService";
 
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
 
@@ -74,7 +75,7 @@ const PIPES = [
 const NB_THEME_PROVIDERS = [
   ...NbThemeModule.forRoot(
     {
-      name: 'cosmic',
+      name: 'default',
     },
     [ DEFAULT_THEME, COSMIC_THEME ],
   ).providers,
@@ -86,6 +87,7 @@ const NB_THEME_PROVIDERS = [
   imports: [...BASE_MODULES, ...NB_MODULES],
   exports: [...BASE_MODULES, ...NB_MODULES, ...COMPONENTS, ...PIPES],
   declarations: [...COMPONENTS, ...PIPES],
+  providers: [AgentService]
 })
 export class ThemeModule {
   static forRoot(): ModuleWithProviders {

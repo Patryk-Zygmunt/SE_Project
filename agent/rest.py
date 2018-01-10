@@ -81,9 +81,9 @@ def Path(path):
 
 
 class Client:
-    def __init__(self, address: str, port=80):
-        self.address = address
-        self.port = port
+
+    def __init__(self, config):
+        self.config = config
 
     @Post
     @Path('/api/agent/addInfo')
@@ -94,15 +94,11 @@ class Client:
 
     def send(self, method, path, data, headers):
         try:
-            conn = HTTPConnection(self.address, self.port)
+            conn = HTTPConnection(self.config.get_server_ip(), self.config.get_server_port())
             conn.request(method, path, data, headers)
             response = conn.getresponse()
             conn.close()
             return response
         except ConnectionRefusedError as ex:
-            sys.stderr.write('connection refuse. Server not available - {}:{} '.format(self.address, str(self.port)))
-            raise Exception('connection refuse. Server not available - {}:{} '.format(self.address, str(self.port)))
-
-
-if __name__ == '__main__':
-    print(Client('localhost', 8080).send_info(json.dumps({})))
+            raise Exception('connection refuse. Server not available - {}:{} '.format(self.config.get_server_ip(), str(
+                self.config.get_server_port())), ex)

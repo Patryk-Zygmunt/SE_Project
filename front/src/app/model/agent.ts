@@ -1,8 +1,9 @@
 /**
  * Created by Linus on 23.11.2017.
  */
-export class Agent{
+export interface Agent{
   mac:number;
   name:string;
   agentId:number;
+  status:boolean;
 }

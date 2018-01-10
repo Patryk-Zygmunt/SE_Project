@@ -1,28 +1,18 @@
 package com.softwareEngineering.server.service;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-
+import com.app.COD;
+import com.app.CODFactory;
+import com.softwareEngineering.server.model.entity.*;
+import com.softwareEngineering.server.repositories.AgentRepository;
+import com.softwareEngineering.server.repositories.ServerInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.app.COD;
-import com.app.CODFactory;
-import com.softwareEngineering.server.model.entity.Agent;
-import com.softwareEngineering.server.model.entity.Disc;
-import com.softwareEngineering.server.model.entity.IOInterface;
-import com.softwareEngineering.server.model.entity.Log;
-import com.softwareEngineering.server.model.entity.Operation;
-import com.softwareEngineering.server.model.entity.Processor;
-import com.softwareEngineering.server.model.entity.Ram;
-import com.softwareEngineering.server.model.entity.ServerInfo;
-import com.softwareEngineering.server.repositories.AgentRepository;
-import com.softwareEngineering.server.repositories.ServerInfoRepository;
+import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class Init {

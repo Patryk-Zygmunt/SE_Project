@@ -1,14 +1,11 @@
-
-
-
-<div *ngFor = "let agent of agents">
-
-    <nb-card (click)="goToServer(agent.agentId)">
-    <nb-card-header>{{agent.name}}</nb-card-header>
-    <nb-card-body>
+<div class="row">
+  <div class="col col-lg-4 col-md-6 col-sm-12" *ngFor="let agent of agents">
+    <nb-card (click)="goToServer(agent.agentId,agent.name)">
+          <nb-card-header><div class="row"><div class="col col-sm-11">{{agent.name}}</div><div class="col col-sm-1"><div [ngClass]="setWarnings(agent.status)"></div></div></div></nb-card-header>
+      <nb-card-body>
         Server: {{agent.name}}<br/>
         MAC :{{agent.mac}}
-    </nb-card-body>
-      </nb-card>
-
+      </nb-card-body>
+    </nb-card>
+  </div>
 </div>

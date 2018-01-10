@@ -1,9 +1,15 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from "@angular/core";
 
-import { PagesComponent } from './pages.component';
-import { DashboardModule } from './dashboard/dashboard.module';
-import { PagesRoutingModule } from './pages-routing.module';
-import { ThemeModule } from '../@theme/theme.module';
+import {PagesComponent} from "./pages.component";
+import {PagesRoutingModule} from "./pages-routing.module";
+import {ThemeModule} from "../@theme/theme.module";
+import {DashboardMainComponent} from "./main_dashboard/DashboardMainComponent";
+//import {ServerModule} from "./server/server.module";
+import {ServerInfoComponent} from "./server/server_info_card/ServerInfoComponent";
+import {ServerLogsComponent} from "./server/server-logs/ServerLogsComponent";
+import {ServerHistoryComponent} from "./server/server-history/ServerHistoryComponent";
+import {AgentService} from "../service/AgentService";
+import {AngularDateTimePickerModule} from "angular2-datetimepicker";
 
 const PAGES_COMPONENTS = [
   PagesComponent,
@@ -13,11 +19,18 @@ const PAGES_COMPONENTS = [
   imports: [
     PagesRoutingModule,
     ThemeModule,
-    DashboardModule,
+    AngularDateTimePickerModule,
+
+
   ],
   declarations: [
     ...PAGES_COMPONENTS,
+    DashboardMainComponent,
+    ServerInfoComponent,
+    ServerLogsComponent,
+    ServerHistoryComponent
   ],
+  providers: [AgentService]
 })
 export class PagesModule {
 }

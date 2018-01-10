@@ -1,14 +1,13 @@
 package com.softwareEngineering.server.service;
 
-import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.softwareEngineering.server.model.entity.ServerInfo;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.softwareEngineering.server.model.entity.ServerInfo;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class HeaderBuilderService {

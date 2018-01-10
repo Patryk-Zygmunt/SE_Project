@@ -22,8 +22,8 @@ public class Agent {
 //	private String agentIp;
 	// private Date add_date;
 	// private Set<String> excludedLogs;
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "agent")
-	@JsonManagedReference
+//	@OneToMany(fetch = FetchType.EAGER, mappedBy = "agent")
+//	@JsonManagedReference
 	private Set<ServerInfo> serverInfos;
 
 	public String getMac() {

@@ -9,34 +9,63 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'dashboard-main',
   templateUrl: './main_dashboard.html',
+  styleUrls: ['./dashboard-style.scss'],
 })
 
-export  class DashboardMainComponent {
-  agents : Agent[] = [];
+export class DashboardMainComponent {
+  agents: Agent[] = [];
+  interval;
 
 
-  constructor(private agentService:AgentService,
+  constructor(private agentService: AgentService,
               private router: Router) {
-    console.log("123")
   }
 
 
-  ngOnInit(){
-    this.agentService.getAllAgentsShortInfo()
-      .subscribe( res=>{
+  ngOnInit() {
+    this.initData();
+    this.interval = setInterval(() => {
+      this.agentService.getAllAgentsShortInfo()
+        .subscribe(res => {
+          console.log("Main");
           this.agents = res;
+        })
+    }, 5000);
+  }
+
+  initData() {
+    this.agentService.getAllAgentsShortInfo()
+      .subscribe(res => {
+          this.agents = res;
+          if (this.agents.length > 0 && this.agents.length > 0)
+            this.setActualServer(this.agents[0].agentId, this.agents[0].name)
         }
       );
   }
 
-  goToServer(id:number) {
-    console.log(this.router)
-    this.router.navigateByUrl('pages/server/'+id);
+  ngOnDestroy() {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
   }
 
+  setWarnings(status: boolean) {
+    if (status)
+      return "circle green";
+    else
+      return "circle red";
+  }
 
+  setActualServer(id: number, name: string) {
+    localStorage.setItem("serverId", JSON.stringify(id));
+    this.agentService.setServerName(name);
+  }
 
-
+  goToServer(id: number, name: string) {
+    this.setActualServer(id, name);
+    //  localStorage.setItem("serverName", JSON.stringify(name));
+    this.router.navigateByUrl('pages/server/' + id);
+  }
 
 
 }
