@@ -5,4 +5,5 @@ export interface Agent{
   mac:number;
   name:string;
   agentId:number;
+  status:boolean;
 }

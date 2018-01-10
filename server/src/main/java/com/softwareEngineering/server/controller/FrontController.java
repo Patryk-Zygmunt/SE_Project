@@ -29,7 +29,7 @@ public class FrontController {
 	private ServerInfoService serverInfoService;
 
 	@Autowired
-	public FrontController(AgentService agentService, AgentRepository agentRepository, ServerInfoRepository serverInfoRepository, ServerInfoService serverInfoService) {
+	public FrontController(AgentService agentService, ServerInfoService serverInfoService) {
 		this.agentService = agentService;
 		this.serverInfoService = serverInfoService;
 	}
@@ -39,10 +39,8 @@ public class FrontController {
 	@RequestMapping(value = "/api/front/agents", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public List<AgentShortResponse> getAgents() {
-//		cod.i("AGENTS: ", agentService.getAgents());//uncomment to show agents :)
 		return agentService.getAgents().stream().map(AgentShortResponse::new).collect(Collectors.toList());
 	}
-
 
 	@RequestMapping(value = "/api/front/agent/{id}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
