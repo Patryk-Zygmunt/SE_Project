@@ -3,16 +3,22 @@ import re
 import time
 import enum
 import datetime
+import traceback
+import logging
 
 
 class CollectorException(Exception):
     pass
 
 
+
 def unit_conversion(number: str) -> float:
     try:
         unit = number[-1]
-        num = float(number[:-1])
+        str_num = number[:-1]
+        if ',' in str_num:
+            str_num = str_num.replace(',', '.')
+        num = float(str_num)
         case = {
             'K': 0.0009765625,
             'M': 1.0,
@@ -132,16 +138,21 @@ class SystemDataCollector:
     def ram_usage(self):
         try:
             ram_data = self.__exec_sys_command("free", "-m")
+            ram_data = ram_data.stdout
             total_mem, used_mem = self.__format_total_and_used_ram(str(ram_data))
             return int(total_mem), int(used_mem)
+
+        
         except Exception as ex:
             raise CollectorException("ram_usage error", ex)
 
+
     def __format_total_and_used_ram(self, raw_data):
-        mem_data = raw_data.split("\\n")[1]
-        mem_data = mem_data[4:]
-        match_data = re.split(" +", mem_data)
-        return match_data[1], match_data[2]
+        mem_data = raw_data.split("\\n")
+        mem_data = mem_data[1]
+        a = re.split(' ', mem_data)
+        filter_data = list(filter(lambda x: x != '', a))
+        return filter_data[1], filter_data[2]
 
     def drive_space(self):
         """:returns list of tuples with name,size,used_size [GB] eg. [(a1,200G,120G),(b2,30M,12M)]"""
