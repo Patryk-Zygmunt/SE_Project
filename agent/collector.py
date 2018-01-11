@@ -3,13 +3,10 @@ import re
 import time
 import enum
 import datetime
-import traceback
-import logging
 
 
 class CollectorException(Exception):
     pass
-
 
 
 def unit_conversion(number: str) -> float:
@@ -28,6 +25,25 @@ def unit_conversion(number: str) -> float:
         return num * case[unit]
     except (KeyError, IndexError, ValueError):
         return -1.0
+
+
+class AgentLogCollector:
+
+    def __init__(self):
+        self.logs = []
+
+    def add_collector_log(self, ex):
+        tup = ex.args
+        self.logs.append((datetime.datetime.isoformat(datetime.datetime.now()), "", "agent",
+                          "Exception im module '{}' in function '{}' - ({})".format(str(tup[0]), str(tup[1]),
+                                                                                    str(tup[2]))))
+
+    def add_to_list(self, list_):
+        list_.extend(self.logs)
+        return list_
+
+    def add_log(self, ex):
+        self.logs.append((datetime.datetime.isoformat(datetime.datetime.now()), "", "agent", str(ex)))
 
 
 class JournalLogCollector:
@@ -77,9 +93,13 @@ class JournalLogCollector:
         return str_
 
     def collect(self):
-        raw_data, error = sub.Popen(self.__args_to_string(), stderr=sub.PIPE, stdout=sub.PIPE, shell=True).communicate()
-        lines = str(raw_data, 'utf-8').split('\n')
-        return self.__parse_lines(lines)
+        try:
+            raw_data, error = sub.Popen(self.__args_to_string(), stderr=sub.PIPE, stdout=sub.PIPE,
+                                        shell=True).communicate()
+            lines = str(raw_data, 'utf-8').split('\n')
+            return self.__parse_lines(lines)
+        except Exception as ex:
+            raise CollectorException(__name__, "JournalLogCollector.collect", ex)
 
     def set_priority(self, priority: Priority):
         self.args['-p'] = priority.value
@@ -111,7 +131,7 @@ class SystemDataCollector:
         try:
             return str(self.__exec_sys_command('hostname', '-s').stdout, 'utf-8')[:-1]
         except sub.CalledProcessError as ex:
-            raise CollectorException('get_hostname', ex)
+            raise CollectorException(__name__, 'get_hostname', ex)
 
     def get_macs(self):
         try:
@@ -120,7 +140,7 @@ class SystemDataCollector:
             i_mac = re.findall('((?:[0-9A-Fa-f]{2}[:-]){5}(?:[0-9A-Fa-f]{2})) brd', data)[1:]
             return list(zip(i_name, i_mac))
         except Exception as ex:
-            raise CollectorException('get_macs', ex)
+            raise CollectorException(__name__, 'get_macs', ex)
 
     def get_mac(self):
         return self.get_macs()[0][1]
@@ -132,7 +152,7 @@ class SystemDataCollector:
             temp_file.close()
             return float(int(temp) / 1000)
         except Exception as ex:
-            raise CollectorException("error reading temp", ex)
+            raise CollectorException(__name__, "get_temp", ex)
 
     # unints - mb
     def ram_usage(self):
@@ -141,11 +161,8 @@ class SystemDataCollector:
             ram_data = ram_data.stdout
             total_mem, used_mem = self.__format_total_and_used_ram(str(ram_data))
             return int(total_mem), int(used_mem)
-
-        
         except Exception as ex:
-            raise CollectorException("ram_usage error", ex)
-
+            raise CollectorException(__name__, "ram_usage", ex)
 
     def __format_total_and_used_ram(self, raw_data):
         mem_data = raw_data.split("\\n")
@@ -162,7 +179,7 @@ class SystemDataCollector:
             drive_data = self.__format_drive_space_data(raw_drive_data)
             return drive_data
         except Exception as ex:
-            raise CollectorException("drive_space", ex)
+            raise CollectorException(__name__, "drive_space", ex)
 
     def __format_drive_space_data(self, raw_data_str):
         raw_data_list = raw_data_str.split(b"\n")
@@ -184,7 +201,7 @@ class SystemDataCollector:
             cpu = re.search('%Cpu\(s\): {1,}(\S+).us, {1,}(\S+).sy, {1,}(\S+).ni', line)
             return tuple([float(cpu.group(i).replace(',', '.')) for i in range(1, 4)])
         except Exception as ex:
-            raise CollectorException("processor_usage", ex)
+            raise CollectorException(__name__, "processor_usage", ex)
 
     def drive_operations(self):
         """:returns list of tuples with name,read/sec,write/sec"""
@@ -193,7 +210,7 @@ class SystemDataCollector:
             raw_data = raw_data.stdout
             return self.__format_drive_operations(raw_data)
         except Exception as ex:
-            raise CollectorException("drive_operations", ex)
+            raise CollectorException(__name__, "drive_operations", ex)
 
     def __format_drive_operations(self, raw_str):
         split_data = raw_str.split(b"\n")[3:]
@@ -222,15 +239,12 @@ class SystemDataCollector:
             second_list = self.__get_curr_intf_load()
             return list(map(diff, first_list, second_list))
         except Exception as ex:
-            raise CollectorException("interface_load", ex)
+            raise CollectorException(__name__, 'interface_load', ex)
 
     def __get_curr_intf_load(self):
-        try:
-            raw_data = self.__exec_sys_command("netstat", "-i")
-            raw_data = raw_data.stdout
-            return self.__format_intf_load(raw_data)
-        except:
-            raise Exception
+        raw_data = self.__exec_sys_command("netstat", "-i")
+        raw_data = raw_data.stdout
+        return self.__format_intf_load(raw_data)
 
     def __format_intf_load(self, raw_str):
         split_data = raw_str.split(b"\n")[2:]
@@ -250,15 +264,3 @@ class SystemDataCollector:
         raw_data = sub.run([command, args], stdout=sub.PIPE)
         raw_data.check_returncode()
         return raw_data
-
-
-if __name__ == '__main__':
-
-    d = datetime.datetime(2009, 10, 5, 18, 00)
-    collector = JournalLogCollector()
-    collector.set_reverse()
-    collector.set_limit(n=5)
-    # collector.set_since_date(d)
-    collector.set_priority(JournalLogCollector.Priority.WARNING)
-    for log in collector.collect():
-        print(log)
