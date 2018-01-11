@@ -60,14 +60,14 @@ public class FrontController {
 	@ResponseStatus(HttpStatus.OK)
 	public List<ServerInfoResponse> getAgentHistoryPage(
 			@PathVariable(value = "id") int id,@PathVariable(value = "page") int page) {
-		return serverInfoService.getAgentHistoryPage(id,new PageRequest(page, 3)).stream().map(ServerInfoResponse::new).collect(Collectors.toList());
+		return serverInfoService.getAgentHistoryPage(id,new PageRequest(page, 4)).stream().map(ServerInfoResponse::new).collect(Collectors.toList());
 	}
 
 	@RequestMapping(value = "/api/front/logs/{id}/{page}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public List<LogResponse> getAgentLogsPage(
 			@PathVariable(value = "id") int id, @PathVariable(value = "page") int page) {
-		return serverInfoService.getAgentLogsPage(id, new PageRequest(page, 3)).stream().map(LogResponse::new).collect(Collectors.toList());
+		return serverInfoService.getAgentLogsPage(id, new PageRequest(page, 4)).stream().map(LogResponse::new).collect(Collectors.toList());
 	}
 
 	@RequestMapping(value = "/api/front/history/date/{id}/{timestart}/{timestop}", method = RequestMethod.GET)

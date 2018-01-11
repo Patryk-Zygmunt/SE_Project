@@ -1,17 +1,40 @@
-<div *ngFor="let log of logs">
-  <p>{{log.process}}
-    {{log.errorDesc}}</p>
-</div>
+<nb-card *ngFor="let info of serverInfo">
+  <nb-card-header>Date: {{ info.infoTime | date:'dd/MM/yyyy HH:mm:ss'}}</nb-card-header>
+  <nb-card-body>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Process</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let log of info.logs">
+        <td>{{log.process}}</td>
+        <td>{{log.errorDesc}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>
 
-<button class="btn btn-primary" type="button" (click)="prevPage()">
-  prev
-</button>
-{{page}}
-<button class="btn btn-primary" type="button" (click)="nextPage()">
-  next
-</button>
-<br/>
-<button class="btn btn-success" type="button" (click)="reloadData()">
-  refresh
-</button>
-
+<nb-card>
+  <div class="container" style="margin: 15px">
+    <div class="row">
+      <div class="col col-auto">
+        <button class="btn btn-success" type="button" (click)="reloadData()">
+          refresh
+        </button>
+      </div>
+      <div class="col col-auto">
+        <button class="btn btn-primary" type="button" (click)="prevPage()">
+          prev
+        </button>
+        {{page}}
+        <button class="btn btn-primary" type="button" (click)="nextPage()">
+          next
+        </button>
+      </div>
+    </div>
+  </div>
+</nb-card>

@@ -8,29 +8,24 @@ import datetime
 import logging
 
 
-def assistant(fun1, fun2):
-    try:
-        result = fun2()
-        fun1(result)
-    except collector.CollectorException as ex:
-        logging.exception(ex)
-
-
 class DaemonLogger(Daemon):
     last_update = None
     client = None
     config = None
+    agentLog = None
 
     def setup(self):
         logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         self.config = Config()
         self.config.start()
         self.client = Client(self.config)
+        self.agentLog = collector.AgentLogCollector()
         logging.info("Agent initialized successfully!")
 
     def loop(self):
         data = self.__collect_data()
         response = self.client.send_info(data.to_json())
+        self.agentLog.logs.clear()
         logging.debug("response: {}".format(response.status))
 
     def __collect_data(self) -> InfoJsonBuilder:
@@ -41,20 +36,34 @@ class DaemonLogger(Daemon):
             logs.set_since_date(self.last_update)
 
         json_b = InfoJsonBuilder()
-        assistant(json_b.add_name, sys_info.get_hostname)
-        assistant(json_b.add_disc_operations, sys_info.drive_operations)
-        assistant(json_b.add_io_interface, sys_info.interface_load)
-        assistant(json_b.add_ram, sys_info.ram_usage)
-        assistant(json_b.add_processor, sys_info.processor_usage)
-        assistant(json_b.add_discs_space, sys_info.drive_space)
-        assistant(json_b.add_temperature, sys_info.get_temp)
-        assistant(json_b.add_mac, sys_info.get_mac)
+        self.exc_assist(json_b.add_name, sys_info.get_hostname)
+        self.exc_assist(json_b.add_disc_operations, sys_info.drive_operations)
+        self.exc_assist(json_b.add_io_interface, sys_info.interface_load)
+        self.exc_assist(json_b.add_ram, sys_info.ram_usage)
+        self.exc_assist(json_b.add_processor, sys_info.processor_usage)
+        self.exc_assist(json_b.add_discs_space, sys_info.drive_space)
+        self.exc_assist(json_b.add_temperature, sys_info.get_temp)
+        self.exc_assist(json_b.add_mac, sys_info.get_mac)
         if self.config.logs_config.send:
-            assistant(json_b.add_logs, logs.collect)
-
+            self.exc_assist(json_b.add_logs, self.agentLog.add_to_list, logs.collect)
         return json_b
 
+    def exc_assist(self, *args):
+        try:
+            result = args[-1]()
+            for i in range(2, len(args)+1):
+                result = args[-i](result)
+            return result
+
+        except collector.CollectorException as ex:
+            logging.exception(ex)
+            self.agentLog.add_collector_log(ex)
+        except Exception as ex:
+            logging.exception(ex)
+            self.agentLog.add_log(ex)
+
     def run(self):
+        self.last_update = datetime.datetime.now()
         self.setup()
         while True:
             try:
@@ -62,6 +71,7 @@ class DaemonLogger(Daemon):
                 self.last_update = datetime.datetime.now()
             except Exception as ex:
                 logging.exception(ex)
+                self.agentLog.add_log(ex)
             finally:
                 time.sleep(self.config.get_send_frequency())
 

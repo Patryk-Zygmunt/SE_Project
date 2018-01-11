@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class ServerInfoResponse {
 
 	private Long InfoId;
-	private LocalDateTime infoTime;
+	private String infoTime;
 	private String mac;
 	private String name;
 	private double temperature;
@@ -32,7 +32,7 @@ public class ServerInfoResponse {
 
 	public ServerInfoResponse(ServerInfo serverInfo) {
 		this.InfoId = serverInfo.getInfoId();
-		this.infoTime = serverInfo.getInfoTime();
+		this.infoTime = serverInfo.getInfoTime().toString();
 		this.temperature = serverInfo.getTemperature();
 		this.ram =  new RamResponse(serverInfo.getRam());
 		this.processor = new ProcessorResponse(serverInfo.getProcessor());
@@ -50,11 +50,11 @@ public class ServerInfoResponse {
 		InfoId = infoId;
 	}
 
-	public LocalDateTime getInfoTime() {
+	public String getInfoTime() {
 		return infoTime;
 	}
 
-	public void setInfoTime(LocalDateTime infoTime) {
+	public void setInfoTime(String infoTime) {
 		this.infoTime = infoTime;
 	}
 

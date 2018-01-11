@@ -11,17 +11,16 @@ import {AgentService} from "../../../service/AgentService";
   selector: 'server_info',
   templateUrl: './server_info.html',
 })
-export  class ServerInfoComponent {
+export class ServerInfoComponent {
 
-agent:AgentLong;
-time:string="";
+  agent: AgentLong;
   interval;
 
-  constructor(private agentService:AgentService,
+  constructor(private agentService: AgentService,
               private router: ActivatedRoute) {
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.router.params.forEach(params => {
       this.getData(params['id']);
       this.interval = setInterval(() => {
@@ -42,17 +41,13 @@ time:string="";
     this.agentService.getAgentLongInfo(id)
       .subscribe(res => {
         this.agent = res;
-        this.time = this.parseDate(this.agent.serverInfoResponse.infoTime);
       })
   }
 
-  parseDate(infoTime):string{
-   // return  infoTime.getDate().toString() + " "+ infoTime.getTime().toString();
-    return infoTime.hour+":"+infoTime.minute+":"+infoTime.second+"   0" + infoTime.dayOfMonth+"-"+infoTime.monthValue+"-"+infoTime.year;
-  }
-
-
-
+  // parseDate(infoTime):string{
+  //  // return  infoTime.getDate().toString() + " "+ infoTime.getTime().toString();
+  //   return infoTime.hour+":"+infoTime.minute+":"+infoTime.second+"   0" + infoTime.dayOfMonth+"-"+infoTime.monthValue+"-"+infoTime.year;
+  // }
 
 
 }

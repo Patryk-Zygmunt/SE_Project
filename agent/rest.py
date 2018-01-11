@@ -50,8 +50,9 @@ class InfoJsonBuilder:
         return self
 
     def add_logs(self, values):
-        data = [{'date': tup[0], 'process': tup[2], 'errorDesc': tup[3]} for tup in values]
-        self.__add('logs', data)
+        if len(values) > 0:
+            data = [{'date': tup[0], 'process': tup[2], 'errorDesc': tup[3]} for tup in values]
+            self.__add('logs', data)
         return self
 
     def to_json(self):
