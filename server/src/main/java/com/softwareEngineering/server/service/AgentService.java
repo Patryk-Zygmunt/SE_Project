@@ -14,8 +14,17 @@ import java.util.List;
 public class AgentService {
 	private COD cod = CODFactory.setLevelOfDepression(2);
 
-	@Autowired
+	//@Autowired
 	AgentRepository agentRepository;
+
+	public AgentService() {
+
+	}
+
+	@Autowired
+	public AgentService(AgentRepository agentRepository) {
+		this.agentRepository = agentRepository;
+	}
 
 	public List<Agent> getAgents() {
 		return agentRepository.findAll();

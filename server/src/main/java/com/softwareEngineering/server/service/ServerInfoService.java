@@ -22,15 +22,17 @@ public class ServerInfoService {
 
 	private COD cod = CODFactory.setLevelOfDepression(2);
 
+    @Autowired
+    ServerInfoRepository serverInfoRepository;
 
-	ServerInfoRepository serverInfoRepository;
-	AgentService agentService;
+    @Autowired
+    AgentService agentService;
 
     public ServerInfoService() {
     }
 
-    @Autowired public ServerInfoService(ServerInfoRepository serverInfoRepository, AgentService agentService) {
-        this.serverInfoRepository = serverInfoRepository;
+
+    public ServerInfoService(AgentService agentService) {
         this.agentService = agentService;
     }
 
@@ -61,8 +63,10 @@ public class ServerInfoService {
 	}
 
 	public List<ServerInfo> getAgentHistory(long id){
-		return serverInfoRepository.getServerInfosByAgent_AgentIdOrderByInfoTimeDesc(id);
-	}
+        agentService.getAgents();
+        List<ServerInfo> history = serverInfoRepository.getServerInfosByAgent_AgentIdOrderByInfoTimeDesc(id);
+        return history;
+    }
 	public List<ServerInfo> getAgentHistoryPage(long id, Pageable pageable){
 		return serverInfoRepository.getServerInfosByAgent_AgentIdOrderByInfoTimeDesc(id,pageable);
 	}
