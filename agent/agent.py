@@ -63,6 +63,7 @@ class DaemonLogger(Daemon):
             self.agentLog.add_log(ex)
 
     def run(self):
+        self.last_update = datetime.datetime.now()
         self.setup()
         while True:
             try:
