@@ -61,20 +61,20 @@ public class ServerInfoService {
 	}
 
 	public List<ServerInfo> getAgentHistory(long id){
-		return serverInfoRepository.getServerInfosByAgent_AgentIdOrderByInfoTime(id);
+		return serverInfoRepository.getServerInfosByAgent_AgentIdOrderByInfoTimeDesc(id);
 	}
 	public List<ServerInfo> getAgentHistoryPage(long id, Pageable pageable){
-		return serverInfoRepository.getServerInfosByAgent_AgentIdOrderByInfoTime(id,pageable);
+		return serverInfoRepository.getServerInfosByAgent_AgentIdOrderByInfoTimeDesc(id,pageable);
 	}
 
 	public List<Log> getAgentLogsPage(long id, Pageable pageable) {
-		return serverInfoRepository.getServerInfosByAgent_AgentIdOrderByInfoTime(id, pageable)
+		return serverInfoRepository.getServerInfosByAgent_AgentIdOrderByInfoTimeDesc(id, pageable)
 				.parallelStream().map(i ->
 						i.getLogs()).flatMap(List::stream).collect(Collectors.toList());
 	}
 
     public List<ServerInfo> getAgentHistoryBetweenDate(long timeStart, long timeStop, long id) {
-        return serverInfoRepository.getServerInfosByInfoTimeBetweenAndAgent_AgentId(
+        return serverInfoRepository.getServerInfosByInfoTimeBetweenAndAgent_AgentIdOrderByInfoTimeDesc(
                 LocalDateTime.ofInstant(Instant.ofEpochMilli(timeStart), ZoneId.systemDefault()),
                 LocalDateTime.ofInstant(Instant.ofEpochMilli(timeStop), ZoneId.systemDefault()), id);
     }

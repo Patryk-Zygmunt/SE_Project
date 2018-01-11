@@ -13,14 +13,13 @@ import java.util.List;
 public interface ServerInfoRepository extends JpaRepository<ServerInfo, Long> {
 
 
+    List<ServerInfo> getServerInfosByAgent_AgentIdOrderByInfoTimeDesc(@Param("id") long id);
 
-    List<ServerInfo> getServerInfosByAgent_AgentIdOrderByInfoTime(@Param("id") long id);
-    List<ServerInfo> getServerInfosByAgent_AgentIdOrderByInfoTime(@Param("id") long id,Pageable pageable );
+    List<ServerInfo> getServerInfosByAgent_AgentIdOrderByInfoTimeDesc(@Param("id") long id, Pageable pageable);
 
-    /*  List<Log> getLogsByAgent_AgentIdOrderByInfoTime(@Param("id") long id);
-      List<Log> getLogsByAgent_AgentIdOrderByInfoTime(@Param("id") long id,Pageable pageable );*/
-    List<ServerInfo> getServerInfosByInfoTimeBetweenAndAgent_AgentId(LocalDateTime start, LocalDateTime stop, long agent_id);
+    ServerInfo findFirstByAgent_AgentIdOrderByInfoTimeDesc(@Param("id") long id);
 
+    List<ServerInfo> getServerInfosByInfoTimeBetweenAndAgent_AgentIdOrderByInfoTimeDesc(LocalDateTime start, LocalDateTime stop, long agent_id);
 
 
 }

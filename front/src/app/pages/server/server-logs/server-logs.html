@@ -1,17 +1,29 @@
-<div *ngFor="let log of logs">
-  <p>{{log.process}}
-    {{log.errorDesc}}</p>
-</div>
-
-<button class="btn btn-primary" type="button" (click)="prevPage()">
-  prev
-</button>
-{{page}}
-<button class="btn btn-primary" type="button" (click)="nextPage()">
-  next
-</button>
-<br/>
-<button class="btn btn-success" type="button" (click)="reloadData()">
-  refresh
-</button>
-
+<nb-card>
+  <nb-card-header></nb-card-header>
+  <nb-card-body>
+    <div class="container">
+      <div class="row" *ngFor="let log of logs">
+        <p>{{log.process}}
+          {{log.errorDesc}}</p>
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-success" type="button" (click)="reloadData()">
+          refresh
+        </button>
+      </div>
+      <div class="col">
+        <button class="btn btn-primary" type="button" (click)="prevPage()">
+          prev
+        </button>
+        {{page}}
+        <button class="btn btn-primary" type="button" (click)="nextPage()">
+          next
+        </button>
+      </div>
+    </div>
+  </nb-card-footer>
+</nb-card>
