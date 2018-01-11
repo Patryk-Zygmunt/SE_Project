@@ -2,10 +2,10 @@
 
   <div *ngFor="let info of serverInfo" class="col col-12 col-sm-12 col-md-6">
     <nb-card>
-      <nb-card-header>{{agent.name}} - {{parseDate(info.infoTime)}}</nb-card-header>
+      <nb-card-header>{{agent.name}} - {{ info.infoTime | date:'dd/MM/yyyy HH:mm:ss'}}</nb-card-header>
       <nb-card-body style="line-height: 1.5">
         <strong class="text-heading">MAC: </strong>{{agent.mac}}<br/>
-        <strong class="text-heading">Server Last Info: </strong>{{parseDate(info.infoTime)}}<br/>
+        <strong class="text-heading">Server Last Info: </strong>{{info.infoTime | date: 'medium'}}<br/>
         <strong class="text-heading">Temperature: </strong>{{info.temperature}}<br/>
         <strong class="text-heading">RAM:</strong> <br/>
         &emsp;&emsp;&emsp; <span class="text-heading">total: </span> {{info.ram.total}}<br/>

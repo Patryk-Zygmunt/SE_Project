@@ -3,7 +3,7 @@ import {Disc, InfoTime, IoInterface, Log, Operation, Processor, Ram} from "./ser
  * Created by Linus on 23.11.2017.
  */
 export class ServerInfo {
-  infoTime: InfoTime;
+  infoTime: string;
   mac?: any;
   name?: any;
   temperature: number;

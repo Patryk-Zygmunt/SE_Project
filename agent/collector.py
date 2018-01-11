@@ -35,7 +35,7 @@ class AgentLogCollector:
     def add_collector_log(self, ex):
         tup = ex.args
         self.logs.append((datetime.datetime.isoformat(datetime.datetime.now()), "", "agent",
-                          "Exception im module '{}' in function '{}' - ({})".format(str(tup[0]), str(tup[1]),
+                          "Exception in module '{}' in function '{}' - ({})".format(str(tup[0]), str(tup[1]),
                                                                                     str(tup[2]))))
 
     def add_to_list(self, list_):

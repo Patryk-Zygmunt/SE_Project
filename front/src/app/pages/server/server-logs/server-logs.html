@@ -1,5 +1,5 @@
 <nb-card *ngFor="let info of serverInfo">
-  <nb-card-header>Date: {{parseDate(info.infoTime)}} cos ta data srednio</nb-card-header>
+  <nb-card-header>Date: {{ info.infoTime | date:'dd/MM/yyyy HH:mm:ss'}}</nb-card-header>
   <nb-card-body>
     <table class="table">
       <thead>

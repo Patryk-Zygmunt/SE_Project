@@ -64,7 +64,7 @@ export class ServerLogsComponent {
       //   })
     }
   }
-  parseDate(infoTime): string {
+  static parseDate(infoTime): string {
     // return  infoTime.getDate().toString() + " "+ infoTime.getTime().toString();
     return infoTime.hour + ":" + infoTime.minute + ":" + infoTime.second + "   0" + infoTime.dayOfMonth + "-" + infoTime.monthValue + "-" + infoTime.year;
   }
