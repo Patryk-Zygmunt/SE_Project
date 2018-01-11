@@ -1,0 +1,1864 @@
+<!doctype html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+
+    <title>configuration API documentation</title>
+    <meta name="description" content="" />
+
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
+  
+  <style type="text/css">
+  
+* {
+  box-sizing: border-box;
+}
+/*! normalize.css v1.1.1 | MIT License | git.io/normalize */
+
+/* ==========================================================================
+   HTML5 display definitions
+   ========================================================================== */
+
+/**
+ * Correct `block` display not defined in IE 6/7/8/9 and Firefox 3.
+ */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+    display: block;
+}
+
+/**
+ * Correct `inline-block` display not defined in IE 6/7/8/9 and Firefox 3.
+ */
+
+audio,
+canvas,
+video {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+
+audio:not([controls]) {
+    display: none;
+    height: 0;
+}
+
+/**
+ * Address styling not present in IE 7/8/9, Firefox 3, and Safari 4.
+ * Known issue: no IE 6 support.
+ */
+
+[hidden] {
+    display: none;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+/**
+ * 1. Prevent system color scheme's background color being used in Firefox, IE,
+ *    and Opera.
+ * 2. Prevent system color scheme's text color being used in Firefox, IE, and
+ *    Opera.
+ * 3. Correct text resizing oddly in IE 6/7 when body `font-size` is set using
+ *    `em` units.
+ * 4. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+
+html {
+    background: #fff; /* 1 */
+    color: #000; /* 2 */
+    font-size: 100%; /* 3 */
+    -webkit-text-size-adjust: 100%; /* 4 */
+    -ms-text-size-adjust: 100%; /* 4 */
+}
+
+/**
+ * Address `font-family` inconsistency between `textarea` and other form
+ * elements.
+ */
+
+html,
+button,
+input,
+select,
+textarea {
+    font-family: sans-serif;
+}
+
+/**
+ * Address margins handled incorrectly in IE 6/7.
+ */
+
+body {
+    margin: 0;
+}
+
+/* ==========================================================================
+   Links
+   ========================================================================== */
+
+/**
+ * Address `outline` inconsistency between Chrome and other browsers.
+ */
+
+a:focus {
+    outline: thin dotted;
+}
+
+/**
+ * Improve readability when focused and also mouse hovered in all browsers.
+ */
+
+a:active,
+a:hover {
+    outline: 0;
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+/**
+ * Address font sizes and margins set differently in IE 6/7.
+ * Address font sizes within `section` and `article` in Firefox 4+, Safari 5,
+ * and Chrome.
+ */
+
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin: 0.83em 0;
+}
+
+h3 {
+    font-size: 1.17em;
+    margin: 1em 0;
+}
+
+h4 {
+    font-size: 1em;
+    margin: 1.33em 0;
+}
+
+h5 {
+    font-size: 0.83em;
+    margin: 1.67em 0;
+}
+
+h6 {
+    font-size: 0.67em;
+    margin: 2.33em 0;
+}
+
+/**
+ * Address styling not present in IE 7/8/9, Safari 5, and Chrome.
+ */
+
+abbr[title] {
+    border-bottom: 1px dotted;
+}
+
+/**
+ * Address style set to `bolder` in Firefox 3+, Safari 4/5, and Chrome.
+ */
+
+b,
+strong {
+    font-weight: bold;
+}
+
+blockquote {
+    margin: 1em 40px;
+}
+
+/**
+ * Address styling not present in Safari 5 and Chrome.
+ */
+
+dfn {
+    font-style: italic;
+}
+
+/**
+ * Address differences between Firefox and other browsers.
+ * Known issue: no IE 6/7 normalization.
+ */
+
+hr {
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 0;
+}
+
+/**
+ * Address styling not present in IE 6/7/8/9.
+ */
+
+mark {
+    background: #ff0;
+    color: #000;
+}
+
+/**
+ * Address margins set differently in IE 6/7.
+ */
+
+p,
+pre {
+    margin: 1em 0;
+}
+
+/**
+ * Correct font family set oddly in IE 6, Safari 4/5, and Chrome.
+ */
+
+code,
+kbd,
+pre,
+samp {
+    font-family: monospace, serif;
+    _font-family: 'courier new', monospace;
+    font-size: 1em;
+}
+
+/**
+ * Improve readability of pre-formatted text in all browsers.
+ */
+
+pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/**
+ * Address CSS quotes not supported in IE 6/7.
+ */
+
+q {
+    quotes: none;
+}
+
+/**
+ * Address `quotes` property not supported in Safari 4.
+ */
+
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+/**
+ * Address inconsistent and variable font size in all browsers.
+ */
+
+small {
+    font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -0.5em;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+/* ==========================================================================
+   Lists
+   ========================================================================== */
+
+/**
+ * Address margins set differently in IE 6/7.
+ */
+
+dl,
+menu,
+ol,
+ul {
+    margin: 1em 0;
+}
+
+dd {
+    margin: 0 0 0 40px;
+}
+
+/**
+ * Address paddings set differently in IE 6/7.
+ */
+
+menu,
+ol,
+ul {
+    padding: 0 0 0 40px;
+}
+
+/**
+ * Correct list images handled incorrectly in IE 7.
+ */
+
+nav ul,
+nav ol {
+    list-style: none;
+    list-style-image: none;
+}
+
+/* ==========================================================================
+   Embedded content
+   ========================================================================== */
+
+/**
+ * 1. Remove border when inside `a` element in IE 6/7/8/9 and Firefox 3.
+ * 2. Improve image quality when scaled in IE 7.
+ */
+
+img {
+    border: 0; /* 1 */
+    -ms-interpolation-mode: bicubic; /* 2 */
+}
+
+/**
+ * Correct overflow displayed oddly in IE 9.
+ */
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   Figures
+   ========================================================================== */
+
+/**
+ * Address margin not present in IE 6/7/8/9, Safari 5, and Opera 11.
+ */
+
+figure {
+    margin: 0;
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+
+/**
+ * Correct margin displayed oddly in IE 6/7.
+ */
+
+form {
+    margin: 0;
+}
+
+/**
+ * Define consistent border, margin, and padding.
+ */
+
+fieldset {
+    border: 1px solid #c0c0c0;
+    margin: 0 2px;
+    padding: 0.35em 0.625em 0.75em;
+}
+
+/**
+ * 1. Correct color not being inherited in IE 6/7/8/9.
+ * 2. Correct text not wrapping in Firefox 3.
+ * 3. Correct alignment displayed oddly in IE 6/7.
+ */
+
+legend {
+    border: 0; /* 1 */
+    padding: 0;
+    white-space: normal; /* 2 */
+    *margin-left: -7px; /* 3 */
+}
+
+/**
+ * 1. Correct font size not being inherited in all browsers.
+ * 2. Address margins set differently in IE 6/7, Firefox 3+, Safari 5,
+ *    and Chrome.
+ * 3. Improve appearance and consistency in all browsers.
+ */
+
+button,
+input,
+select,
+textarea {
+    font-size: 100%; /* 1 */
+    margin: 0; /* 2 */
+    vertical-align: baseline; /* 3 */
+    *vertical-align: middle; /* 3 */
+}
+
+/**
+ * Address Firefox 3+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+
+button,
+input {
+    line-height: normal;
+}
+
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Chrome, Safari 5+, and IE 6+.
+ * Correct `select` style inheritance in Firefox 4+ and Opera.
+ */
+
+button,
+select {
+    text-transform: none;
+}
+
+/**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
+ * 4. Remove inner spacing in IE 7 without affecting normal text inputs.
+ *    Known issue: inner spacing remains in IE 6.
+ */
+
+button,
+html input[type="button"], /* 1 */
+input[type="reset"],
+input[type="submit"] {
+    -webkit-appearance: button; /* 2 */
+    cursor: pointer; /* 3 */
+    *overflow: visible;  /* 4 */
+}
+
+/**
+ * Re-set default cursor for disabled elements.
+ */
+
+button[disabled],
+html input[disabled] {
+    cursor: default;
+}
+
+/**
+ * 1. Address box sizing set to content-box in IE 8/9.
+ * 2. Remove excess padding in IE 8/9.
+ * 3. Remove excess padding in IE 7.
+ *    Known issue: excess padding remains in IE 6.
+ */
+
+input[type="checkbox"],
+input[type="radio"] {
+    box-sizing: border-box; /* 1 */
+    padding: 0; /* 2 */
+    *height: 13px; /* 3 */
+    *width: 13px; /* 3 */
+}
+
+/**
+ * 1. Address `appearance` set to `searchfield` in Safari 5 and Chrome.
+ * 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome
+ *    (include `-moz` to future-proof).
+ */
+
+input[type="search"] {
+    -webkit-appearance: textfield; /* 1 */
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box; /* 2 */
+    box-sizing: content-box;
+}
+
+/**
+ * Remove inner padding and search cancel button in Safari 5 and Chrome
+ * on OS X.
+ */
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+
+/**
+ * Remove inner padding and border in Firefox 3+.
+ */
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+/**
+ * 1. Remove default vertical scrollbar in IE 6/7/8/9.
+ * 2. Improve readability and alignment in all browsers.
+ */
+
+textarea {
+    overflow: auto; /* 1 */
+    vertical-align: top; /* 2 */
+}
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+
+/**
+ * Remove most spacing between table cells.
+ */
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+  </style>
+
+  <style type="text/css">
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+  }
+  body {
+    background: #fff;
+    font-family: "Source Sans Pro", "Helvetica Neueue", Helvetica, sans;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.6em;
+  }
+  #content {
+    width: 70%;
+    max-width: 850px;
+    float: left;
+    padding: 30px 60px;
+    border-left: 1px solid #ddd;
+  }
+  #sidebar {
+    width: 25%;
+    float: left;
+    padding: 30px;
+    overflow: hidden;
+  }
+  #nav {
+    font-size: 130%;
+    margin: 0 0 15px 0;
+  }
+
+  #top {
+    display: block;
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    font-size: .85em;
+    text-transform: uppercase;
+  }
+
+  #footer {
+    font-size: .75em;
+    padding: 5px 30px;
+    border-top: 1px solid #ddd;
+    text-align: right;
+  }
+    #footer p {
+      margin: 0 0 0 30px;
+      display: inline-block;
+    }
+
+  h1, h2, h3, h4, h5 {
+    font-weight: 300;
+  }
+  h1 {
+    font-size: 2.5em;
+    line-height: 1.1em;
+    margin: 0 0 .50em 0;
+  }
+
+  h2 {
+    font-size: 1.75em;
+    margin: 1em 0 .50em 0;
+  }
+
+  h3 {
+    margin: 25px 0 10px 0;
+  }
+
+  h4 {
+    margin: 0;
+    font-size: 105%;
+  }
+
+  a {
+    color: #058;
+    text-decoration: none;
+    transition: color .3s ease-in-out;
+  }
+
+  a:hover {
+    color: #e08524;
+    transition: color .3s ease-in-out;
+  }
+
+  pre, code, .mono, .name {
+    font-family: "Ubuntu Mono", "Cousine", "DejaVu Sans Mono", monospace;
+  }
+
+  .title .name {
+    font-weight: bold;
+  }
+  .section-title {
+    margin-top: 2em;
+  }
+  .ident {
+    color: #900;
+  }
+
+  code {
+    background: #f9f9f9;
+  } 
+
+  pre {
+    background: #fefefe;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 0 #f3f3f3;
+    margin: 0 30px;
+    padding: 15px 30px;
+  }
+
+  .codehilite {
+    margin: 0 30px 10px 30px;
+  }
+
+    .codehilite pre {
+      margin: 0;
+    }
+    .codehilite .err { background: #ff3300; color: #fff !important; } 
+
+  table#module-list {
+    font-size: 110%;
+  }
+
+    table#module-list tr td:first-child {
+      padding-right: 10px;
+      white-space: nowrap;
+    }
+
+    table#module-list td {
+      vertical-align: top;
+      padding-bottom: 8px;
+    }
+
+      table#module-list td p {
+        margin: 0 0 7px 0;
+      }
+
+  .def {
+    display: table;
+  }
+
+    .def p {
+      display: table-cell;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    .def p:first-child {
+      white-space: nowrap;
+    }
+
+    .def p:last-child {
+      width: 100%;
+    }
+
+
+  #index {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+    ul#index .class_name {
+      /* font-size: 110%; */
+      font-weight: bold;
+    }
+    #index ul {
+      margin: 0;
+    }
+
+  .item {
+    margin: 0 0 15px 0;
+  }
+
+    .item .class {
+      margin: 0 0 25px 30px;
+    }
+
+      .item .class ul.class_list {
+        margin: 0 0 20px 0;
+      }
+
+    .item .name {
+      background: #fafafa;
+      margin: 0;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 3px;
+      display: inline-block;
+      min-width: 40%;
+    }
+      .item .name:hover {
+        background: #f6f6f6;
+      }
+
+    .item .empty_desc {
+      margin: 0 0 5px 0;
+      padding: 0;
+    }
+
+    .item .inheritance {
+      margin: 3px 0 0 30px;
+    }
+
+    .item .inherited {
+      color: #666;
+    }
+
+    .item .desc {
+      padding: 0 8px;
+      margin: 0;
+    }
+
+      .item .desc p {
+        margin: 0 0 10px 0;
+      }
+
+    .source_cont {
+      margin: 0;
+      padding: 0;
+    }
+
+    .source_link a {
+      background: #ffc300;
+      font-weight: 400;
+      font-size: .75em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 1px 1px 0 #f4b700;
+      
+      padding: 3px 8px;
+      border-radius: 2px;
+      transition: background .3s ease-in-out;
+    }
+      .source_link a:hover {
+        background: #FF7200;
+        text-shadow: none;
+        transition: background .3s ease-in-out;
+      }
+
+    .source {
+      display: none;
+      max-height: 600px;
+      overflow-y: scroll;
+      margin-bottom: 15px;
+    }
+
+      .source .codehilite {
+        margin: 0;
+      }
+
+  .desc h1, .desc h2, .desc h3 {
+    font-size: 100% !important;
+  }
+  .clear {
+    clear: both;
+  }
+
+  @media all and (max-width: 950px) {
+    #sidebar {
+      width: 35%;
+    }
+    #content {
+      width: 65%;
+    }
+  }
+  @media all and (max-width: 650px) {
+    #top {
+      display: none;
+    }
+    #sidebar {
+      float: none;
+      width: auto;
+    }
+    #content {
+      float: none;
+      width: auto;
+      padding: 30px;
+    }
+
+    #index ul {
+      padding: 0;
+      margin-bottom: 15px;
+    }
+    #index ul li {
+      display: inline-block;
+      margin-right: 30px;
+    }
+    #footer {
+      text-align: left;
+    }
+    #footer p {
+      display: block;
+      margin: inherit;
+    }
+  }
+
+  /*****************************/
+
+  </style>
+
+
+  <style type="text/css">
+  
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   These examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+
+@media only screen and (min-width: 35em) {
+    /* Style adjustments for viewports that meet the condition */
+}
+
+@media print,
+       (-o-min-device-pixel-ratio: 5/4),
+       (-webkit-min-device-pixel-ratio: 1.25),
+       (min-resolution: 120dpi) {
+    /* Style adjustments for high resolution devices */
+}
+
+/* ==========================================================================
+   Print styles.
+   Inlined to avoid required HTTP connection: h5bp.com/r
+   ========================================================================== */
+
+@media print {
+    * {
+        background: transparent !important;
+        color: #000 !important; /* Black prints faster: h5bp.com/s */
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+
+    /*
+     * Don't show links for images, or javascript/internal links
+     */
+
+    .ir a:after,
+    a[href^="javascript:"]:after,
+    a[href^="#"]:after {
+        content: "";
+    }
+
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    thead {
+        display: table-header-group; /* h5bp.com/t */
+    }
+
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    @page {
+        margin: 0.5cm;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
+
+  </style>
+
+  <script type="text/javascript">
+  function toggle(id, $link) {
+    $node = document.getElementById(id);
+    if (!$node)
+    return;
+    if (!$node.style.display || $node.style.display == 'none') {
+    $node.style.display = 'block';
+    $link.innerHTML = 'Hide source &nequiv;';
+    } else {
+    $node.style.display = 'none';
+    $link.innerHTML = 'Show source &equiv;';
+    }
+  }
+  </script>
+</head>
+<body>
+<a href="#" id="top">Top</a>
+
+<div id="container">
+    
+  
+  <div id="sidebar">
+    <h1>Index</h1>
+    <ul id="index">
+
+    <li class="set"><h3><a href="#header-functions">Functions</a></h3>
+      
+  <ul>
+    <li class="mono"><a href="#configuration.exception_assistant">exception_assistant</a></li>
+  </ul>
+
+    </li>
+
+    <li class="set"><h3><a href="#header-classes">Classes</a></h3>
+      <ul>
+        <li class="mono">
+        <span class="class_name"><a href="#configuration.Config">Config</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#configuration.Config.__init__">__init__</a></li>
+    <li class="mono"><a href="#configuration.Config.check_config_update">check_config_update</a></li>
+    <li class="mono"><a href="#configuration.Config.getName">getName</a></li>
+    <li class="mono"><a href="#configuration.Config.get_send_frequency">get_send_frequency</a></li>
+    <li class="mono"><a href="#configuration.Config.get_server_ip">get_server_ip</a></li>
+    <li class="mono"><a href="#configuration.Config.get_server_port">get_server_port</a></li>
+    <li class="mono"><a href="#configuration.Config.isAlive">isAlive</a></li>
+    <li class="mono"><a href="#configuration.Config.isDaemon">isDaemon</a></li>
+    <li class="mono"><a href="#configuration.Config.is_alive">is_alive</a></li>
+    <li class="mono"><a href="#configuration.Config.join">join</a></li>
+    <li class="mono"><a href="#configuration.Config.load_config">load_config</a></li>
+    <li class="mono"><a href="#configuration.Config.run">run</a></li>
+    <li class="mono"><a href="#configuration.Config.setDaemon">setDaemon</a></li>
+    <li class="mono"><a href="#configuration.Config.setName">setName</a></li>
+    <li class="mono"><a href="#configuration.Config.start">start</a></li>
+    <li class="mono"><a href="#configuration.Config.update_config">update_config</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#configuration.ConfigException">ConfigException</a></span>
+        
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#configuration.LogsConfig">LogsConfig</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#configuration.LogsConfig.__init__">__init__</a></li>
+  </ul>
+
+        </li>
+      </ul>
+    </li>
+
+    </ul>
+  </div>
+
+    <article id="content">
+      
+  
+
+  
+
+
+  <header id="section-intro">
+  <h1 class="title"><span class="name">configuration</span> module</h1>
+  
+  
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration', this);">Show source &equiv;</a></p>
+  <div id="source-configuration" class="source">
+    <pre><code>import os
+import json
+import time
+from threading import Thread
+import logging
+
+
+def exception_assistant(func):
+    def h_args(*args):
+        try:
+            return func(*args)
+        except Exception as ex:
+            raise ConfigException("Exception in function: {}".format(func.__name__), ex)
+
+    return h_args
+
+
+class ConfigException(Exception):
+    pass
+
+
+class LogsConfig:
+    def __init__(self, data):
+        self.__dict__ = data
+
+
+class Config(Thread):
+
+    def __init__(self, path='config.json'):
+        super().__init__(daemon=False)
+        self.path = path
+        self.data = None
+        self.last_modification = None
+        self.sleep_time = None
+        self.logs_config = None
+        self.update_config()
+
+    def run(self):
+        while True:
+            if self.check_config_update():
+                self.update_config()
+            time.sleep(self.sleep_time)
+
+    def update_config(self):
+        logging.debug("Config updated!")
+        self.data = self.load_config()
+        self.last_modification = os.path.getatime(self.path)
+        self.sleep_time = self.data['config_update_delay']
+        self.logs_config = LogsConfig(self.data['sys_logs'])
+
+    def check_config_update(self):
+        return self.last_modification < os.path.getatime(self.path)
+
+    def load_config(self):
+        return json.load(open(self.path, 'r'))
+
+    @exception_assistant
+    def get_server_ip(self):
+        return self.data['server']['ip']
+
+    @exception_assistant
+    def get_server_port(self):
+        return self.data['server']['port']
+
+    @exception_assistant
+    def get_send_frequency(self):
+        return self.data['send_frequency']
+
+
+if __name__ == "__main__":
+    config = Config()
+    print(config.data)
+</code></pre>
+  </div>
+
+  </header>
+
+  <section id="section-items">
+
+    <h2 class="section-title" id="header-functions">Functions</h2>
+      
+  <div class="item">
+    <div class="name def" id="configuration.exception_assistant">
+    <p>def <span class="ident">exception_assistant</span>(</p><p>func)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.exception_assistant', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.exception_assistant" class="source">
+    <pre><code>def exception_assistant(func):
+    def h_args(*args):
+        try:
+            return func(*args)
+        except Exception as ex:
+            raise ConfigException("Exception in function: {}".format(func.__name__), ex)
+
+    return h_args
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+
+    <h2 class="section-title" id="header-classes">Classes</h2>
+      
+      <div class="item">
+      <p id="configuration.Config" class="name">class <span class="ident">Config</span></p>
+      
+  
+    <div class="desc"><p>A class that represents a thread of control.</p>
+<p>This class can be safely subclassed in a limited fashion. There are two ways
+to specify the activity: by passing a callable object to the constructor, or
+by overriding the run() method in a subclass.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.Config', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.Config" class="source">
+    <pre><code>class Config(Thread):
+
+    def __init__(self, path='config.json'):
+        super().__init__(daemon=False)
+        self.path = path
+        self.data = None
+        self.last_modification = None
+        self.sleep_time = None
+        self.logs_config = None
+        self.update_config()
+
+    def run(self):
+        while True:
+            if self.check_config_update():
+                self.update_config()
+            time.sleep(self.sleep_time)
+
+    def update_config(self):
+        logging.debug("Config updated!")
+        self.data = self.load_config()
+        self.last_modification = os.path.getatime(self.path)
+        self.sleep_time = self.data['config_update_delay']
+        self.logs_config = LogsConfig(self.data['sys_logs'])
+
+    def check_config_update(self):
+        return self.last_modification < os.path.getatime(self.path)
+
+    def load_config(self):
+        return json.load(open(self.path, 'r'))
+
+    @exception_assistant
+    def get_server_ip(self):
+        return self.data['server']['ip']
+
+    @exception_assistant
+    def get_server_port(self):
+        return self.data['server']['port']
+
+    @exception_assistant
+    def get_send_frequency(self):
+        return self.data['send_frequency']
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#configuration.Config">Config</a></li>
+          <li>threading.Thread</li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="configuration.Config.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, path=&#39;config.json&#39;)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>This constructor should always be called with keyword arguments. Arguments are:</p>
+<p><em>group</em> should be None; reserved for future extension when a ThreadGroup
+class is implemented.</p>
+<p><em>target</em> is the callable object to be invoked by the run()
+method. Defaults to None, meaning nothing is called.</p>
+<p><em>name</em> is the thread name. By default, a unique name is constructed of
+the form "Thread-N" where N is a small decimal number.</p>
+<p><em>args</em> is the argument tuple for the target invocation. Defaults to ().</p>
+<p><em>kwargs</em> is a dictionary of keyword arguments for the target
+invocation. Defaults to {}.</p>
+<p>If a subclass overrides the constructor, it must make sure to invoke
+the base class constructor (Thread.<strong>init</strong>()) before doing anything
+else to the thread.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.Config.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.Config.__init__" class="source">
+    <pre><code>def __init__(self, path='config.json'):
+    super().__init__(daemon=False)
+    self.path = path
+    self.data = None
+    self.last_modification = None
+    self.sleep_time = None
+    self.logs_config = None
+    self.update_config()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="configuration.Config.check_config_update">
+    <p>def <span class="ident">check_config_update</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.Config.check_config_update', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.Config.check_config_update" class="source">
+    <pre><code>def check_config_update(self):
+    return self.last_modification < os.path.getatime(self.path)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="configuration.Config.getName">
+    <p>def <span class="ident">getName</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.Config.getName', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.Config.getName" class="source">
+    <pre><code>def getName(self):
+    return self.name
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="configuration.Config.get_send_frequency">
+    <p>def <span class="ident">get_send_frequency</span>(</p><p>*args)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.Config.get_send_frequency', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.Config.get_send_frequency" class="source">
+    <pre><code>def h_args(*args):
+    try:
+        return func(*args)
+    except Exception as ex:
+        raise ConfigException("Exception in function: {}".format(func.__name__), ex)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="configuration.Config.get_server_ip">
+    <p>def <span class="ident">get_server_ip</span>(</p><p>*args)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.Config.get_server_ip', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.Config.get_server_ip" class="source">
+    <pre><code>def h_args(*args):
+    try:
+        return func(*args)
+    except Exception as ex:
+        raise ConfigException("Exception in function: {}".format(func.__name__), ex)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="configuration.Config.get_server_port">
+    <p>def <span class="ident">get_server_port</span>(</p><p>*args)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.Config.get_server_port', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.Config.get_server_port" class="source">
+    <pre><code>def h_args(*args):
+    try:
+        return func(*args)
+    except Exception as ex:
+        raise ConfigException("Exception in function: {}".format(func.__name__), ex)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="configuration.Config.isAlive">
+    <p>def <span class="ident">isAlive</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Return whether the thread is alive.</p>
+<p>This method returns True just before the run() method starts until just
+after the run() method terminates. The module function enumerate()
+returns a list of all alive threads.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.Config.isAlive', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.Config.isAlive" class="source">
+    <pre><code>def is_alive(self):
+    """Return whether the thread is alive.
+    This method returns True just before the run() method starts until just
+    after the run() method terminates. The module function enumerate()
+    returns a list of all alive threads.
+    """
+    assert self._initialized, "Thread.__init__() not called"
+    if self._is_stopped or not self._started.is_set():
+        return False
+    self._wait_for_tstate_lock(False)
+    return not self._is_stopped
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="configuration.Config.isDaemon">
+    <p>def <span class="ident">isDaemon</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.Config.isDaemon', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.Config.isDaemon" class="source">
+    <pre><code>def isDaemon(self):
+    return self.daemon
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="configuration.Config.is_alive">
+    <p>def <span class="ident">is_alive</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Return whether the thread is alive.</p>
+<p>This method returns True just before the run() method starts until just
+after the run() method terminates. The module function enumerate()
+returns a list of all alive threads.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.Config.is_alive', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.Config.is_alive" class="source">
+    <pre><code>def is_alive(self):
+    """Return whether the thread is alive.
+    This method returns True just before the run() method starts until just
+    after the run() method terminates. The module function enumerate()
+    returns a list of all alive threads.
+    """
+    assert self._initialized, "Thread.__init__() not called"
+    if self._is_stopped or not self._started.is_set():
+        return False
+    self._wait_for_tstate_lock(False)
+    return not self._is_stopped
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="configuration.Config.join">
+    <p>def <span class="ident">join</span>(</p><p>self, timeout=None)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Wait until the thread terminates.</p>
+<p>This blocks the calling thread until the thread whose join() method is
+called terminates -- either normally or through an unhandled exception
+or until the optional timeout occurs.</p>
+<p>When the timeout argument is present and not None, it should be a
+floating point number specifying a timeout for the operation in seconds
+(or fractions thereof). As join() always returns None, you must call
+isAlive() after join() to decide whether a timeout happened -- if the
+thread is still alive, the join() call timed out.</p>
+<p>When the timeout argument is not present or None, the operation will
+block until the thread terminates.</p>
+<p>A thread can be join()ed many times.</p>
+<p>join() raises a RuntimeError if an attempt is made to join the current
+thread as that would cause a deadlock. It is also an error to join() a
+thread before it has been started and attempts to do so raises the same
+exception.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.Config.join', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.Config.join" class="source">
+    <pre><code>def join(self, timeout=None):
+    """Wait until the thread terminates.
+    This blocks the calling thread until the thread whose join() method is
+    called terminates -- either normally or through an unhandled exception
+    or until the optional timeout occurs.
+    When the timeout argument is present and not None, it should be a
+    floating point number specifying a timeout for the operation in seconds
+    (or fractions thereof). As join() always returns None, you must call
+    isAlive() after join() to decide whether a timeout happened -- if the
+    thread is still alive, the join() call timed out.
+    When the timeout argument is not present or None, the operation will
+    block until the thread terminates.
+    A thread can be join()ed many times.
+    join() raises a RuntimeError if an attempt is made to join the current
+    thread as that would cause a deadlock. It is also an error to join() a
+    thread before it has been started and attempts to do so raises the same
+    exception.
+    """
+    if not self._initialized:
+        raise RuntimeError("Thread.__init__() not called")
+    if not self._started.is_set():
+        raise RuntimeError("cannot join thread before it is started")
+    if self is current_thread():
+        raise RuntimeError("cannot join current thread")
+    if timeout is None:
+        self._wait_for_tstate_lock()
+    else:
+        # the behavior of a negative timeout isn't documented, but
+        # historically .join(timeout=x) for x<0 has acted as if timeout=0
+        self._wait_for_tstate_lock(timeout=max(timeout, 0))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="configuration.Config.load_config">
+    <p>def <span class="ident">load_config</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.Config.load_config', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.Config.load_config" class="source">
+    <pre><code>def load_config(self):
+    return json.load(open(self.path, 'r'))
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="configuration.Config.run">
+    <p>def <span class="ident">run</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Method representing the thread's activity.</p>
+<p>You may override this method in a subclass. The standard run() method
+invokes the callable object passed to the object's constructor as the
+target argument, if any, with sequential and keyword arguments taken
+from the args and kwargs arguments, respectively.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.Config.run', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.Config.run" class="source">
+    <pre><code>def run(self):
+    while True:
+        if self.check_config_update():
+            self.update_config()
+        time.sleep(self.sleep_time)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="configuration.Config.setDaemon">
+    <p>def <span class="ident">setDaemon</span>(</p><p>self, daemonic)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.Config.setDaemon', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.Config.setDaemon" class="source">
+    <pre><code>def setDaemon(self, daemonic):
+    self.daemon = daemonic
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="configuration.Config.setName">
+    <p>def <span class="ident">setName</span>(</p><p>self, name)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.Config.setName', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.Config.setName" class="source">
+    <pre><code>def setName(self, name):
+    self.name = name
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="configuration.Config.start">
+    <p>def <span class="ident">start</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Start the thread's activity.</p>
+<p>It must be called at most once per thread object. It arranges for the
+object's run() method to be invoked in a separate thread of control.</p>
+<p>This method will raise a RuntimeError if called more than once on the
+same thread object.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.Config.start', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.Config.start" class="source">
+    <pre><code>def start(self):
+    """Start the thread's activity.
+    It must be called at most once per thread object. It arranges for the
+    object's run() method to be invoked in a separate thread of control.
+    This method will raise a RuntimeError if called more than once on the
+    same thread object.
+    """
+    if not self._initialized:
+        raise RuntimeError("thread.__init__() not called")
+    if self._started.is_set():
+        raise RuntimeError("threads can only be started once")
+    with _active_limbo_lock:
+        _limbo[self] = self
+    try:
+        _start_new_thread(self._bootstrap, ())
+    except Exception:
+        with _active_limbo_lock:
+            del _limbo[self]
+        raise
+    self._started.wait()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="configuration.Config.update_config">
+    <p>def <span class="ident">update_config</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.Config.update_config', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.Config.update_config" class="source">
+    <pre><code>def update_config(self):
+    logging.debug("Config updated!")
+    self.data = self.load_config()
+    self.last_modification = os.path.getatime(self.path)
+    self.sleep_time = self.data['config_update_delay']
+    self.logs_config = LogsConfig(self.data['sys_logs'])
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="configuration.Config.daemon" class="name">var <span class="ident">daemon</span></p>
+            
+
+            
+  
+    <div class="desc"><p>A boolean value indicating whether this thread is a daemon thread.</p>
+<p>This must be set before start() is called, otherwise RuntimeError is
+raised. Its initial value is inherited from the creating thread; the
+main thread is not a daemon thread and therefore all threads created in
+the main thread default to daemon = False.</p>
+<p>The entire Python program exits when no alive non-daemon threads are
+left.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="configuration.Config.data" class="name">var <span class="ident">data</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="configuration.Config.ident" class="name">var <span class="ident">ident</span></p>
+            
+
+            
+  
+    <div class="desc"><p>Thread identifier of this thread or None if it has not been started.</p>
+<p>This is a nonzero integer. See the thread.get_ident() function. Thread
+identifiers may be recycled when a thread exits and another thread is
+created. The identifier is available even after the thread has exited.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="configuration.Config.last_modification" class="name">var <span class="ident">last_modification</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="configuration.Config.logs_config" class="name">var <span class="ident">logs_config</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="configuration.Config.name" class="name">var <span class="ident">name</span></p>
+            
+
+            
+  
+    <div class="desc"><p>A string used for identification purposes only.</p>
+<p>It has no semantics. Multiple threads may be given the same name. The
+initial name is set by the constructor.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="configuration.Config.path" class="name">var <span class="ident">path</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="configuration.Config.sleep_time" class="name">var <span class="ident">sleep_time</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="configuration.ConfigException" class="name">class <span class="ident">ConfigException</span></p>
+      
+  
+    <div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.ConfigException', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.ConfigException" class="source">
+    <pre><code>class ConfigException(Exception):
+    pass
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#configuration.ConfigException">ConfigException</a></li>
+          <li>builtins.Exception</li>
+          <li>builtins.BaseException</li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Class variables</h3>
+            <div class="item">
+            <p id="configuration.ConfigException.args" class="name">var <span class="ident">args</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="configuration.LogsConfig" class="name">class <span class="ident">LogsConfig</span></p>
+      
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.LogsConfig', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.LogsConfig" class="source">
+    <pre><code>class LogsConfig:
+    def __init__(self, data):
+        self.__dict__ = data
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#configuration.LogsConfig">LogsConfig</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="configuration.LogsConfig.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, data)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Initialize self.  See help(type(self)) for accurate signature.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-configuration.LogsConfig.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-configuration.LogsConfig.__init__" class="source">
+    <pre><code>def __init__(self, data):
+    self.__dict__ = data
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+
+  </section>
+
+    </article>
+  <div class="clear"> </div>
+  <footer id="footer">
+    <p>
+      Documentation generated by
+      <a href="https://github.com/BurntSushi/pdoc">pdoc 0.3.2</a>
+    </p>
+
+    <p>pdoc is in the public domain with the
+      <a href="http://unlicense.org">UNLICENSE</a></p>
+
+    <p>Design by <a href="http://nadh.in">Kailash Nadh</a></p>
+  </footer>
+</div>
+</body>
+</html>
