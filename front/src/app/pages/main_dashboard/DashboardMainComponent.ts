@@ -30,7 +30,7 @@ export class DashboardMainComponent {
           console.log("Main");
           this.agents = res;
         })
-    }, 50000);
+    }, 5000);
   }
 
   initData() {
