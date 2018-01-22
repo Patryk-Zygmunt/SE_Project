@@ -52,7 +52,8 @@ class Config(Thread):
         return self.last_modification < os.path.getatime(self.path)
 
     def load_config(self):
-        return json.load(open(self.path, 'r'))
+        with open(self.path, 'r') as file:
+            return json.load(file)
 
     @exception_assistant
     def get_server_ip(self):
@@ -65,8 +66,3 @@ class Config(Thread):
     @exception_assistant
     def get_send_frequency(self):
         return self.data['send_frequency']
-
-
-if __name__ == "__main__":
-    config = Config()
-    print(config.data)

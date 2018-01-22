@@ -9,7 +9,6 @@ class CollectorException(Exception):
     pass
 
 
-
 def unit_conversion(number_data: str) -> float:
     """
     converts units to megabytes
@@ -137,6 +136,7 @@ class SystemDataCollector:
     Contains useful functions that help excetract data from system
 
     """
+
     def get_hostname(self):
         """
         :return: string hostname of the system
@@ -174,7 +174,6 @@ class SystemDataCollector:
             return float(int(temp) / 1000)
         except Exception as ex:
             raise CollectorException(__name__, "get_temp", ex)
-
 
     def ram_usage(self):
         """"
