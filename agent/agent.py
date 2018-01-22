@@ -55,7 +55,7 @@ class DaemonLogger(Daemon):
     def exc_assist(self, *args):
         try:
             result = args[-1]()
-            for i in range(2, len(args)+1):
+            for i in range(2, len(args) + 1):
                 result = args[-i](result)
             return result
 

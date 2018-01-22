@@ -131,12 +131,12 @@ class SystemDataCollectorTest(TestCase):
             /dev/sda1       511M  3,4M  508M   1% /boot/efi\n\
             tmpfs           787M   76K  787M   1% /run/user/1000'
         run_mock.return_value = self.build_run_ret_val(data)
-        expected = [('sda2',217088.0,160768.0),('sda1',511.0,3.4)]
+        expected = [('sda2', 217088.0, 160768.0), ('sda1', 511.0, 3.4)]
         actual = SystemDataCollector().drive_space()
         self.assertEqual(expected, actual)
 
     @patch('subprocess.run')
-    def test_collector_drive_operations(self,run_mock):
+    def test_collector_drive_operations(self, run_mock):
         data = b'Linux 4.9.0-040900-generic (matshec-Inspiron-5547) 	05.01.2018 	_x86_64_	(4 CPU)\n\
         \n\
         Device:         rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util\n\
@@ -145,7 +145,3 @@ class SystemDataCollectorTest(TestCase):
         expected = [('sda', 5.39, 1.98)]
         actual = SystemDataCollector().drive_operations()
         self.assertEqual(expected, actual)
-
-
-
-   

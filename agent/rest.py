@@ -9,6 +9,7 @@ class InfoJsonBuilder:
     Attributes: data(dict) dictionary where information about system load is stored it should be bulit with class methods
 
     """
+
     def __init__(self):
         self.data = {}
 
