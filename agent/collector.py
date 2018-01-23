@@ -34,7 +34,7 @@ def unit_conversion(number_data: str) -> float:
 
 
 class AgentLogCollector:
-
+    """"Class to collect logs from agent software and add them to logs"""
     def __init__(self):
         self.logs = []
 
@@ -53,6 +53,7 @@ class AgentLogCollector:
 
 
 class JournalLogCollector:
+    """"contains methods to collect logs from system """
     header = ('date', 'hostname', 'process', 'error_desc')
 
     class Priority(enum.Enum):
