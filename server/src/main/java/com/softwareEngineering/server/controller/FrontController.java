@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+/**
+ * Controller responsible for frontend requests
+ */
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -33,8 +36,6 @@ public class FrontController {
 		this.agentService = agentService;
 		this.serverInfoService = serverInfoService;
 	}
-
-
 
 	@RequestMapping(value = "/api/front/agents", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)

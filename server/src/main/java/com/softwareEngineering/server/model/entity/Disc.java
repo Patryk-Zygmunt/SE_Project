@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 /**
- * database data (about agents) are mapped to object of this class
+ * part of server info data
  */
 @Entity
 public class Disc {

@@ -5,7 +5,9 @@ import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
+/**
+ * part of server info data (logs)
+ */
 @Entity
 public class Log {
 	private Long Id;

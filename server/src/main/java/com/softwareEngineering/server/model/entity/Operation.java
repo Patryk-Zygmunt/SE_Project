@@ -3,7 +3,9 @@ package com.softwareEngineering.server.model.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
+/**
+ * part of server info data
+ */
 @Entity
 public class Operation {
 	private Long Id;
