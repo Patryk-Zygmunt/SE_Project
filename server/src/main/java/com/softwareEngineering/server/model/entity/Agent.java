@@ -13,6 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+
+/**
+ * database data (about agents) are mapped to object of this class
+ */
 @Entity
 public class Agent {
 
@@ -52,7 +56,7 @@ public class Agent {
 		this.name = name;
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "agent")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "agent")
 	@JsonManagedReference
 	public Set<ServerInfo> getServerInfos() {
 		return serverInfos;

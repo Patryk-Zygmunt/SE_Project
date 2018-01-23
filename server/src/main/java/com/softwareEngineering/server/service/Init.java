@@ -14,6 +14,14 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Creates example Server informations
+ *
+ * @author Daniel Stefanik
+ *
+ */
+
+
 @Component
 public class Init {
 	private static final COD cod = CODFactory.setLevelOfDepression(2);
@@ -27,8 +35,12 @@ public class Init {
 		this.serverInfoRepository = serverInfoRepository;
 	}
 
+	/**
+	 * Main method - initializes creating example data
+	 *
+	 */
 	@Transactional
-	@PostConstruct
+//	@PostConstruct
 	public void init() {
 		serverInfoRepository.deleteAll();
 		agentRepository.deleteAll();
@@ -36,8 +48,8 @@ public class Init {
 		Agent agent = createAgent();
 		createServerInfo(agent);
 		createServerInfo(agent);
-		cod.i("INIT AGENTS: ", agentRepository.findAll());
-		cod.i("INIT SERVER_INFOS: ", serverInfoRepository.findAll());
+//		cod.i("INIT AGENTS: ", agentRepository.findAll());
+//		cod.i("INIT SERVER_INFOS: ", serverInfoRepository.findAll());
 	}
 
 	@Transactional

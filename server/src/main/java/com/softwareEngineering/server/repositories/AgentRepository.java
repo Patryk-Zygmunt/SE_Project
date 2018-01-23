@@ -6,16 +6,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AgentRepository extends JpaRepository<Agent, String> {
-	Agent findByMac(String mac);
-	Agent findByName(String name);
-	Agent findByAgentId(long id);
+    Agent findByMac(String mac);
 
+    Agent findByName(String name);
 
-
-
-
-
-	//@Query("select s from Agent a join ServerInfo on a.serverInfos=")
+    Agent findByAgentId(long id);
 
 }
-

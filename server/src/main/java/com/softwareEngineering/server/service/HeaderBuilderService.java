@@ -8,10 +8,21 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+/**
+ * Creates headers for responses
+ *
+ * @author Daniel Stefanik
+ *
+ */
 
 @Service
 public class HeaderBuilderService {
-
+	/**
+	 *
+	 * @param ucBuilder UriComponentsBuilder from request
+	 * @param serverInfo recived server information
+	 * @return heders for server information response
+	 */
 	public HttpHeaders getServerInfoHeader(UriComponentsBuilder ucBuilder, ServerInfo serverInfo) {
 		HttpHeaders headers = new HttpHeaders();
 

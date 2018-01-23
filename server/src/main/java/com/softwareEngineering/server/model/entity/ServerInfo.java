@@ -22,6 +22,10 @@ import org.hibernate.annotations.IndexColumn;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
+/**
+ * database data (about server informations) are mapped to object of this class
+ */
 @Entity
 public class ServerInfo {
 
@@ -46,7 +50,7 @@ public class ServerInfo {
 		InfoId = infoId;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "agent_id")
 	@JsonBackReference
 	public Agent getAgent() {
@@ -89,7 +93,7 @@ public class ServerInfo {
 		this.processor = processor;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@OrderColumn
 	// @OneToMany(cascade = CascadeType.ALL)
 	// @Fetch(FetchMode.SELECT)
@@ -102,7 +106,7 @@ public class ServerInfo {
 		this.discs = discs;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@OrderColumn
 	// @OneToMany(cascade = CascadeType.ALL)
 	// @Fetch(FetchMode.SELECT)
@@ -115,7 +119,7 @@ public class ServerInfo {
 		this.operations = operations;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@OrderColumn
 	// @OneToMany(cascade = CascadeType.ALL)
 	// @Fetch(FetchMode.SELECT)
@@ -128,7 +132,7 @@ public class ServerInfo {
 		this.ioInterfaces = ioInterfaces;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@OrderColumn
 	// @OneToMany(cascade = CascadeType.ALL)
 	// @Fetch(FetchMode.SELECT)

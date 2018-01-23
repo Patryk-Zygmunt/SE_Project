@@ -3,7 +3,9 @@ package com.softwareEngineering.server.model.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
+/**
+ * database data (about agents) are mapped to object of this class
+ */
 @Entity
 public class Disc {
 	private Long Id;
