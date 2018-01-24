@@ -25,6 +25,7 @@ class LogsConfig:
 
 
 class Config(Thread):
+    """"contains most recent configuration state"""
 
     def __init__(self, path='config.json'):
         super().__init__(daemon=False)
@@ -36,12 +37,14 @@ class Config(Thread):
         self.update_config()
 
     def run(self):
+        """"check in  loop if the configuration has been updated and if so update object state"""
         while True:
             if self.check_config_update():
                 self.update_config()
             time.sleep(self.sleep_time)
 
     def update_config(self):
+        """"updates configuration of agent, upadate modification time"""
         logging.debug("Config updated!")
         self.data = self.load_config()
         self.last_modification = os.path.getatime(self.path)
@@ -49,9 +52,11 @@ class Config(Thread):
         self.logs_config = LogsConfig(self.data['sys_logs'])
 
     def check_config_update(self):
+        """"check if configuration has been modified"""
         return self.last_modification < os.path.getatime(self.path)
 
     def load_config(self):
+        """"load configuration from JSON file in the previously initialized path"""
         with open(self.path, 'r') as file:
             return json.load(file)
 
