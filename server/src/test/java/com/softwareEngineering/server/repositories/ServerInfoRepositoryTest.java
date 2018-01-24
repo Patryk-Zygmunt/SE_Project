@@ -1,7 +1,6 @@
 package com.softwareEngineering.server.repositories;
 
 import com.softwareEngineering.server.TestDataCreator;
-
 import com.softwareEngineering.server.model.entity.Agent;
 import com.softwareEngineering.server.model.entity.ServerInfo;
 import org.junit.Test;
@@ -18,9 +17,8 @@ import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class) @DataJpaTest @TestPropertySource(locations = "classpath:application-integrationtest.properties") public class ServerInfoRepositoryTest {
 
@@ -43,9 +41,9 @@ import static org.junit.Assert.*;
         entityManager.persist(serverInfoOlder);
         entityManager.flush();
         List<ServerInfo> serverInfo = serverInfoRepository
-                .getServerInfosByAgent_AgentIdOrderByInfoTime((Long) entityManager.getId(agent));
+                .getServerInfosByAgent_AgentIdOrderByInfoTimeDesc((Long) entityManager.getId(agent));
         assertEquals(2, serverInfo.size());
-        assertEquals(LocalDateTime.of(LocalDate.of(2005, 11, 12), LocalTime.of(12, 11, 12, 0)),
+        assertEquals(LocalDateTime.of(LocalDate.of(1997, 12, 20), LocalTime.of(12, 11, 12, 0)),
                 serverInfo.get(1).getInfoTime());
     }
     

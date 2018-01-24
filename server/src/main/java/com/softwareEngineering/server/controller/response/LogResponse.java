@@ -3,7 +3,9 @@ package com.softwareEngineering.server.controller.response;
 import com.softwareEngineering.server.model.entity.Log;
 
 /**
- * Created by Linus on 30.11.2017.
+ * Objects of this class are mapped to send to frontend.
+ *
+ * Created by Linus on 24.11.2017.
  */
 public class LogResponse {
     private String process;

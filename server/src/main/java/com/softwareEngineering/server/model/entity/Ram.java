@@ -5,7 +5,9 @@ import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
+/**
+ * part of server info data
+ */
 @Embeddable
 public class Ram {
 //	private Long Id;

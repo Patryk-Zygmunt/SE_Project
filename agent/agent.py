@@ -1,7 +1,8 @@
 from daemon import Daemon
 import sys
 import time
-from rest import InfoJsonBuilder, Client
+from rest import Client
+import rest
 from configuration import Config
 import collector
 import datetime
@@ -36,14 +37,10 @@ class DaemonLogger(Daemon):
         self.agentLog.logs.clear()
         logging.debug("response: {}".format(response.status))
 
-    def __collect_data(self) -> InfoJsonBuilder:
+    def __collect_data(self):
         sys_info = collector.SystemDataCollector()
-        logs = collector.JournalLogCollector()
-        logs.set_from_config(self.config.logs_config)
-        if self.last_update is not None:
-            logs.set_since_date(self.last_update)
-
-        json_b = InfoJsonBuilder()
+        logs = self.__setup_logs_collector()
+        json_b = rest.InfoJsonBuilder()
         self.exc_assist(json_b.add_name, sys_info.get_hostname)
         self.exc_assist(json_b.add_disc_operations, sys_info.drive_operations)
         self.exc_assist(json_b.add_io_interface, sys_info.interface_load)
@@ -56,10 +53,17 @@ class DaemonLogger(Daemon):
             self.exc_assist(json_b.add_logs, self.agentLog.add_to_list, logs.collect)
         return json_b
 
+    def __setup_logs_collector(self):
+        logs = collector.JournalLogCollector()
+        logs.set_from_config(self.config.logs_config)
+        if self.last_update is not None:
+            logs.set_since_date(self.last_update)
+        return logs
+
     def exc_assist(self, *args):
         try:
             result = args[-1]()
-            for i in range(2, len(args)+1):
+            for i in range(2, len(args) + 1):
                 result = args[-i](result)
             return result
 
@@ -69,6 +73,7 @@ class DaemonLogger(Daemon):
         except Exception as ex:
             logging.exception(ex)
             self.agentLog.add_log(ex)
+        return 'error'
 
     def run(self):
         """"loops endlessly, collecting data and sending it to server"""

@@ -9,7 +9,9 @@ import com.softwareEngineering.server.model.entity.Operation;
 import com.softwareEngineering.server.model.entity.Processor;
 import com.softwareEngineering.server.model.entity.Ram;
 
-
+/**
+ * json request with server and agent informations from agents are mapped to objects of this class
+ */
 
 public class AgentRequestInfo {
 	private String mac;

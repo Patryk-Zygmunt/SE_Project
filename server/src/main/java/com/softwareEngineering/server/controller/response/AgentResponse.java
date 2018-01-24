@@ -4,7 +4,10 @@ import com.softwareEngineering.server.model.entity.Agent;
 import com.softwareEngineering.server.model.entity.ServerInfo;
 
 /**
+ * Objects of this class are mapped to send to frontend.
+ *
  * Created by Linus on 24.11.2017.
+ *
  */
 
     public class AgentResponse {

@@ -9,6 +9,8 @@ import java.time.temporal.TemporalUnit;
 import java.util.Comparator;
 
 /**
+ * Objects of this class are mapped to send to frontend.
+ *
  * Created by Linus on 24.11.2017.
  */
 public class AgentShortResponse {
@@ -17,7 +19,7 @@ public class AgentShortResponse {
     private String name;
     private Boolean status;
 
-    public AgentShortResponse(Agent agent){
+    public AgentShortResponse(Agent agent) {
         this.agentId = agent.getAgentId();
         this.mac = agent.getMac();
         this.name = agent.getName();

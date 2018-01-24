@@ -16,6 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriComponentsBuilder;
 
+
+/**
+ * Controller responsible for agent requests
+ */
+
 @Controller
 @RequestMapping("/api/agent")
 public class AgentController {
@@ -32,6 +37,13 @@ public class AgentController {
 
     HeaderBuilderService headerBuilderService;
 
+	/**
+	 * Controller responsible for agent requests
+	 * @param agentRequestInfo all informations of server and agent
+	 * @param ucBuilder Creates headers for responses
+	 *
+	 * @return response with headers
+	 */
 	@RequestMapping(value = "/addInfo", method = RequestMethod.POST)
 	public ResponseEntity<?> addInfo(@RequestBody AgentRequestInfo agentRequestInfo, UriComponentsBuilder ucBuilder) {
 		cod.i(".../api/agent/addInfo {AGENT_REQUEST_INFO}: ", agentRequestInfo);
