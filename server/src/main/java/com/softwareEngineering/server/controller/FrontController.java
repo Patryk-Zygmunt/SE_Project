@@ -7,8 +7,6 @@ import com.softwareEngineering.server.controller.response.AgentShortResponse;
 import com.softwareEngineering.server.controller.response.LogResponse;
 import com.softwareEngineering.server.controller.response.ServerInfoResponse;
 import com.softwareEngineering.server.model.entity.Agent;
-import com.softwareEngineering.server.repositories.AgentRepository;
-import com.softwareEngineering.server.repositories.ServerInfoRepository;
 import com.softwareEngineering.server.service.AgentService;
 import com.softwareEngineering.server.service.ServerInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,7 @@ import java.util.stream.Collectors;
  * Controller responsible for frontend requests
  */
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RestController
 public class FrontController {
 

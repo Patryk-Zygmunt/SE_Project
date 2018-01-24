@@ -1,7 +1,5 @@
 package com.softwareEngineering.server.model.entity;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -49,4 +47,21 @@ public class Log {
 		this.errorDesc = errorDesc;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Log log = (Log) o;
+
+		if (process != null ? !process.equals(log.process) : log.process != null) return false;
+		return errorDesc != null ? errorDesc.equals(log.errorDesc) : log.errorDesc == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = process != null ? process.hashCode() : 0;
+		result = 31 * result + (errorDesc != null ? errorDesc.hashCode() : 0);
+		return result;
+	}
 }
