@@ -1,0 +1,7 @@
+com.softwareEngineering.server
+com.softwareEngineering.server.controller
+com.softwareEngineering.server.controller.response
+com.softwareEngineering.server.model
+com.softwareEngineering.server.model.entity
+com.softwareEngineering.server.repositories
+com.softwareEngineering.server.service
