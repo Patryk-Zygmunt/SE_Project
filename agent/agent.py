@@ -11,9 +11,13 @@ import logging
 class DaemonLogger(Daemon):
     """"main class for agent. holds the main loop method"""
     last_update = None
+    """"time of last update"""
     client = None
+    """"holds client object"""
     config = None
+    """"hold newest configuration"""
     agentLog = None
+    """"log data"""
 
     def setup(self):
         """"preform basic configuration, create the Config object which enables configuration to preform

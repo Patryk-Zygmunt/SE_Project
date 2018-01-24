@@ -150,7 +150,7 @@ class SystemDataCollector:
     def get_macs(self):
         """
         exctracts mac  adresses of existing interfaces   uses ip command
-        :return: list of tuples interface name, mac address
+        :return list of tuples interface name, mac address
         """
         try:
             data = str(self.__exec_sys_command('ip', 'link').stdout, 'utf-8')
