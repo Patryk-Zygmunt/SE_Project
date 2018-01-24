@@ -10,12 +10,19 @@ import logging
 
 
 class DaemonLogger(Daemon):
+    """"main class for agent. holds the main loop method"""
     last_update = None
+    """"time of last update"""
     client = None
+    """"holds client object"""
     config = None
+    """"hold newest configuration"""
     agentLog = None
+    """"log data"""
 
     def setup(self):
+        """"preform basic configuration, create the Config object which enables configuration to preform
+        configuration with usage of config.json"""
         logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         self.config = Config()
         self.config.start()
@@ -24,6 +31,7 @@ class DaemonLogger(Daemon):
         logging.info("Agent initialized successfully!")
 
     def loop(self):
+        """"Main loop  function of the deamon. collects all the data, and sends it to server"""
         data = self.__collect_data()
         response = self.client.send_info(data.to_json())
         self.agentLog.logs.clear()
@@ -68,6 +76,7 @@ class DaemonLogger(Daemon):
         return 'error'
 
     def run(self):
+        """"loops endlessly, collecting data and sending it to server"""
         self.last_update = datetime.datetime.now()
         self.setup()
         while True:

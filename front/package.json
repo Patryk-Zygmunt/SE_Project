@@ -105,6 +105,7 @@
     "ts-node": "3.2.2",
     "tslint": "5.7.0",
     "tslint-language-service": "0.9.6",
-    "typescript": "2.3.4"
+    "typescript": "2.3.4",
+    "webpack": "^3.10.0"
   }
 }
